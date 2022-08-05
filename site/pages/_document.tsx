@@ -5,14 +5,12 @@ class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head />
+        <Head>
+          <script src="https://cdn.html.games.alexa.a2z.com/alexa-html/latest/alexa-html.js" />
+        </Head>
         <body className="loading">
           <Main />
           <NextScript />
-          <Script
-            src="https://cdn.html.games.alexa.a2z.com/alexa-html/latest/alexa-html.js"
-            strategy="beforeInteractive"
-          ></Script>
         </body>
       </Html>
     )
