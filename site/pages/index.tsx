@@ -5,6 +5,7 @@ import { Grid, Marquee, Hero } from '@components/ui'
 // import HomeAllProductsGrid from '@components/common/HomeAllProductsGrid'
 import type { GetStaticPropsContext, InferGetStaticPropsType } from 'next'
 import { useEffect, useState } from 'react'
+import { useAlexa } from '@lib/hooks/useAlexa'
 
 export async function getStaticProps({
   preview,
@@ -39,20 +40,9 @@ export async function getStaticProps({
 export default function Home({
   products,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const [alexaClient, setAlexaClient] = useState(null)
+  const alexa = useAlexa()
 
-  useEffect(() => {
-    // @ts-ignore
-    Alexa.create({ version: '1.1' })
-      .then((args: any) => {
-        const { alexa, message } = args
-        setAlexaClient(alexa)
-        console.log('Alexa is ready')
-      })
-      .catch((error: any) => {
-        console.log('Alexa is NOT ready')
-      })
-  }, [])
+  useEffect(() => {}, [])
 
   return (
     <>
