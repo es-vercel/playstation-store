@@ -6,6 +6,7 @@ import { Grid, Marquee, Hero } from '@components/ui'
 import type { GetStaticPropsContext, InferGetStaticPropsType } from 'next'
 import { useEffect, useState } from 'react'
 import { useAlexa } from '@lib/hooks/useAlexa'
+import { useRouter } from 'next/router'
 
 export async function getStaticProps({
   preview,
@@ -41,8 +42,21 @@ export default function Home({
   products,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const alexa = useAlexa()
+  const router = useRouter()
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    if (!alexa) {
+      return
+    }
+
+    // alexa.skill.onMessage((message: any) => {
+    //   switch (message.intent) {
+    //     case ' SearchGameIntent':
+    //       router.push('/search')
+    //       break
+    //   }
+    // })
+  }, [alexa, router])
 
   return (
     <>

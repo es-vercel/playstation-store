@@ -1,7 +1,7 @@
 {
-  "name": "Next.js Commerce",
-  "short_name": "Next.js Commerce",
-  "description": "Next.js Commerce -> https://www.nextjs.org/commerce",
+  "name": "PlayStation Store",
+  "short_name": "PlayStation Store",
+  "description": "PlayStation Store for Composable Commerce Conference",
   "display": "standalone",
   "start_url": "/",
   "theme_color": "#fff",

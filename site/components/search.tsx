@@ -1,7 +1,7 @@
 import cn from 'clsx'
 import type { SearchPropsType } from '@lib/search-props'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { Layout } from '@components/common'
@@ -27,14 +27,17 @@ import {
   getDesignerPath,
   useSearchMeta,
 } from '@lib/search'
+import { useAlexa } from '@lib/hooks/useAlexa'
 
 export default function Search({ categories, brands }: SearchPropsType) {
+  const alexa = useAlexa()
+
   const [activeFilter, setActiveFilter] = useState('')
   const [toggleFilter, setToggleFilter] = useState(false)
 
   const router = useRouter()
   const { asPath, locale } = router
-  const { q, sort } = router.query
+  const { q, sort, intent } = router.query
   // `q` can be included but because categories and designers can't be searched
   // in the same way of products, it's better to ignore the search input if one
   // of those is selected
@@ -61,6 +64,43 @@ export default function Search({ categories, brands }: SearchPropsType) {
       setToggleFilter(!toggleFilter)
     }
     setActiveFilter(filter)
+  }
+
+  const parsedIntent = useMemo(() => {
+    // @ts-ignore
+    return intent ? JSON.parse(intent) : null
+  }, [intent])
+
+  useEffect(() => {
+    if (!parsedIntent || !alexa) {
+      return
+    }
+
+    if (parsedIntent.intent === 'OpenGameDetailIntent') {
+      if (data?.found) {
+        console.log('entro su data.found')
+        router.push(`/product/${data.products[0].slug}`)
+      } else {
+        // @ts-ignore
+        alexa?.skill.sendMessage({
+          intent: 'GameNotFoundIntent',
+          gameTitle: q,
+        })
+      }
+    }
+  }, [
+    alexa,
+    data,
+    data?.found,
+    data?.products,
+    intent,
+    parsedIntent,
+    q,
+    router,
+  ])
+
+  if (parsedIntent?.intent === 'OpenGameDetailIntent') {
+    return null
   }
 
   return (
