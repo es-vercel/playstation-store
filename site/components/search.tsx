@@ -90,7 +90,7 @@ export default function Search({ categories, brands }: SearchPropsType) {
             // @ts-ignore
             alexa?.skill.sendMessage({
               intent: 'SpeakIntent',
-              message: `${q} non è stato trovato`,
+              message: `Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`,
             })
             router.push(`/search`)
           }
@@ -107,7 +107,7 @@ export default function Search({ categories, brands }: SearchPropsType) {
             // @ts-ignore
             alexa?.skill.sendMessage({
               intent: 'SpeakIntent',
-              message: `${q} non è stato trovato`,
+              message: `Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`,
             })
           }
           break
