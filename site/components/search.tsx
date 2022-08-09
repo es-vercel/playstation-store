@@ -76,16 +76,42 @@ export default function Search({ categories, brands }: SearchPropsType) {
       return
     }
 
-    if (parsedIntent.intent === 'OpenGameDetailIntent') {
-      if (data?.found) {
-        console.log('entro su data.found')
-        router.push(`/product/${data.products[0].slug}`)
-      } else {
-        // @ts-ignore
-        alexa?.skill.sendMessage({
-          intent: 'GameNotFoundIntent',
-          gameTitle: q,
-        })
+    if (data) {
+      switch (parsedIntent.intent) {
+        case 'OpenGameDetailIntent': {
+          if (data.found) {
+            // @ts-ignore
+            alexa?.skill.sendMessage({
+              intent: 'SpeakIntent',
+              message: `Ok, ecco a te ${q}`,
+            })
+            router.push(`/product/${data.products[0].slug}`)
+          } else {
+            // @ts-ignore
+            alexa?.skill.sendMessage({
+              intent: 'SpeakIntent',
+              message: `${q} non è stato trovato`,
+            })
+            router.push(`/search`)
+          }
+          break
+        }
+        case 'SearchGameByTitle': {
+          if (data.found) {
+            // @ts-ignore
+            alexa?.skill.sendMessage({
+              intent: 'SpeakIntent',
+              message: `Ok, ecco cosa ho trovato`,
+            })
+          } else {
+            // @ts-ignore
+            alexa?.skill.sendMessage({
+              intent: 'SpeakIntent',
+              message: `${q} non è stato trovato`,
+            })
+          }
+          break
+        }
       }
     }
   }, [

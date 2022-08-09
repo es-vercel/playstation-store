@@ -59,7 +59,15 @@ export const AlexaProvider = ({ children }: any) => {
       })
   }, [alexa, mounted, router])
 
-  return <AlexaContext.Provider value={alexa}>{children}</AlexaContext.Provider>
+  return (
+    <AlexaContext.Provider value={alexa}>
+      {/* <audio autoPlay controls src="/quickfall.mp3">
+        Your browser does not support the
+        <code>audio</code> element.
+      </audio> */}
+      {children}
+    </AlexaContext.Provider>
+  )
 }
 
 export const useAlexa = () => {
