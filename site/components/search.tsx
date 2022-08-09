@@ -81,9 +81,9 @@ export default function Search({ categories, brands }: SearchPropsType) {
         case 'OpenGameDetailIntent': {
           if (data.found) {
             speak(`Ok, ecco a te ${q}`)
+            router.push(`/product/${data.products[0].slug}`)
           } else {
             speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
-            router.push(`/search`)
           }
           break
         }
