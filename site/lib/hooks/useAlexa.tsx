@@ -1,8 +1,19 @@
 import { useRouter } from 'next/router'
-import React, { useEffect, useState, useContext, createContext } from 'react'
+import React, {
+  useEffect,
+  useState,
+  useContext,
+  createContext,
+  useCallback,
+} from 'react'
 import qs from 'qs'
 
-const AlexaContext = createContext(null)
+export interface IAlexa {
+  alexa: any
+  speak: (message: string) => void
+}
+
+const AlexaContext = createContext<IAlexa>({ alexa: null, speak: () => {} })
 
 export const AlexaProvider = ({ children }: any) => {
   const router = useRouter()
@@ -59,8 +70,21 @@ export const AlexaProvider = ({ children }: any) => {
       })
   }, [alexa, mounted, router])
 
+  const speak = useCallback(
+    (message) => {
+      if (alexa) {
+        // @ts-ignore
+        alexa.skill.sendMessage({
+          intent: 'SpeakIntent',
+          message,
+        })
+      }
+    },
+    [alexa]
+  )
+
   return (
-    <AlexaContext.Provider value={alexa}>
+    <AlexaContext.Provider value={{ alexa, speak }}>
       {/* <audio autoPlay controls src="/quickfall.mp3">
         Your browser does not support the
         <code>audio</code> element.

@@ -30,7 +30,7 @@ import {
 import { useAlexa } from '@lib/hooks/useAlexa'
 
 export default function Search({ categories, brands }: SearchPropsType) {
-  const alexa = useAlexa()
+  const { alexa, speak } = useAlexa()
 
   const [activeFilter, setActiveFilter] = useState('')
   const [toggleFilter, setToggleFilter] = useState(false)
@@ -80,35 +80,18 @@ export default function Search({ categories, brands }: SearchPropsType) {
       switch (parsedIntent.intent) {
         case 'OpenGameDetailIntent': {
           if (data.found) {
-            // @ts-ignore
-            alexa?.skill.sendMessage({
-              intent: 'SpeakIntent',
-              message: `Ok, ecco a te ${q}`,
-            })
-            router.push(`/product/${data.products[0].slug}`)
+            speak(`Ok, ecco a te ${q}`)
           } else {
-            // @ts-ignore
-            alexa?.skill.sendMessage({
-              intent: 'SpeakIntent',
-              message: `Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`,
-            })
+            speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
             router.push(`/search`)
           }
           break
         }
         case 'SearchGameByTitle': {
           if (data.found) {
-            // @ts-ignore
-            alexa?.skill.sendMessage({
-              intent: 'SpeakIntent',
-              message: `Ok, ecco cosa ho trovato`,
-            })
+            speak('Ok, ecco cosa ho trovato')
           } else {
-            // @ts-ignore
-            alexa?.skill.sendMessage({
-              intent: 'SpeakIntent',
-              message: `Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`,
-            })
+            speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
           }
           break
         }
@@ -123,6 +106,7 @@ export default function Search({ categories, brands }: SearchPropsType) {
     parsedIntent,
     q,
     router,
+    speak,
   ])
 
   if (parsedIntent?.intent === 'OpenGameDetailIntent') {

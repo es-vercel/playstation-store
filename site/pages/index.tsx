@@ -41,23 +41,6 @@ export async function getStaticProps({
 export default function Home({
   products,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const alexa = useAlexa()
-  const router = useRouter()
-
-  useEffect(() => {
-    if (!alexa) {
-      return
-    }
-
-    // alexa.skill.onMessage((message: any) => {
-    //   switch (message.intent) {
-    //     case ' SearchGameIntent':
-    //       router.push('/search')
-    //       break
-    //   }
-    // })
-  }, [alexa, router])
-
   return (
     <>
       <Grid variant="filled">
