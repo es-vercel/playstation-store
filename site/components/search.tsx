@@ -107,16 +107,27 @@ export default function Search({ categories, brands }: SearchPropsType) {
           }
           case 'GetGameDescriptionByTitleIntent': {
             if (data.found) {
-              const { description, slug } = data.products[0]
+              const product = data.products[0]
+              const { description, slug } = product
+              alexa.skill.sendMessage({
+                intent: 'SaveGameIntent',
+                product,
+              })
               speak(`${convert(description)}`)
               router.replace(`/product/${slug}`, undefined, { shallow: true })
             } else {
               speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
             }
+            break
           }
           case 'GetGamePriceByTitleIntent': {
             if (data.found) {
-              const { name, price, slug } = data.products[0]
+              const product = data.products[0]
+              const { name, price, slug } = product
+              alexa.skill.sendMessage({
+                intent: 'SaveGameIntent',
+                product,
+              })
               speak(`${name} costa ${price.value} euro.`)
               router.replace(`/product/${slug}`, undefined, { shallow: true })
             } else {

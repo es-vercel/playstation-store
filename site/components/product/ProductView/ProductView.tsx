@@ -20,45 +20,11 @@ interface ProductViewProps {
 }
 
 const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
-  // const { alexa, speak } = useAlexa()
-  // const router = useRouter()
-
   const { price } = usePrice({
     amount: product.price.value,
     baseAmount: product.price.retailPrice,
     currencyCode: product.price.currencyCode!,
   })
-
-  // useEffect(() => {
-  //   if (!alexa) {
-  //     return
-  //   }
-
-  //   alexa.skill.onMessage((message: any) => {
-  //     debugger
-  //     switch (message.intent) {
-  //       // case 'GetGamePriceIntent': {
-  //       //   speak(`${message.gameTitle} costa ${product.price.value} euro.`)
-  //       //   break
-  //       // }
-  //       // case 'GetGameDescriptionIntent': {
-  //       //   speak(`${convert(product.description)}`)
-  //       //   break
-  //       // }
-  //       case 'CloseGameDetailIntent': {
-  //         router.push('/')
-  //         break
-  //       }
-  //     }
-  //   })
-  // }, [
-  //   alexa,
-  //   product.description,
-  //   product.price.value,
-  //   relatedProducts,
-  //   router,
-  //   speak,
-  // ])
 
   return (
     <>

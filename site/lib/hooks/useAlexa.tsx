@@ -33,11 +33,17 @@ export const AlexaProvider = ({ children }: any) => {
       .then((args: any) => {
         const { alexa } = args
         alexa.skill.onMessage((message: any) => {
-          debugger
           switch (message.intent) {
-            case 'SearchGameByTitle': {
+            case 'SearchGameByTitle':
+            case 'GetGamePriceByTitleIntent':
+            case 'GetGameDescriptionByTitleIntent':
+            case 'AddToCartByTitleIntent': {
               const query = qs.stringify(
-                { q: message.gameTitle, intent: JSON.stringify(message) },
+                {
+                  q: message.gameTitle,
+                  intent: JSON.stringify(message),
+                  hide: true,
+                },
                 { skipNulls: true }
               )
               router.push(`/search?${query}`)
@@ -65,19 +71,7 @@ export const AlexaProvider = ({ children }: any) => {
               router.push(`/search?${qry}`)
               break
             }
-            case 'GetGamePriceByTitleIntent':
-            case 'AddToCartByTitleIntent': {
-              const query = qs.stringify(
-                {
-                  q: message.gameTitle,
-                  intent: JSON.stringify(message),
-                  hide: true,
-                },
-                { skipNulls: true }
-              )
-              router.push(`/search?${query}`)
-              break
-            }
+
             case 'CloseGameDetailIntent': {
               router.push('/')
               break
