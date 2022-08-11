@@ -7,6 +7,7 @@ import React, {
   useCallback,
 } from 'react'
 import qs from 'qs'
+import { useCart } from '@framework/cart'
 
 export interface IAlexa {
   alexa: any
@@ -16,6 +17,7 @@ export interface IAlexa {
 const AlexaContext = createContext<IAlexa>({ alexa: null, speak: () => {} })
 
 export const AlexaProvider = ({ children }: any) => {
+  const { data } = useCart()
   const router = useRouter()
 
   const [mounted, setMounted] = useState(false)
@@ -66,6 +68,22 @@ export const AlexaProvider = ({ children }: any) => {
                 { skipNulls: true }
               )
               router.push(`/search?${query}`)
+              break
+            }
+            case 'OpenCartDetailIntent': {
+              const games = data?.lineItems.map(
+                (game) => `${game.name} che costa ${game.variant.price}`
+              )
+              speak(
+                `Il tuo carrello contiene ${
+                  data?.lineItems.length
+                } giochi. ${games?.join(',')}. Per un totale di ${
+                  data?.totalPrice
+                } ` + data?.taxesIncluded
+                  ? '(tasse incluse)'
+                  : '(tasse escluse)'
+              )
+              router.push(`/cart`)
               break
             }
             case 'Error': {
