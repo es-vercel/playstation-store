@@ -33,6 +33,7 @@ export const AlexaProvider = ({ children }: any) => {
       .then((args: any) => {
         const { alexa } = args
         alexa.skill.onMessage((message: any) => {
+          debugger
           switch (message.intent) {
             case 'SearchGameByTitle': {
               const query = qs.stringify(
@@ -53,7 +54,7 @@ export const AlexaProvider = ({ children }: any) => {
               break
             }
             case 'OpenGameDetailIntent': {
-              const query = qs.stringify(
+              const qry = qs.stringify(
                 {
                   q: message.gameTitle,
                   intent: JSON.stringify(message),
@@ -61,7 +62,7 @@ export const AlexaProvider = ({ children }: any) => {
                 },
                 { skipNulls: true }
               )
-              router.push(`/search?${query}`)
+              router.push(`/search?${qry}`)
               break
             }
             case 'GetGamePriceByTitleIntent':
@@ -77,7 +78,10 @@ export const AlexaProvider = ({ children }: any) => {
               router.push(`/search?${query}`)
               break
             }
-
+            case 'CloseGameDetailIntent': {
+              router.push('/')
+              break
+            }
             case 'Error': {
               console.log(message.error)
             }
