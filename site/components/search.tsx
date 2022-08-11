@@ -13,6 +13,7 @@ import useSearch from '@framework/product/use-search'
 
 import getSlug from '@lib/get-slug'
 import rangeMap from '@lib/range-map'
+import { convert } from 'html-to-text'
 
 const SORT = {
   'trending-desc': 'Trending',
@@ -99,8 +100,8 @@ export default function Search({ categories, brands }: SearchPropsType) {
         }
         case 'GetGameDescriptionByTitleIntent': {
           if (data.found) {
-            const { name, price, slug } = data.products[0]
-            speak(`${name}: `)  //add game description stripped text
+            const { description, slug } = data.products[0]
+            speak(`${convert(description)}`)
             router.replace(`/product/${slug}`, undefined, { shallow: true })
           } else {
             speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)

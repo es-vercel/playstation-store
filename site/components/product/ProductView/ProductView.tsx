@@ -12,6 +12,8 @@ import ProductSidebar from '../ProductSidebar'
 import ProductTag from '../ProductTag'
 import { useAlexa } from '@lib/hooks/useAlexa'
 import { useRouter } from 'next/router'
+import { convert } from 'html-to-text'
+
 interface ProductViewProps {
   product: Product
   relatedProducts: Product[]
@@ -39,7 +41,7 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
           break
         }
         case 'GetGameDescriptionIntent': {
-          speak(`${message.gameTitle}: `)  //add Description stripped text
+          speak(`${convert(product.description)}`)
           break
         }
         case 'CloseGameDetailIntent': {
@@ -48,7 +50,7 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
         }
       }
     })
-  }, [alexa, product.price.value, router, speak])
+  }, [alexa, product.description, product.price.value, router, speak])
 
   return (
     <>
