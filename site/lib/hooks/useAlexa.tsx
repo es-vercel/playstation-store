@@ -60,6 +60,17 @@ export const AlexaProvider = ({ children }: any) => {
               router.push(`/search?${query}`)
               break
             }
+            case 'GetGamePriceByTitleIntent': {
+              const query = qs.stringify(
+                { q: message.gameTitle, intent: JSON.stringify(message) },
+                { skipNulls: true }
+              )
+              router.push(`/search?${query}`)
+              break
+            }
+            case 'Error': {
+              console.log(message.error)
+            }
           }
         })
         setAlexa(alexa)

@@ -1,7 +1,7 @@
 import cn from 'clsx'
 import Image from 'next/image'
 import s from './ProductView.module.css'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import type { Product } from '@commerce/types/product'
 import usePrice from '@framework/product/use-price'
 import { WishlistButton } from '@components/wishlist'
@@ -10,17 +10,41 @@ import { Container, Text } from '@components/ui'
 import { SEO } from '@components/common'
 import ProductSidebar from '../ProductSidebar'
 import ProductTag from '../ProductTag'
+import { useAlexa } from '@lib/hooks/useAlexa'
+import { useRouter } from 'next/router'
 interface ProductViewProps {
   product: Product
   relatedProducts: Product[]
 }
 
 const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
+  const { alexa, speak } = useAlexa()
+  const router = useRouter()
+
   const { price } = usePrice({
     amount: product.price.value,
     baseAmount: product.price.retailPrice,
     currencyCode: product.price.currencyCode!,
   })
+
+  useEffect(() => {
+    if (!alexa) {
+      return
+    }
+
+    alexa.skill.onMessage((message: any) => {
+      switch (message.intent) {
+        case 'GetGamePriceIntent': {
+          speak(`${message.gameTitle} costa ${product.price.value} euro.`)
+          break
+        }
+        case 'CloseGameDetailIntent': {
+          router.back()
+          break
+        }
+      }
+    })
+  }, [alexa, product.price.value, router, speak])
 
   return (
     <>

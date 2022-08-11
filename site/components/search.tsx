@@ -81,7 +81,9 @@ export default function Search({ categories, brands }: SearchPropsType) {
         case 'OpenGameDetailIntent': {
           if (data.found) {
             speak(`Ok, ecco a te ${q}`)
-            router.push(`/product/${data.products[0].slug}`)
+            router.replace(`/product/${data.products[0].slug}`, undefined, {
+              shallow: true,
+            })
           } else {
             speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
           }
@@ -90,6 +92,16 @@ export default function Search({ categories, brands }: SearchPropsType) {
         case 'SearchGameByTitle': {
           if (data.found) {
             speak('Ok, ecco cosa ho trovato')
+          } else {
+            speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
+          }
+          break
+        }
+        case 'GetGamePriceByTitleIntent': {
+          if (data.found) {
+            const { name, price, slug } = data.products[0]
+            speak(`${name} costa ${price.value} euro.`)
+            router.replace(`/product/${slug}`, undefined, { shallow: true })
           } else {
             speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
           }
