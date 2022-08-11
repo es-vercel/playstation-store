@@ -14,6 +14,7 @@ import { useAddItem } from '@framework/cart'
 
 import getSlug from '@lib/get-slug'
 import rangeMap from '@lib/range-map'
+import { convert } from 'html-to-text'
 
 const SORT = {
   'trending-desc': 'Trending',
@@ -102,13 +103,12 @@ export default function Search({ categories, brands }: SearchPropsType) {
           }
           case 'GetGameDescriptionByTitleIntent': {
             if (data.found) {
-              const { name, price, slug } = data.products[0]
-              speak(`${name}: `) //add game description stripped text
+              const { description, slug } = data.products[0]
+              speak(`${convert(description)}`)
               router.replace(`/product/${slug}`, undefined, { shallow: true })
             } else {
               speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
             }
-            break
           }
           case 'GetGamePriceByTitleIntent': {
             if (data.found) {
@@ -124,7 +124,7 @@ export default function Search({ categories, brands }: SearchPropsType) {
             if (data.found) {
               const product = data.products[0]
               try {
-                speak(`${product.name} aggiunto al carrello.`)
+                speak(`Ho aggiunto ${product.name} al carrello.`)
                 await addItem({
                   productId: String(product.id),
                   variantId: String(product.variants[0]?.id),
