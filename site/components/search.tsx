@@ -118,10 +118,10 @@ export default function Search({ categories, brands }: SearchPropsType) {
           }
           break
         }
-        case 'GetRelatedGameByTitleIntent': {
+        case 'GetRelatedGamesByTitleIntent': {
           if (data.found) {
             const { slug } = data.products[0]
-            router.replace(`/product/${slug}`, undefined)
+            router.replace(`/product/${slug}`)
           } else {
             speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
           }
