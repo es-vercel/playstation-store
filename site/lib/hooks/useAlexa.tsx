@@ -74,15 +74,19 @@ export const AlexaProvider = ({ children }: any) => {
               const games = data?.lineItems.map(
                 (game) => `${game.name} che costa ${game.variant.price}`
               )
-              speak(
-                `Il tuo carrello contiene ${
-                  data?.lineItems.length
-                } giochi. ${games?.join(',')}. Per un totale di ${
-                  data?.totalPrice
-                } ` + data?.taxesIncluded
-                  ? '(tasse incluse)'
-                  : '(tasse escluse)'
-              )
+              if (!data) {
+                speak('Il carrello è vuoto')
+              } else {
+                speak(
+                  `Il tuo carrello contiene ${
+                    data?.lineItems.length
+                  } giochi. ${games?.join(',')}. Per un totale di ${
+                    data?.totalPrice
+                  } ` + data?.taxesIncluded
+                    ? '(tasse incluse)'
+                    : '(tasse escluse)'
+                )
+              }
               router.push(`/cart`)
               break
             }
