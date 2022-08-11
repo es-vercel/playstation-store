@@ -10,6 +10,7 @@ import type { Product } from '@commerce/types/product'
 import { Container, Skeleton } from '@components/ui'
 
 import useSearch from '@framework/product/use-search'
+import { useAddItem } from '@framework/cart'
 
 import getSlug from '@lib/get-slug'
 import rangeMap from '@lib/range-map'
@@ -31,6 +32,7 @@ import { useAlexa } from '@lib/hooks/useAlexa'
 
 export default function Search({ categories, brands }: SearchPropsType) {
   const { alexa, speak } = useAlexa()
+  const addItem = useAddItem()
 
   const [activeFilter, setActiveFilter] = useState('')
   const [toggleFilter, setToggleFilter] = useState(false)
@@ -72,54 +74,79 @@ export default function Search({ categories, brands }: SearchPropsType) {
   }, [intent])
 
   useEffect(() => {
-    if (!parsedIntent || !alexa) {
-      return
-    }
+    async function alexaEvents() {
+      if (!parsedIntent || !alexa) {
+        return
+      }
 
-    if (data) {
-      switch (parsedIntent.intent) {
-        case 'OpenGameDetailIntent': {
-          if (data.found) {
-            speak(`Ok, ecco a te ${q}`)
-            router.replace(`/product/${data.products[0].slug}`, undefined, {
-              shallow: true,
-            })
-          } else {
-            speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
+      if (data) {
+        switch (parsedIntent.intent) {
+          case 'OpenGameDetailIntent': {
+            if (data.found) {
+              speak(`Ok, ecco a te ${q}`)
+              router.replace(`/product/${data.products[0].slug}`, undefined, {
+                shallow: true,
+              })
+            } else {
+              speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
+            }
+            break
           }
-          break
-        }
-        case 'SearchGameByTitle': {
-          if (data.found) {
-            speak('Ok, ecco cosa ho trovato')
-          } else {
-            speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
+          case 'SearchGameByTitle': {
+            if (data.found) {
+              speak('Ok, ecco cosa ho trovato')
+            } else {
+              speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
+            }
+            break
           }
-          break
-        }
-        case 'GetGameDescriptionByTitleIntent': {
-          if (data.found) {
-            const { name, price, slug } = data.products[0]
-            speak(`${name}: `)  //add game description stripped text
-            router.replace(`/product/${slug}`, undefined, { shallow: true })
-          } else {
-            speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
+          case 'GetGameDescriptionByTitleIntent': {
+            if (data.found) {
+              const { name, price, slug } = data.products[0]
+              speak(`${name}: `) //add game description stripped text
+              router.replace(`/product/${slug}`, undefined, { shallow: true })
+            } else {
+              speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
+            }
+            break
           }
-          break
-        }
-        case 'GetGamePriceByTitleIntent': {
-          if (data.found) {
-            const { name, price, slug } = data.products[0]
-            speak(`${name} costa ${price.value} euro.`)
-            router.replace(`/product/${slug}`, undefined, { shallow: true })
-          } else {
-            speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
+          case 'GetGamePriceByTitleIntent': {
+            if (data.found) {
+              const { name, price, slug } = data.products[0]
+              speak(`${name} costa ${price.value} euro.`)
+              router.replace(`/product/${slug}`, undefined, { shallow: true })
+            } else {
+              speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
+            }
+            break
           }
-          break
+          case 'AddToCartByTitleIntent': {
+            if (data.found) {
+              const product = data.products[0]
+              try {
+                speak(`${product.name} aggiunto al carrello.`)
+                await addItem({
+                  productId: String(product.id),
+                  variantId: String(product.variants[0]?.id),
+                })
+                router.replace('/cart', undefined, { shallow: true })
+              } catch (err) {
+                speak(
+                  `Ho avuto un problema ad aggiungere ${product.name} al carrello. Riprova.`
+                )
+              }
+            } else {
+              speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
+            }
+            break
+          }
         }
       }
     }
+
+    alexaEvents()
   }, [
+    addItem,
     alexa,
     data,
     data?.found,
