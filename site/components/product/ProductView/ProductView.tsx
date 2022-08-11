@@ -44,13 +44,30 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
           speak(`${convert(product.description)}`)
           break
         }
+        case 'GetRelatedGamesIntent':
+        case 'GetRelatedGamesByTitleIntent': {
+          const gameTitles = relatedProducts.map((product) => product.name)
+          if (gameTitles.length > 0) {
+            speak(`I giochi correlati sono ${gameTitles.join(', ')}`)
+          } else {
+            speak('Non ci sono giochi correlati')
+          }
+          break
+        }
         case 'CloseGameDetailIntent': {
           router.back()
           break
         }
       }
     })
-  }, [alexa, product.description, product.price.value, router, speak])
+  }, [
+    alexa,
+    product.description,
+    product.price.value,
+    relatedProducts,
+    router,
+    speak,
+  ])
 
   return (
     <>
