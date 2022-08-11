@@ -38,6 +38,10 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
           speak(`${message.gameTitle} costa ${product.price.value} euro.`)
           break
         }
+        case 'GetGameDescriptionIntent': {
+          speak(`${message.gameTitle}: `)  //add Description stripped text
+          break
+        }
         case 'CloseGameDetailIntent': {
           router.back()
           break

@@ -97,6 +97,16 @@ export default function Search({ categories, brands }: SearchPropsType) {
           }
           break
         }
+        case 'GetGameDescriptionByTitleIntent': {
+          if (data.found) {
+            const { name, price, slug } = data.products[0]
+            speak(`${name}: `)  //add game description stripped text
+            router.replace(`/product/${slug}`, undefined, { shallow: true })
+          } else {
+            speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
+          }
+          break
+        }
         case 'GetGamePriceByTitleIntent': {
           if (data.found) {
             const { name, price, slug } = data.products[0]
