@@ -17,7 +17,6 @@ export interface IAlexa {
 const AlexaContext = createContext<IAlexa>({ alexa: null, speak: () => {} })
 
 export const AlexaProvider = ({ children }: any) => {
-  const { data } = useCart()
   const router = useRouter()
 
   const [mounted, setMounted] = useState(false)
@@ -99,7 +98,7 @@ export const AlexaProvider = ({ children }: any) => {
       .catch((error: any) => {
         console.log('Alexa is NOT ready', error)
       })
-  }, [alexa, data, mounted, router, speak])
+  }, [alexa, mounted, router, speak])
 
   return (
     <AlexaContext.Provider value={{ alexa, speak }}>
