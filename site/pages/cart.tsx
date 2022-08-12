@@ -52,11 +52,10 @@ export default function Cart() {
     setSidebarView('CHECKOUT_VIEW')
   }
 
-  const alexaIntentName = useMemo(() => {
+  const alexaIntent = useMemo(() => {
     if (router.query.intent) {
       // @ts-ignore
-      const { intent } = JSON.parse(router.query.intent)
-      return intent
+      return JSON.parse(router.query.intent)
     } else {
       return null
     }
@@ -64,11 +63,11 @@ export default function Cart() {
 
   useEffect(() => {
     async function alexaEvents() {
-      if (!alexaIntentName || !alexa) {
+      if (!alexaIntent.intent || !alexa) {
         return
       }
 
-      switch (alexaIntentName) {
+      switch (alexaIntent.intent) {
         case 'OpenCartIntent': {
           if (!data) {
             speak('Il carrello è vuoto')
@@ -91,11 +90,30 @@ export default function Cart() {
           }
           break
         }
+        case 'ReadCartItemIntent': {
+          const game = data?.lineItems.find((game: any) =>
+            game.name
+              .toLowerCase()
+              .includes(alexaIntent.gameTitle.toLowerCase())
+          )
+          if (!game) {
+            speak('Gioco non presente nel carrello')
+          } else {
+            const speakQuantity = `Hai ${game.quantity} copi${
+              game.quantity > 1 ? 'e' : 'a'
+            } di ${game.name} per un totale di ${
+              game.variant.price * game.quantity
+            } euro`
+
+            speak(speakQuantity)
+          }
+          break
+        }
       }
     }
 
     alexaEvents()
-  }, [alexa, alexaIntentName, data, router, speak])
+  }, [alexa, alexaIntent, data, router, speak])
 
   return (
     <Container className="grid lg:grid-cols-12 pt-4 gap-20">

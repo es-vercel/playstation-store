@@ -21,6 +21,19 @@ export const AlexaProvider = ({ children }: any) => {
   const [mounted, setMounted] = useState(false)
   const [alexa, setAlexa] = useState(null)
 
+  const speak = useCallback(
+    (message) => {
+      if (alexa) {
+        // @ts-ignore
+        alexa.skill.sendMessage({
+          intent: 'SpeakIntent',
+          message,
+        })
+      }
+    },
+    [alexa]
+  )
+
   useEffect(() => {
     if (alexa || mounted) {
       return
@@ -50,7 +63,8 @@ export const AlexaProvider = ({ children }: any) => {
               router.push(`/search?${query}`)
               break
             }
-            case 'OpenCartIntent': {
+            case 'OpenCartIntent':
+            case 'ReadCartItemIntent': {
               const query = qs.stringify(
                 { intent: JSON.stringify(message) },
                 { skipNulls: true }
@@ -83,20 +97,7 @@ export const AlexaProvider = ({ children }: any) => {
       .catch((error: any) => {
         console.log('Alexa is NOT ready', error)
       })
-  }, [alexa, mounted, router])
-
-  const speak = useCallback(
-    (message) => {
-      if (alexa) {
-        // @ts-ignore
-        alexa.skill.sendMessage({
-          intent: 'SpeakIntent',
-          message,
-        })
-      }
-    },
-    [alexa]
-  )
+  }, [alexa, mounted, router, speak])
 
   return (
     <AlexaContext.Provider value={{ alexa, speak }}>
