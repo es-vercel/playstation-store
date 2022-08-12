@@ -93,7 +93,7 @@ export default function Cart() {
         }
         case 'ReadCartItemIntent': {
           if (!data) {
-            speak('Il carrello è vuoto')
+            speak('Gioco non presente nel carrello')
           } else {
             const games = data?.lineItems[0]
             const speakQuantity = `Hai ${games.quantity} copi${
