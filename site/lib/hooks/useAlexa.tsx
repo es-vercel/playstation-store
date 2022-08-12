@@ -7,6 +7,7 @@ import React, {
   useCallback,
 } from 'react'
 import qs from 'qs'
+import { useCart } from '@framework/cart'
 
 export interface IAlexa {
   alexa: any
@@ -16,10 +17,24 @@ export interface IAlexa {
 const AlexaContext = createContext<IAlexa>({ alexa: null, speak: () => {} })
 
 export const AlexaProvider = ({ children }: any) => {
+  const { data } = useCart()
   const router = useRouter()
 
   const [mounted, setMounted] = useState(false)
   const [alexa, setAlexa] = useState(null)
+
+  const speak = useCallback(
+    (message) => {
+      if (alexa) {
+        // @ts-ignore
+        alexa.skill.sendMessage({
+          intent: 'SpeakIntent',
+          message,
+        })
+      }
+    },
+    [alexa]
+  )
 
   useEffect(() => {
     if (alexa || mounted) {
@@ -73,6 +88,26 @@ export const AlexaProvider = ({ children }: any) => {
               router.push('/')
               break
             }
+            case 'OpenCartDetailIntent': {
+              const games = data?.lineItems.map(
+                (game) => `${game.name} che costa ${game.variant.price}`
+              )
+              if (!data) {
+                speak('Il carrello è vuoto')
+              } else {
+                speak(
+                  `Il tuo carrello contiene ${
+                    data?.lineItems.length
+                  } giochi. ${games?.join(',')}. Per un totale di ${
+                    data?.totalPrice
+                  } ` + data?.taxesIncluded
+                    ? '(tasse incluse)'
+                    : '(tasse escluse)'
+                )
+              }
+              router.push(`/cart`)
+              break
+            }
             case 'Error': {
               console.log(message.error)
             }
@@ -84,20 +119,7 @@ export const AlexaProvider = ({ children }: any) => {
       .catch((error: any) => {
         console.log('Alexa is NOT ready', error)
       })
-  }, [alexa, mounted, router])
-
-  const speak = useCallback(
-    (message) => {
-      if (alexa) {
-        // @ts-ignore
-        alexa.skill.sendMessage({
-          intent: 'SpeakIntent',
-          message,
-        })
-      }
-    },
-    [alexa]
-  )
+  }, [alexa, data, mounted, router, speak])
 
   return (
     <AlexaContext.Provider value={{ alexa, speak }}>
