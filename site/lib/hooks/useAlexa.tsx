@@ -37,7 +37,8 @@ export const AlexaProvider = ({ children }: any) => {
             case 'SearchGameByTitle':
             case 'GetGamePriceByTitleIntent':
             case 'GetGameDescriptionByTitleIntent':
-            case 'AddToCartByTitleIntent': {
+            case 'AddToCartByTitleIntent':
+            case 'OpenGameDetailIntent': {
               const query = qs.stringify(
                 {
                   q: message.gameTitle,
@@ -47,6 +48,14 @@ export const AlexaProvider = ({ children }: any) => {
                 { skipNulls: true }
               )
               router.push(`/search?${query}`)
+              break
+            }
+            case 'OpenCartIntent': {
+              const query = qs.stringify(
+                { intent: JSON.stringify(message) },
+                { skipNulls: true }
+              )
+              router.push(`/cart?${query}`)
               break
             }
             case 'SearchGameByCategory': {
@@ -59,19 +68,6 @@ export const AlexaProvider = ({ children }: any) => {
               )
               break
             }
-            case 'OpenGameDetailIntent': {
-              const qry = qs.stringify(
-                {
-                  q: message.gameTitle,
-                  intent: JSON.stringify(message),
-                  hide: true,
-                },
-                { skipNulls: true }
-              )
-              router.push(`/search?${qry}`)
-              break
-            }
-
             case 'CloseGameDetailIntent': {
               router.push('/')
               break

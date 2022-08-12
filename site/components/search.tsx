@@ -1,7 +1,7 @@
 import cn from 'clsx'
 import type { SearchPropsType } from '@lib/search-props'
 import Link from 'next/link'
-import { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { Layout } from '@components/common'
@@ -40,7 +40,7 @@ export default function Search({ categories, brands }: SearchPropsType) {
 
   const router = useRouter()
   const { asPath, locale } = router
-  const { q, sort, intent } = router.query
+  const { q, sort } = router.query
   // `q` can be included but because categories and designers can't be searched
   // in the same way of products, it's better to ignore the search input if one
   // of those is selected
@@ -69,19 +69,24 @@ export default function Search({ categories, brands }: SearchPropsType) {
     setActiveFilter(filter)
   }
 
-  const parsedIntent = useMemo(() => {
-    // @ts-ignore
-    return intent ? JSON.parse(intent) : null
-  }, [intent])
+  const alexaIntentName = useMemo(() => {
+    if (router.query.intent) {
+      // @ts-ignore
+      const { intent } = JSON.parse(router.query.intent)
+      return intent
+    } else {
+      return null
+    }
+  }, [router.query.intent])
 
   useEffect(() => {
     async function alexaEvents() {
-      if (!parsedIntent || !alexa) {
+      if (!alexaIntentName || !alexa) {
         return
       }
 
       if (data) {
-        switch (parsedIntent.intent) {
+        switch (alexaIntentName) {
           case 'OpenGameDetailIntent': {
             if (data.found) {
               alexa.skill.sendMessage({
@@ -163,11 +168,10 @@ export default function Search({ categories, brands }: SearchPropsType) {
   }, [
     addItem,
     alexa,
+    alexaIntentName,
     data,
     data?.found,
     data?.products,
-    intent,
-    parsedIntent,
     q,
     router,
     speak,

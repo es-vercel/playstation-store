@@ -20,13 +20,13 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head />
-      <AlexaProvider>
-        <ManagedUIContext>
-          <Layout pageProps={pageProps}>
+      <ManagedUIContext>
+        <Layout pageProps={pageProps}>
+          <AlexaProvider>
             <Component {...pageProps} />
-          </Layout>
-        </ManagedUIContext>
-      </AlexaProvider>
+          </AlexaProvider>
+        </Layout>
+      </ManagedUIContext>
     </>
   )
 }

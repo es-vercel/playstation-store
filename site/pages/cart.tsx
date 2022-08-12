@@ -7,6 +7,9 @@ import { Button, Text, Container } from '@components/ui'
 import { Bag, Cross, Check, MapPin, CreditCard } from '@components/icons'
 import { CartItem } from '@components/cart'
 import { useUI } from '@components/ui/context'
+import { useAlexa } from '@lib/hooks/useAlexa'
+import { useRouter } from 'next/router'
+import { useEffect, useMemo } from 'react'
 
 export async function getStaticProps({
   preview,
@@ -28,6 +31,8 @@ export default function Cart() {
   const success = null
   const { data, isLoading, isEmpty } = useCart()
   const { openSidebar, setSidebarView } = useUI()
+  const { alexa, speak } = useAlexa()
+  const router = useRouter()
 
   const { price: subTotal } = usePrice(
     data && {
@@ -46,6 +51,51 @@ export default function Cart() {
     openSidebar()
     setSidebarView('CHECKOUT_VIEW')
   }
+
+  const alexaIntentName = useMemo(() => {
+    if (router.query.intent) {
+      // @ts-ignore
+      const { intent } = JSON.parse(router.query.intent)
+      return intent
+    } else {
+      return null
+    }
+  }, [router.query.intent])
+
+  useEffect(() => {
+    async function alexaEvents() {
+      if (!alexaIntentName || !alexa) {
+        return
+      }
+
+      switch (alexaIntentName) {
+        case 'OpenCartIntent': {
+          if (!data) {
+            speak('Il carrello è vuoto')
+          } else {
+            const games = data?.lineItems.map(
+              (game: any) => `${game.name} che costa ${game.variant.price}`
+            )
+            const qty = data?.lineItems.length
+            const totalPrice = data?.totalPrice
+            const gameListMessage = games?.join(', poi hai ')
+            const taxesIncluded = data?.taxesIncluded
+
+            speak(
+              `Il tuo carrello contiene ${qty} gioch${
+                qty > 1 ? 'i' : 'o'
+              }. ${gameListMessage}. Per un totale di ${totalPrice} euro, tasse ${
+                taxesIncluded ? 'incluse' : 'escluse'
+              }. Escili questi soldi pezzo di stronzo!`
+            )
+          }
+          break
+        }
+      }
+    }
+
+    alexaEvents()
+  }, [alexa, alexaIntentName, data, router, speak])
 
   return (
     <Container className="grid lg:grid-cols-12 pt-4 gap-20">
