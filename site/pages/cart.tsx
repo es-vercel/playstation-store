@@ -10,10 +10,7 @@ import { useUI } from '@components/ui/context'
 import { useAlexa } from '@lib/hooks/useAlexa'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo } from 'react'
-import useRemoveItem from '@commerce/cart/use-remove-item'
-import removeItem from '@framework/api/endpoints/cart/remove-item'
-import { useUpdateItem } from '@framework/cart'
-import updateItem from '@framework/api/endpoints/cart/update-item'
+import useRemoveItem from '@framework/cart/use-remove-item'
 
 export async function getStaticProps({
   preview,
