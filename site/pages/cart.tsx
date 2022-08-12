@@ -128,6 +128,17 @@ export default function Cart() {
           }
           break
         }
+        case 'ClearCartIntentHandler': {
+          if (!data) {
+            speak('Il tuo carrello è già vuoto!')
+          } else {
+            for (const game of data.lineItems) {
+              await removeItem(game)
+            }
+            speak(`Ho svuotato il tuo carrello, ringraziami umano!`)
+          }
+          break
+        }
         // case 'UpdateCartItemIntent': {
         //   const game = data?.lineItems.find((game: any) =>
         //     game.name
