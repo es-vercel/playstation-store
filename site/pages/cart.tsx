@@ -128,7 +128,7 @@ export default function Cart() {
           }
           break
         }
-        case 'ClearCartIntentHandler': {
+        case 'ClearCartIntent': {
           if (!data) {
             speak('Il tuo carrello è già vuoto!')
           } else {
