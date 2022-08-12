@@ -10,6 +10,7 @@ import { useUI } from '@components/ui/context'
 import { useAlexa } from '@lib/hooks/useAlexa'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo } from 'react'
+import useRemoveItem from '@framework/cart/use-remove-item'
 
 export async function getStaticProps({
   preview,
@@ -32,6 +33,8 @@ export default function Cart() {
   const { data, isLoading, isEmpty } = useCart()
   const { openSidebar, setSidebarView } = useUI()
   const { alexa, speak } = useAlexa()
+  const removeItem = useRemoveItem()
+  // const updateItem = useUpdateItem()
   const router = useRouter()
 
   const { price: subTotal } = usePrice(
@@ -63,7 +66,7 @@ export default function Cart() {
 
   useEffect(() => {
     async function alexaEvents() {
-      if (!alexaIntent.intent || !alexa) {
+      if (!alexaIntent?.intent || !alexa) {
         return
       }
 
@@ -109,11 +112,43 @@ export default function Cart() {
           }
           break
         }
+        case 'DeleteCartItemIntent': {
+          const game = data?.lineItems.find((game: any) =>
+            game.name
+              .toLowerCase()
+              .includes(alexaIntent.gameTitle.toLowerCase())
+          )
+          if (!game) {
+            speak(
+              `Mi spiace, non ho trovato ${alexaIntent.gameTitle} nel carrello`
+            )
+          } else {
+            await removeItem(game)
+            speak(`${game.name} è stato rimosso dal carrello!`)
+          }
+          break
+        }
+        // case 'UpdateCartItemIntent': {
+        //   const game = data?.lineItems.find((game: any) =>
+        //     game.name
+        //       .toLowerCase()
+        //       .includes(alexaIntent.gameTitle.toLowerCase())
+        //   )
+        //   if (!game) {
+        //     speak(
+        //       `Mi spiace, non ho trovato ${alexaIntent.gameTitle} nel carrello`
+        //     )
+        //   } else {
+        //     await updateItem(game)
+        //     speak(`${game.name} è stato modificato nel carrello!`)
+        //   }
+        //   break
+        // }
       }
     }
 
     alexaEvents()
-  }, [alexa, alexaIntent, data, router, speak])
+  }, [alexa, alexaIntent, data, removeItem, router, speak])
 
   return (
     <Container className="grid lg:grid-cols-12 pt-4 gap-20">
