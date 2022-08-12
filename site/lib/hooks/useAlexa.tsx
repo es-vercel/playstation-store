@@ -7,7 +7,6 @@ import React, {
   useCallback,
 } from 'react'
 import qs from 'qs'
-import { useCart } from '@framework/cart'
 
 export interface IAlexa {
   alexa: any
