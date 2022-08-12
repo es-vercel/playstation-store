@@ -91,7 +91,7 @@ export default function Cart() {
           }
           break
         }
-        case 'ReadCartItemDetailIntent': {
+        case 'ReadCartItemIntent': {
           if (!data) {
             speak('Il carrello è vuoto')
           } else {

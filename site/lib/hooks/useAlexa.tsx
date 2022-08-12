@@ -66,7 +66,7 @@ export const AlexaProvider = ({ children }: any) => {
               break
             }
             case 'OpenCartIntent':
-            case 'ReadCartItemDetailIntent': {
+            case 'ReadCartItemIntent': {
               const query = qs.stringify(
                 { q: message.gameTitle, intent: JSON.stringify(message) },
                 { skipNulls: true }
@@ -86,26 +86,6 @@ export const AlexaProvider = ({ children }: any) => {
             }
             case 'CloseGameDetailIntent': {
               router.push('/')
-              break
-            }
-            case 'OpenCartDetailIntent': {
-              const games = data?.lineItems.map(
-                (game) => `${game.name} che costa ${game.variant.price}`
-              )
-              if (!data) {
-                speak('Il carrello è vuoto')
-              } else {
-                speak(
-                  `Il tuo carrello contiene ${
-                    data?.lineItems.length
-                  } giochi. ${games?.join(',')}. Per un totale di ${
-                    data?.totalPrice
-                  } ` + data?.taxesIncluded
-                    ? '(tasse incluse)'
-                    : '(tasse escluse)'
-                )
-              }
-              router.push(`/cart`)
               break
             }
             case 'Error': {
