@@ -102,7 +102,7 @@ export default function Cart() {
             const speakQuantity = `Hai ${game.quantity} copi${
               game.quantity > 1 ? 'e' : 'a'
             } di ${game.name} per un totale di ${
-              game.price.value * game.quantity
+              game.variant.price * game.quantity
             } euro`
 
             speak(speakQuantity)
