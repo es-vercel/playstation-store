@@ -74,19 +74,19 @@ export default function Cart() {
             speak('Il carrello è vuoto')
           } else {
             const games = data?.lineItems.map(
-              (game: any) => `${game.name} che costa ${game.variant.price}`
+              (game: any) =>
+                `Hai ${game.quantity} copi${game.quantity > 1 ? 'e' : 'a'} di ${
+                  game.name
+                } che costa ${game.variant.price} euro`
             )
             const qty = data?.lineItems.length
             const totalPrice = data?.totalPrice
-            const gameListMessage = games?.join(', poi hai ')
-            const taxesIncluded = data?.taxesIncluded
+            const gameListMessage = games?.join(', poi ')
 
             speak(
               `Il tuo carrello contiene ${qty} gioch${
                 qty > 1 ? 'i' : 'o'
-              }. ${gameListMessage}. Per un totale di ${totalPrice} euro, tasse ${
-                taxesIncluded ? 'incluse' : 'escluse'
-              }. Escili questi soldi pezzo di stronzo!`
+              }. ${gameListMessage}. Per un totale di ${totalPrice} euro, tasse incluse.`
             )
           }
           break
