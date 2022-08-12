@@ -65,7 +65,8 @@ export const AlexaProvider = ({ children }: any) => {
             }
             case 'OpenCartIntent':
             case 'ReadCartItemIntent':
-            case 'DeleteCartItemIntent': {
+            case 'DeleteCartItemIntent':
+            case 'ClearCartIntent': {
               const query = qs.stringify(
                 { intent: JSON.stringify(message) },
                 { skipNulls: true }
