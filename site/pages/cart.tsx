@@ -91,6 +91,19 @@ export default function Cart() {
           }
           break
         }
+        case 'ReadCartItemDetailIntent': {
+          if (!data) {
+            speak('Il carrello è vuoto')
+          } else {
+            const games = data?.lineItems[0]
+            const speakQuantity = `Hai ${games.quantity} copi${
+              games.quantity > 1 ? 'e' : 'a'
+            } di ${games.name}`
+
+            speak(speakQuantity)
+          }
+          break
+        }
       }
     }
 

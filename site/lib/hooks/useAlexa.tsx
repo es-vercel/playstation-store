@@ -50,9 +50,10 @@ export const AlexaProvider = ({ children }: any) => {
               router.push(`/search?${query}`)
               break
             }
-            case 'OpenCartIntent': {
+            case 'OpenCartIntent':
+            case 'ReadCartItemDetailIntent': {
               const query = qs.stringify(
-                { intent: JSON.stringify(message) },
+                { q: message.gameTitle, intent: JSON.stringify(message) },
                 { skipNulls: true }
               )
               router.push(`/cart?${query}`)
