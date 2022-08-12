@@ -93,7 +93,6 @@ export default function Search({ categories, brands }: SearchPropsType) {
                 intent: 'SaveGameIntent',
                 product: data.products[0],
               })
-              speak(`Ok, ecco a te ${q}`)
               router.replace(`/product/${data.products[0].slug}`, undefined, {
                 shallow: true,
               })

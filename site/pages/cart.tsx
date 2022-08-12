@@ -63,7 +63,7 @@ export default function Cart() {
 
   useEffect(() => {
     async function alexaEvents() {
-      if (!alexaIntent.intent || !alexa) {
+      if (!alexaIntent?.intent || !alexa) {
         return
       }
 
