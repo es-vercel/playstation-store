@@ -11,6 +11,7 @@ import { useAlexa } from '@lib/hooks/useAlexa'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo } from 'react'
 import useRemoveItem from '@framework/cart/use-remove-item'
+import { useCustomer } from '@framework/customer'
 
 export async function getStaticProps({
   preview,
@@ -36,6 +37,7 @@ export default function Cart() {
   const removeItem = useRemoveItem()
   // const updateItem = useUpdateItem()
   const router = useRouter()
+  const { data: isCustomerLoggedIn } = useCustomer()
 
   const { price: subTotal } = usePrice(
     data && {
@@ -123,6 +125,7 @@ export default function Cart() {
               `Mi spiace, non ho trovato ${alexaIntent.gameTitle} nel carrello`
             )
           } else {
+            router.replace('/cart', undefined, { shallow: true })
             await removeItem(game)
             speak(`${game.name} è stato rimosso dal carrello!`)
           }
@@ -132,11 +135,30 @@ export default function Cart() {
           if (!data) {
             speak('Il tuo carrello è già vuoto!')
           } else {
+            router.replace('/cart', undefined, { shallow: true })
             for (const game of data.lineItems) {
               await removeItem(game)
             }
             speak(`Ho svuotato il tuo carrello, ringraziami umano!`)
           }
+          break
+        }
+        case 'CheckoutIntent': {
+          if (!data) {
+            speak('Mi spiace, il tuo carrello è vuoto!')
+            break
+          }
+
+          // if (!isCustomerLoggedIn) {
+          //   speak('Accedi prima di effettuare il pagamento')
+          //   // TODO: fai comparire la modale di login
+          //   break
+          // }
+
+          speak(
+            'Ok, ti sto reindirizzando verso BigCommerce per il pagamento!!!'
+          )
+          router.push('/checkout')
           break
         }
         // case 'UpdateCartItemIntent': {

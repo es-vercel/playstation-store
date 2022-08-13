@@ -47,31 +47,15 @@ export const AlexaProvider = ({ children }: any) => {
         const { alexa } = args
         alexa.skill.onMessage((message: any) => {
           switch (message.intent) {
-            case 'SearchGameByTitle':
-            case 'GetGamePriceByTitleIntent':
-            case 'GetGameDescriptionByTitleIntent':
-            case 'AddToCartByTitleIntent':
-            case 'OpenGameDetailIntent': {
+            case 'SearchGameByTitle': {
               const query = qs.stringify(
                 {
                   q: message.gameTitle,
                   intent: JSON.stringify(message),
-                  hide: true,
                 },
                 { skipNulls: true }
               )
               router.push(`/search?${query}`)
-              break
-            }
-            case 'OpenCartIntent':
-            case 'ReadCartItemIntent':
-            case 'DeleteCartItemIntent':
-            case 'ClearCartIntent': {
-              const query = qs.stringify(
-                { intent: JSON.stringify(message) },
-                { skipNulls: true }
-              )
-              router.push(`/cart?${query}`)
               break
             }
             case 'SearchGameByCategory': {
@@ -84,8 +68,38 @@ export const AlexaProvider = ({ children }: any) => {
               )
               break
             }
+            case 'GetGamePriceByTitleIntent':
+            case 'GetGameDescriptionByTitleIntent':
+            case 'AddToCartByTitleIntent':
+            case 'OpenGameDetailIntent': {
+              const query = qs.stringify(
+                {
+                  q: message.gameTitle,
+                  intent: JSON.stringify(message),
+                  loading: true,
+                },
+                { skipNulls: true }
+              )
+              router.push(`/search?${query}`)
+              break
+            }
+            case 'OpenCartIntent':
+            case 'ReadCartItemIntent':
+            case 'DeleteCartItemIntent':
+            case 'ClearCartIntent':
+            case 'CheckoutIntent': {
+              const query = qs.stringify(
+                { intent: JSON.stringify(message) },
+                { skipNulls: true }
+              )
+              router.push(`/cart?${query}`)
+              break
+            }
             case 'CloseGameDetailIntent': {
               router.push('/')
+              break
+            }
+            case 'CheckoutIntent': {
               break
             }
             case 'Error': {

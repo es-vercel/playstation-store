@@ -40,7 +40,7 @@ export default function Search({ categories, brands }: SearchPropsType) {
 
   const router = useRouter()
   const { asPath, locale } = router
-  const { q, sort } = router.query
+  const { q, sort, loading } = router.query
   // `q` can be included but because categories and designers can't be searched
   // in the same way of products, it's better to ignore the search input if one
   // of those is selected
@@ -97,6 +97,7 @@ export default function Search({ categories, brands }: SearchPropsType) {
                 shallow: true,
               })
             } else {
+              router.back()
               speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
             }
             break
@@ -105,6 +106,7 @@ export default function Search({ categories, brands }: SearchPropsType) {
             if (data.found) {
               speak('Ok, ecco cosa ho trovato')
             } else {
+              router.back()
               speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
             }
             break
@@ -120,6 +122,7 @@ export default function Search({ categories, brands }: SearchPropsType) {
               speak(`${convert(description)}`)
               router.replace(`/product/${slug}`, undefined, { shallow: true })
             } else {
+              router.back()
               speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
             }
             break
@@ -135,6 +138,7 @@ export default function Search({ categories, brands }: SearchPropsType) {
               speak(`${name} costa ${price.value} euro.`)
               router.replace(`/product/${slug}`, undefined, { shallow: true })
             } else {
+              router.back()
               speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
             }
             break
@@ -150,11 +154,13 @@ export default function Search({ categories, brands }: SearchPropsType) {
                 })
                 router.replace('/cart', undefined, { shallow: true })
               } catch (err) {
+                router.back()
                 speak(
                   `Ho avuto un problema ad aggiungere ${product.name} al carrello. Riprova.`
                 )
               }
             } else {
+              router.back()
               speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
             }
             break
@@ -176,12 +182,9 @@ export default function Search({ categories, brands }: SearchPropsType) {
     speak,
   ])
 
-  // if (hide) {
-  //   console.log('hide')
-  //   return null
-  // } else {
-  //   console.log('not hide')
-  // }
+  if (loading) {
+    return null
+  }
 
   return (
     <Container>
