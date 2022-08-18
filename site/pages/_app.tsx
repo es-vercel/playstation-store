@@ -7,6 +7,7 @@ import type { AppProps } from 'next/app'
 import { Head } from '@components/common'
 import { ManagedUIContext } from '@components/ui/context'
 import { AlexaProvider } from '@lib/hooks/useAlexa'
+import { CommerceProvider } from '@framework'
 
 const Noop: FC = ({ children }) => <>{children}</>
 
@@ -21,11 +22,11 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Head />
       <ManagedUIContext>
-        <Layout pageProps={pageProps}>
+        <CommerceProvider locale={'en-US'}>
           <AlexaProvider>
             <Component {...pageProps} />
           </AlexaProvider>
-        </Layout>
+        </CommerceProvider>
       </ManagedUIContext>
     </>
   )

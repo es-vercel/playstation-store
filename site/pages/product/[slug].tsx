@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import commerce from '@lib/api/commerce'
 import { Layout } from '@components/common'
 import { ProductView } from '@components/product'
+import { getPlaiceholder } from 'plaiceholder'
 
 export async function getStaticProps({
   params,
@@ -23,25 +24,29 @@ export async function getStaticProps({
     preview,
   })
 
-  const allProductsPromise = commerce.getAllProducts({
-    variables: { first: 4 },
-    config,
-    preview,
-  })
   const { pages } = await pagesPromise
   const { categories } = await siteInfoPromise
   const { product } = await productPromise
-  const { products: relatedProducts } = await allProductsPromise
 
   if (!product) {
     throw new Error(`Product with slug '${params!.slug}' not found`)
   }
 
+  const images = await Promise.all(
+    product.images.map(async (image) => {
+      const { base64, img } = await getPlaiceholder(image.url, { size: 10 })
+      return {
+        ...img,
+        blurDataURL: base64,
+      }
+    })
+  ).then((values) => values)
+
   return {
     props: {
       pages,
       product,
-      relatedProducts,
+      images,
       categories,
     },
     revalidate: 200,
@@ -67,15 +72,15 @@ export async function getStaticPaths({ locales }: GetStaticPathsContext) {
 
 export default function Slug({
   product,
-  relatedProducts,
+  images,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const router = useRouter()
 
   return router.isFallback ? (
     <h1>Loading...</h1>
   ) : (
-    <ProductView product={product} relatedProducts={relatedProducts} />
+    <ProductView product={product} images={images} />
   )
 }
 
-Slug.Layout = Layout
+// Slug.Layout = Layout

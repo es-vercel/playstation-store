@@ -5,9 +5,20 @@
   height: 100% !important;
 }
 
-.root:hover {
+@keyframes mymove {
+  50% {
+    box-shadow: 0px 0px 0px 4px violet;
+  }
+}
+
+.root:hover,
+.root:focus {
+  outline: 0 none;
+  box-shadow: 0px 0px 0px 4px rgba(255, 255, 255, 1);
+  transform: scale(1.07);
+  z-index: 9999;
+
   & .productImage {
-    transform: scale(1.2625);
   }
 
   & .header .name span,
@@ -62,10 +73,17 @@
   -webkit-box-decoration-break: clone;
 }
 
-.header .price {
-  @apply pt-2 px-6 pb-4 text-sm bg-primary text-accent-9
-  font-semibold inline-block tracking-wide
+.price {
+  @apply text-sm text-accent-9
+  font-semibold
+  absolute bottom-4 left-4
   transition-colors ease-in-out duration-500;
+  font-size: 16px;
+}
+
+.gradient {
+  @apply absolute inset-0;
+  background-image: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1));
 }
 
 .imageContainer {
@@ -77,8 +95,7 @@
 }
 
 .imageContainer .productImage {
-  @apply transform transition-transform duration-500
-  object-cover scale-120;
+  @apply transform transition-transform duration-500;
 }
 
 .root .wishlistButton {

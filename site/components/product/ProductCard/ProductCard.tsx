@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import cn from 'clsx'
 import Link from 'next/link'
 import type { Product } from '@commerce/types/product'
@@ -7,6 +7,7 @@ import Image, { ImageProps } from 'next/image'
 import WishlistButton from '@components/wishlist/WishlistButton'
 import usePrice from '@framework/product/use-price'
 import ProductTag from '../ProductTag'
+import { Howl } from 'howler'
 
 interface Props {
   className?: string
@@ -17,6 +18,13 @@ interface Props {
 }
 
 const placeholderImg = '/product-img-placeholder.svg'
+
+const sound = new Howl({
+  src: ['/sounds.mp3'],
+  sprite: {
+    laser: [34200, 100],
+  },
+})
 
 const ProductCard: FC<Props> = ({
   product,
@@ -39,7 +47,11 @@ const ProductCard: FC<Props> = ({
 
   return (
     <Link href={`/product/${product.slug}`}>
-      <a className={rootClassName} aria-label={product.name}>
+      <a
+        className={rootClassName}
+        aria-label={product.name}
+        onFocus={() => sound.play('laser')}
+      >
         {variant === 'slim' && (
           <>
             <div className={s.header}>
@@ -63,14 +75,14 @@ const ProductCard: FC<Props> = ({
 
         {variant === 'simple' && (
           <>
-            {process.env.COMMERCE_WISHLIST_ENABLED && (
+            {/* {process.env.COMMERCE_WISHLIST_ENABLED && (
               <WishlistButton
                 className={s.wishlistButton}
                 productId={product.id}
                 variant={product.variants[0]}
               />
-            )}
-            {!noNameTag && (
+            )} */}
+            {/* {!noNameTag && (
               <div className={s.header}>
                 <h3 className={s.name}>
                   <span>{product.name}</span>
@@ -79,7 +91,7 @@ const ProductCard: FC<Props> = ({
                   {`${price} ${product.price?.currencyCode}`}
                 </div>
               </div>
-            )}
+            )} */}
             <div className={s.imageContainer}>
               {product?.images && (
                 <div>
@@ -93,6 +105,9 @@ const ProductCard: FC<Props> = ({
                     layout="responsive"
                     {...imgProps}
                   />
+                  <div className={s.gradient}>
+                    <div className={s.price}>{price}</div>
+                  </div>
                 </div>
               )}
             </div>
@@ -101,17 +116,17 @@ const ProductCard: FC<Props> = ({
 
         {variant === 'default' && (
           <>
-            {process.env.COMMERCE_WISHLIST_ENABLED && (
+            {/* {process.env.COMMERCE_WISHLIST_ENABLED && (
               <WishlistButton
                 className={s.wishlistButton}
                 productId={product.id}
                 variant={product.variants[0] as any}
               />
-            )}
-            <ProductTag
+            )} */}
+            {/* <ProductTag
               name={product.name}
               price={`${price} ${product.price?.currencyCode}`}
-            />
+            /> */}
             <div className={s.imageContainer}>
               {product?.images && (
                 <div>

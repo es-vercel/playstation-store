@@ -16,10 +16,10 @@ import { convert } from 'html-to-text'
 
 interface ProductViewProps {
   product: Product
-  relatedProducts: Product[]
+  images: any
 }
 
-const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
+const ProductView: FC<ProductViewProps> = ({ product, images }) => {
   const { price } = usePrice({
     amount: product.price.value,
     baseAmount: product.price.retailPrice,
@@ -29,6 +29,19 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
   return (
     <>
       <Container className="max-w-none w-full" clean>
+        <div className="bgWrap">
+          <Image
+            alt="Background"
+            src={images[1].src}
+            placeholder="blur"
+            blurDataURL={images[1].blurDataURL}
+            layout="fill"
+            objectFit="cover"
+            quality={85}
+            priority={true}
+          />
+          <div className={s.gradient} />
+        </div>
         <div className={cn(s.root, 'fit')}>
           <div className={cn(s.main, 'fit')}>
             <ProductTag
@@ -38,15 +51,16 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
             />
             <div className={s.sliderContainer}>
               <ProductSlider key={product.id}>
-                {product.images.map((image, i) => (
-                  <div key={image.url} className={s.imageContainer}>
+                {images.slice(2).map((image: any, i: number) => (
+                  <div key={image.src} className={s.imageContainer}>
                     <Image
                       className={s.img}
-                      src={image.url!}
+                      src={image.src!}
+                      placeholder="blur"
+                      blurDataURL={image.blurDataURL}
                       alt={image.alt || 'Product Image'}
                       width={600}
                       height={600}
-                      priority={i === 0}
                       quality="85"
                     />
                   </div>
@@ -68,8 +82,8 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
             className={s.sidebar}
           />
         </div>
-        <hr className="mt-7 border-accent-2" />
-        <section className="py-12 px-6 mb-10">
+        {/* <hr className="mt-7 border-accent-2" /> */}
+        {/* <section className="py-12 px-6 mb-10">
           <Text variant="sectionHeading">Related Products</Text>
           <div className={s.relatedProductsGrid}>
             {relatedProducts.map((p) => (
@@ -91,7 +105,7 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
               </div>
             ))}
           </div>
-        </section>
+        </section> */}
       </Container>
       <SEO
         title={product.name}

@@ -17,6 +17,7 @@ import { MenuSidebarView } from '@components/common/UserNav'
 import type { Page } from '@commerce/types/page'
 import type { Category } from '@commerce/types/site'
 import type { Link as LinkProps } from '../UserNav/MenuSidebarView'
+import Image from 'next/image'
 
 const Loading = () => (
   <div className="w-80 h-80 flex items-center text-center justify-center p-3">
@@ -107,18 +108,26 @@ const Layout: React.FC<Props> = ({
   pageProps: { categories = [], ...pageProps },
 }) => {
   // const { acceptedCookies, onAcceptCookies } = useAcceptCookies()
-  const { locale = 'en-US' } = useRouter()
-  const navBarlinks = categories.slice(0, 2).map((c) => ({
+  const navBarlinks = categories.slice(0, 3).map((c) => ({
     label: c.name,
     href: `/search/${c.slug}`,
   }))
 
   return (
-    <CommerceProvider locale={locale}>
+    <>
+      <div className="bgWrap">
+        <Image
+          alt="Background"
+          src="/background.jpeg"
+          layout="fill"
+          objectFit="cover"
+          quality={100}
+        />
+      </div>
       <div className={cn(s.root)}>
         <Navbar links={navBarlinks} />
         <main className="fit">{children}</main>
-        <Footer pages={pageProps.pages} />
+        {/* <Footer pages={pageProps.pages} /> */}
         <ModalUI />
         <CheckoutProvider>
           <SidebarUI links={navBarlinks} />
@@ -133,7 +142,7 @@ const Layout: React.FC<Props> = ({
           }
         /> */}
       </div>
-    </CommerceProvider>
+    </>
   )
 }
 

@@ -7,7 +7,7 @@ const SORT: { [key: string]: string | undefined } = {
   price: 'price',
 }
 
-const LIMIT = 12
+const LIMIT = 20
 
 // Return current cart info
 const getProducts: ProductsEndpoint['handlers']['getProducts'] = async ({

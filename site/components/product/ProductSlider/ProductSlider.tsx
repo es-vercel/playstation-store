@@ -79,7 +79,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
 
   return (
     <div className={cn(s.root, className)} ref={sliderContainerRef}>
-      <div
+      {/* <div
         ref={ref}
         className={cn(s.slider, { [s.show]: isMounted }, 'keen-slider')}
       >
@@ -99,7 +99,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
           }
           return child
         })}
-      </div>
+      </div> */}
 
       <a.div className={s.album} ref={thumbsContainerRef}>
         {slider &&
