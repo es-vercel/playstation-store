@@ -35,7 +35,8 @@ export const AlexaProvider = ({ children }: any) => {
   )
 
   useEffect(() => {
-    if (alexa || mounted) {
+    // @ts-ignore
+    if (typeof Alexa === 'undefined' || alexa || mounted) {
       return
     } else {
       setMounted(true)

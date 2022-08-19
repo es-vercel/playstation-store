@@ -17,6 +17,7 @@ const ProductHeader: FC<Props> = ({ gameTitle, imageUrl, blurDataURL }) => {
           src={imageUrl}
           placeholder="blur"
           blurDataURL={blurDataURL}
+          layout="fixed"
           height={70}
           width={70}
           quality="85"
