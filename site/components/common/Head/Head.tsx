@@ -7,8 +7,8 @@ const Head: VFC = () => {
       <meta
         key="viewport"
         name="viewport"
-        // content="width=1.5 initial-scale=1"
-        content="width=device-width, initial-scale=0.58"
+        content="width=device-width, initial-scale=1"
+        // content="width=device-width, initial-scale=0.58"
       />
       <link rel="manifest" href="/site.webmanifest" key="site-manifest" />
     </SEO>

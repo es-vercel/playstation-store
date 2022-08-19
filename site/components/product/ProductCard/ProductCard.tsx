@@ -15,16 +15,17 @@ interface Props {
   noNameTag?: boolean
   imgProps?: Omit<ImageProps, 'src' | 'layout' | 'placeholder' | 'blurDataURL'>
   variant?: 'default' | 'slim' | 'simple'
+  priority?: boolean
 }
 
 const placeholderImg = '/product-img-placeholder.svg'
 
-const sound = new Howl({
-  src: ['/sounds.mp3'],
-  sprite: {
-    laser: [34200, 100],
-  },
-})
+// const sound = new Howl({
+//   src: ['/sounds.mp3'],
+//   sprite: {
+//     laser: [34200, 100],
+//   },
+// })
 
 const ProductCard: FC<Props> = ({
   product,
@@ -32,6 +33,7 @@ const ProductCard: FC<Props> = ({
   className,
   noNameTag = false,
   variant = 'default',
+  priority = false,
 }) => {
   const { price } = usePrice({
     amount: product.price.value,
@@ -50,7 +52,7 @@ const ProductCard: FC<Props> = ({
       <a
         className={rootClassName}
         aria-label={product.name}
-        onFocus={() => sound.play('laser')}
+        // onFocus={() => sound.play('laser')}
       >
         {variant === 'slim' && (
           <>
@@ -94,16 +96,18 @@ const ProductCard: FC<Props> = ({
             )} */}
             <div className={s.imageContainer}>
               {product?.images && (
-                <div>
+                <div className="relative">
                   <Image
                     alt={product.name || 'Product Image'}
                     className={s.productImage}
                     src={product.images[0]?.url || placeholderImg}
-                    height={540}
-                    width={540}
                     quality="85"
+                    width={764}
+                    height={764}
                     layout="responsive"
-                    {...imgProps}
+                    // sizes="270px"
+                    sizes="12vw"
+                    priority={priority}
                   />
                   <div className={s.gradient}>
                     <div className={s.price}>{price}</div>

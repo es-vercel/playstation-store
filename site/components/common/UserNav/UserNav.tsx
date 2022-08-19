@@ -114,7 +114,7 @@ const UserNav: React.FC<{
           <li className={s.item}>
             <Dropdown>
               <DropdownTrigger>
-                <div
+                <button
                   aria-label="Menu"
                   className={s.avatarButton}
                   onClick={() => (isCustomerLoggedIn ? null : openModal())}
@@ -144,7 +144,7 @@ const UserNav: React.FC<{
 			z"
                     />
                   </svg>
-                </div>
+                </button>
               </DropdownTrigger>
               <CustomerMenuContent />
             </Dropdown>

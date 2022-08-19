@@ -17,6 +17,11 @@ module.exports = withPlaiceholder(
       locales: ['en-US', 'es'],
       defaultLocale: 'en-US',
     },
+    images: {
+      formats: ['image/webp'],
+      deviceSizes: [640, 768, 828, 1024, 1280, 1536],
+      imageSizes: [16, 32, 48, 64, 96, 128, 272, 544],
+    },
     rewrites() {
       return [
         (isBC || isShopify || isSwell || isVendure || isSaleor) && {

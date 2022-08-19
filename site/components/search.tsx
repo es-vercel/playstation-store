@@ -240,22 +240,19 @@ export default function Search({ categories, brands }: SearchPropsType) {
               </div>
             )}
             {data ? (
-              <div className="grid grid-cols-2 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                {data.products.map((product: Product) => (
+              <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                {data.products.map((product: Product, index: number) => (
                   <ProductCard
                     variant="simple"
                     key={product.path}
                     className="animated fadeIn"
                     product={product}
-                    imgProps={{
-                      width: 480,
-                      height: 480,
-                    }}
+                    priority={index < 10}
                   />
                 ))}
               </div>
             ) : (
-              <div className="grid grid-cols-2 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+              <div className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {rangeMap(20, (i) => (
                   <Skeleton key={i}>
                     <div className="w-60 h-60" />

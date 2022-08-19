@@ -27,6 +27,7 @@ const Navbar: FC<NavbarProps> = ({ links }) => (
           src="/psbag.webp"
           height={36}
           width={36}
+          layout="fixed"
           quality="85"
         />
       </div>
