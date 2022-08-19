@@ -13,11 +13,12 @@
 }
 
 .sliderContainer {
-  @apply flex items-center justify-center overflow-x-hidden bg-violet;
+  @apply absolute bottom-0 w-full;
 }
 
 .imageContainer {
   @apply text-center h-full relative;
+  aspect-ratio: 16/9;
 }
 
 .imageContainer > span {
@@ -67,4 +68,41 @@
     rgba(0, 0, 0, 0.2),
     rgba(0, 0, 0, 0.2)
   );
+}
+
+.description {
+  @apply relative flex mt-7 text-2xl line-clamp-3 overflow-hidden;
+  line-height: 2.3rem;
+  opacity: 0.85;
+  width: 43%;
+}
+
+.sliderTitle {
+  @apply px-36;
+  font-size: 21px;
+  opacity: 0.85;
+}
+
+.ps5 {
+  @apply relative inline-block bg-white text-black px-3 border-white mr-2;
+  font-size: 14px;
+  border-width: 1px;
+  font-weight: 600;
+  padding: 2px 12px;
+}
+
+.ps4 {
+  @apply relative inline-block bg-black text-white px-3 border-gray-600 mr-2;
+  font-size: 14px;
+  border-width: 1px;
+  font-weight: 600;
+  padding: 2px 12px;
+}
+
+.standardEdition {
+  @apply relative inline-block  text-white px-3  border-white mr-2;
+  font-size: 14px;
+  border-width: 1px;
+  font-weight: 600;
+  padding: 2px 12px;
 }

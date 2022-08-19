@@ -14,11 +14,13 @@ import ProductSliderControl from '../ProductSliderControl'
 interface ProductSliderProps {
   children: React.ReactNode[]
   className?: string
+  onChangeSlideIndex?: (index: number) => void
 }
 
 const ProductSlider: React.FC<ProductSliderProps> = ({
   children,
   className = '',
+  onChangeSlideIndex,
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isMounted, setIsMounted] = useState(false)
@@ -33,14 +35,14 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
       const slideNumber = s.track.details.rel
       setCurrentSlide(slideNumber)
 
-      if (thumbsContainerRef.current) {
-        const $el = document.getElementById(`thumb-${slideNumber}`)
-        if (slideNumber >= 3) {
-          thumbsContainerRef.current.scrollLeft = $el!.offsetLeft
-        } else {
-          thumbsContainerRef.current.scrollLeft = 0
-        }
-      }
+      // if (thumbsContainerRef.current) {
+      //   const $el = document.getElementById(`thumb-${slideNumber}`)
+      //   if (slideNumber >= 3) {
+      //     thumbsContainerRef.current.scrollLeft = $el!.offsetLeft
+      //   } else {
+      //     thumbsContainerRef.current.scrollLeft = 0
+      //   }
+      // }
     },
   })
 
@@ -115,6 +117,9 @@ const ProductSlider: React.FC<ProductSliderProps> = ({
                   id: `thumb-${idx}`,
                   onClick: () => {
                     slider.current?.moveToIdx(idx)
+                    if (typeof onChangeSlideIndex === 'function') {
+                      onChangeSlideIndex(idx + 2)
+                    }
                   },
                 },
               }

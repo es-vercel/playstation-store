@@ -1,5 +1,5 @@
 .root {
-  @apply fixed w-full flex items-center gap-9;
+  @apply relative w-full flex items-center gap-9;
   padding: 2.5rem;
   font-size: 26px;
   font-weight: 300;

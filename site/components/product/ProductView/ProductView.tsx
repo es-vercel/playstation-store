@@ -1,11 +1,11 @@
 import cn from 'clsx'
 import Image from 'next/image'
 import s from './ProductView.module.css'
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import type { Product } from '@commerce/types/product'
 import usePrice from '@framework/product/use-price'
 import { WishlistButton } from '@components/wishlist'
-import { ProductHeader } from '@components/product'
+import { ProductHeader, ProductSlider } from '@components/product'
 import { Container, Text } from '@components/ui'
 import { SEO } from '@components/common'
 import ProductSidebar from '../ProductSidebar'
@@ -20,6 +20,8 @@ interface ProductViewProps {
 }
 
 const ProductView: FC<ProductViewProps> = ({ product, images }) => {
+  const [bgSlideIndex, setBgSlideIndex] = useState(1)
+
   const { price } = usePrice({
     amount: product.price.value,
     baseAmount: product.price.retailPrice,
@@ -28,13 +30,13 @@ const ProductView: FC<ProductViewProps> = ({ product, images }) => {
 
   return (
     <>
-      <Container className="max-w-none w-full" clean>
+      <Container className="max-w-none w-full " clean>
         <div className="bgWrap animated fadeIn">
           <Image
             alt="Background"
-            src={images[1].src}
+            src={images[bgSlideIndex].src}
             placeholder="blur"
-            blurDataURL={images[1].blurDataURL}
+            blurDataURL={images[bgSlideIndex].blurDataURL}
             layout="fill"
             objectFit="cover"
             quality={85}
@@ -47,6 +49,34 @@ const ProductView: FC<ProductViewProps> = ({ product, images }) => {
           imageUrl={images[0].src}
           blurDataURL={images[0].blurDataURL}
         />
+        <div className="px-36 py-8">
+          <span className={s.ps4}>PS4</span>
+          <span className={s.ps5}>PS5</span>
+          <span className={s.standardEdition}>Standard Edition</span>
+          <div
+            className={s.description}
+            dangerouslySetInnerHTML={{ __html: product.description }}
+          />
+        </div>
+
+        <div className={s.sliderContainer}>
+          <div className={s.sliderTitle}>Contenuti multimediali</div>
+          <ProductSlider key={product.id} onChangeSlideIndex={setBgSlideIndex}>
+            {images.slice(2).map((image: any, i: number) => (
+              <div key={image.src} className={s.imageContainer}>
+                <Image
+                  className={s.img}
+                  src={image.src!}
+                  placeholder="blur"
+                  blurDataURL={image.blurDataURL}
+                  alt={image.alt || 'Product Image'}
+                  layout="fill"
+                  quality="85"
+                />
+              </div>
+            ))}
+          </ProductSlider>
+        </div>
         {/* <div className={cn(s.root, 'fit')}>
           <div className={cn(s.main, 'fit')}>
             <ProductTag

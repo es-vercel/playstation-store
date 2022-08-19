@@ -1,6 +1,6 @@
 .root {
   @apply relative w-full h-full select-none;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .slider {
@@ -13,9 +13,11 @@
 }
 
 .thumb {
-  @apply overflow-hidden inline-block cursor-pointer h-full;
-  width: 125px;
-  width: calc(100% / 3);
+  @apply inline-block cursor-pointer h-full mr-7 shadow-2xl shadow-black transition-all;
+}
+
+.thumb:hover {
+  transform: scale(1.07);
 }
 
 .thumb.selected {
@@ -27,14 +29,13 @@
 }
 
 .album {
-  width: 100%;
-  height: 100%;
-  @apply bg-violet-dark;
+  /* width: 100%; */
+  /* height: 100%; */
+  @apply px-36 pb-14 pt-5;
   box-sizing: content-box;
-  overflow-y: hidden;
   overflow-x: auto;
   white-space: nowrap;
-  height: 125px;
+  height: 176px;
   scrollbar-width: none;
 }
 
@@ -42,7 +43,7 @@
 .album::-webkit-scrollbar {
   display: none;
 }
-
+/*
 @screen md {
   .thumb:hover {
     transform: scale(1.02);
@@ -54,4 +55,4 @@
   .thumb {
     width: 235px;
   }
-}
+} */
