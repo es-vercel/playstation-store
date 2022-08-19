@@ -5,7 +5,7 @@ import { FC, useEffect } from 'react'
 import type { Product } from '@commerce/types/product'
 import usePrice from '@framework/product/use-price'
 import { WishlistButton } from '@components/wishlist'
-import { ProductSlider, ProductCard } from '@components/product'
+import { ProductHeader } from '@components/product'
 import { Container, Text } from '@components/ui'
 import { SEO } from '@components/common'
 import ProductSidebar from '../ProductSidebar'
@@ -29,7 +29,7 @@ const ProductView: FC<ProductViewProps> = ({ product, images }) => {
   return (
     <>
       <Container className="max-w-none w-full" clean>
-        <div className="bgWrap">
+        <div className="bgWrap animated fadeIn">
           <Image
             alt="Background"
             src={images[1].src}
@@ -42,7 +42,12 @@ const ProductView: FC<ProductViewProps> = ({ product, images }) => {
           />
           <div className={s.gradient} />
         </div>
-        <div className={cn(s.root, 'fit')}>
+        <ProductHeader
+          gameTitle={product.name}
+          imageUrl={images[0].src}
+          blurDataURL={images[0].blurDataURL}
+        />
+        {/* <div className={cn(s.root, 'fit')}>
           <div className={cn(s.main, 'fit')}>
             <ProductTag
               name={product.name}
@@ -81,7 +86,7 @@ const ProductView: FC<ProductViewProps> = ({ product, images }) => {
             product={product}
             className={s.sidebar}
           />
-        </div>
+        </div> */}
         {/* <hr className="mt-7 border-accent-2" /> */}
         {/* <section className="py-12 px-6 mb-10">
           <Text variant="sectionHeading">Related Products</Text>

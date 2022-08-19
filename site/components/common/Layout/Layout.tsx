@@ -19,6 +19,8 @@ import type { Category } from '@commerce/types/site'
 import type { Link as LinkProps } from '../UserNav/MenuSidebarView'
 import Image from 'next/image'
 
+import BackgroundImage from '../../../public/background.webp'
+
 const Loading = () => (
   <div className="w-80 h-80 flex items-center text-center justify-center p-3">
     <LoadingDots />
@@ -115,11 +117,12 @@ const Layout: React.FC<Props> = ({
 
   return (
     <>
-      <div className="bgWrap">
+      <div className="bgWrap animated fadeIn">
         <Image
           alt="Background"
-          src="/background.jpeg"
+          src={BackgroundImage}
           layout="fill"
+          placeholder="blur"
           objectFit="cover"
           quality={100}
         />

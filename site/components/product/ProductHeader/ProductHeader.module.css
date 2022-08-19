@@ -1,0 +1,15 @@
+.root {
+  @apply fixed w-full flex items-center gap-9;
+  padding: 2.5rem;
+  font-size: 26px;
+  font-weight: 300;
+}
+
+.imageTile {
+  @apply rounded-xl overflow-hidden;
+  width: 70px;
+  height: 70px;
+}
+
+.title {
+}
