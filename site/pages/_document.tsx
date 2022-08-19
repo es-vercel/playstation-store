@@ -10,6 +10,10 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=optional"
             rel="stylesheet"
           ></link>
+          <script
+            src="https://cdn.html.games.alexa.a2z.com/alexa-html/latest/alexa-html.js"
+            async
+          />
         </Head>
         <body className="loading">
           <Main />

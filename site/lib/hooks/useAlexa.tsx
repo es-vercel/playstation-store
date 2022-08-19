@@ -36,7 +36,12 @@ export const AlexaProvider = ({ children }: any) => {
 
   useEffect(() => {
     // @ts-ignore
-    if (typeof Alexa === 'undefined' || alexa || mounted) {
+    if (typeof Alexa === 'undefined') {
+      console.log('Alexa lib not found.')
+      return
+    }
+
+    if (alexa || mounted) {
       return
     } else {
       setMounted(true)
