@@ -45,7 +45,7 @@
 }
 
 .psstore {
-  @apply h-16 flex flex-1 bg-white w-full text-white text-2xl
+  @apply h-16 bg-white w-full text-white text-2xl
   bg-opacity-20  rounded-full normal-case
   transform transition-transform duration-500 shadow-xl;
   letter-spacing: -0.8px;

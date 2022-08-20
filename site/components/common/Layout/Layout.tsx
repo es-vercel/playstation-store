@@ -58,7 +58,7 @@ interface Props {
   }
 }
 
-const ModalView: React.FC<{ modalView: string; closeModal(): any }> = ({
+export const ModalView: React.FC<{ modalView: string; closeModal(): any }> = ({
   modalView,
   closeModal,
 }) => {
@@ -150,3 +150,4 @@ const Layout: React.FC<Props> = ({
 }
 
 export default Layout
+export { ModalUI }

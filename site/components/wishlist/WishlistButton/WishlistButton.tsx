@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react'
 import cn from 'clsx'
-import { useUI } from '@components/ui'
+import { Button, useUI } from '@components/ui'
 import { Heart } from '@components/icons'
 import useAddItem from '@framework/wishlist/use-add-item'
 import useCustomer from '@framework/customer/use-customer'
@@ -14,12 +14,7 @@ type Props = {
   variant: ProductVariant
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
-const WishlistButton: FC<Props> = ({
-  productId,
-  variant,
-  className,
-  ...props
-}) => {
+const WishlistButton: FC<Props> = ({ productId, variant, ...props }) => {
   const { data } = useWishlist()
   const addItem = useAddItem()
   const removeItem = useRemoveItem()
@@ -65,19 +60,21 @@ const WishlistButton: FC<Props> = ({
   }
 
   return (
-    <button
-      aria-label="Add to wishlist"
-      className={cn(s.root, className)}
+    <Button
+      aria-label="Lista dei desideri"
+      variant="psstore"
+      className="whitespace-nowrap"
       onClick={handleWishlistChange}
+      loading={loading}
       {...props}
     >
       <Heart
         className={cn(s.icon, {
-          [s.loading]: loading,
           [s.inWishlist]: itemInWishlist,
         })}
       />
-    </button>
+      Lista dei desideri
+    </Button>
   )
 }
 
