@@ -31,9 +31,10 @@
 .album {
   /* width: 100%; */
   /* height: 100%; */
-  @apply px-36 pb-14 pt-5;
+  @apply px-36 pb-14 pt-5 outline-none;
   box-sizing: content-box;
   overflow-x: auto;
+  overflow-y: hidden;
   white-space: nowrap;
   height: 176px;
   scrollbar-width: none;

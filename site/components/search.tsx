@@ -107,7 +107,7 @@ export default function Search({ categories, brands }: SearchPropsType) {
             if (data.found) {
               speak('Ok, ecco cosa ho trovato')
             } else {
-              router.back()
+              // router.back()
               speak(`Mi spiace ma non ho trovato ${q}. Prova un altro titolo.`)
             }
             break
