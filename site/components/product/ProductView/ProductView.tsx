@@ -69,14 +69,14 @@ const ProductView: FC<ProductViewProps> = ({ product, images }) => {
               alt="PEGI Bad Language"
               src={ImagePegiBadLanguage}
               layout="fixed"
-              width={36.2}
+              width={44}
               height={44}
             />
             <Image
               alt="PEGI Violence"
               src={ImagePegiViolence}
               layout="fixed"
-              width={36.2}
+              width={44}
               height={44}
             />
           </div>
