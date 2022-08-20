@@ -220,10 +220,10 @@ export default function Cart({ categories }: any) {
         )}
         {!isEmpty && (
           <div className="col-span-5 bg-gray-900 bg-opacity-70 p-10 mb-2">
-            <div className="text-4xl mb-10">Riepilogo</div>
+            <div className="text-4xl mb-10">Riepilogo ordine</div>
             <ul className="py-3 text-xl">
               <li className="flex justify-between py-1 ">
-                <span>Prezzo</span>
+                <span>Subtotale</span>
                 <span>{subTotal}</span>
               </li>
               <li className="flex justify-between py-1">
@@ -240,7 +240,7 @@ export default function Cart({ categories }: any) {
               <span className="font-bold">{total}</span>
             </div>
             <div className="flex mt-10">
-              <Button href="/checkout" variant="psstore">
+              <Button href="/checkout" Component="a" variant="psstore">
                 Vai al pagamento
               </Button>
             </div>
