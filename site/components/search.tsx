@@ -1,7 +1,6 @@
 import cn from 'clsx'
 import type { SearchPropsType } from '@lib/search-props'
-import Link from 'next/link'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useRouter } from 'next/router'
 
 import { Layout } from '@components/common'
@@ -12,63 +11,47 @@ import { Container, Skeleton } from '@components/ui'
 import useSearch from '@framework/product/use-search'
 import { useAddItem } from '@framework/cart'
 
-import getSlug from '@lib/get-slug'
+// import getSlug from '@lib/get-slug'
 import rangeMap from '@lib/range-map'
 import { convert } from 'html-to-text'
 
-const SORT = {
-  'trending-desc': 'Trending',
-  'latest-desc': 'Latest arrivals',
-  'price-asc': 'Price: Low to high',
-  'price-desc': 'Price: High to low',
-}
-
-import {
-  filterQuery,
-  getCategoryPath,
-  getDesignerPath,
-  useSearchMeta,
-} from '@lib/search'
+import { useSearchMeta } from '@lib/search'
 import { useAlexa } from '@lib/hooks/useAlexa'
-import Image from 'next/image'
 
 export default function Search({ categories, brands }: SearchPropsType) {
   const { alexa, speak } = useAlexa()
   const addItem = useAddItem()
 
-  const [activeFilter, setActiveFilter] = useState('')
-  const [toggleFilter, setToggleFilter] = useState(false)
+  // const [activeFilter, setActiveFilter] = useState('')
+  // const [toggleFilter, setToggleFilter] = useState(false)
 
   const router = useRouter()
   const { asPath, locale } = router
   const { q, sort, loading } = router.query
-  // `q` can be included but because categories and designers can't be searched
-  // in the same way of products, it's better to ignore the search input if one
-  // of those is selected
-  const query = filterQuery({ sort })
+  // const query = filterQuery({ sort })
 
-  const { pathname, category, brand } = useSearchMeta(asPath)
+  const { category } = useSearchMeta(asPath)
   const activeCategory = categories.find((cat: any) => cat.slug === category)
-  const activeBrand = brands.find(
-    (b: any) => getSlug(b.node.path) === `brands/${brand}`
-  )?.node
+  // const activeBrand = brands.find(
+  //   (b: any) => getSlug(b.node.path) === `brands/${brand}`
+  // )?.node
 
   const { data } = useSearch({
     search: typeof q === 'string' ? q : '',
     categoryId: activeCategory?.id,
-    brandId: (activeBrand as any)?.entityId,
+    brandId: undefined, //(activeBrand as any)?.entityId,
     sort: typeof sort === 'string' ? sort : '',
     locale,
   })
 
-  const handleClick = (event: any, filter: string) => {
-    if (filter !== activeFilter) {
-      setToggleFilter(true)
-    } else {
-      setToggleFilter(!toggleFilter)
-    }
-    setActiveFilter(filter)
-  }
+  // const handleClick = (event: any, filter: string) => {
+  //   if (filter !== activeFilter) {
+  //     setToggleFilter(true)
+  //   } else {
+  //     setToggleFilter(!toggleFilter)
+  //   }
+  //   setActiveFilter(filter)
+  // }
 
   const alexaIntentName = useMemo(() => {
     if (router.query.intent) {

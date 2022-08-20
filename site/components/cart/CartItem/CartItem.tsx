@@ -9,6 +9,7 @@ import usePrice from '@framework/product/use-price'
 import useUpdateItem from '@framework/cart/use-update-item'
 import useRemoveItem from '@framework/cart/use-remove-item'
 import Quantity from '@components/ui/Quantity'
+import isNumber from 'lodash/isNumber'
 
 type ItemOption = {
   name: string
@@ -44,8 +45,13 @@ const CartItem = ({
   const handleChange = async ({
     target: { value },
   }: ChangeEvent<HTMLInputElement>) => {
-    setQuantity(Number(value))
-    await updateItem({ quantity: Number(value) })
+    const quantity = Number(value)
+    if (isNumber(quantity)) {
+      setQuantity(quantity)
+      if (quantity > 0) {
+        await updateItem({ quantity })
+      }
+    }
   }
 
   const increaseQuantity = async (n = 1) => {
@@ -83,75 +89,78 @@ const CartItem = ({
       })}
       {...rest}
     >
-      <div className="flex flex-row space-x-4 py-4">
-        <div className="w-16 h-16 bg-violet relative overflow-hidden cursor-pointer z-0">
-          <Link href={`/product/${item.path}`}>
-            <a>
-              <Image
-                onClick={() => closeSidebarIfPresent()}
-                className={s.productImage}
-                width={150}
-                height={150}
-                src={item.variant.image?.url || placeholderImg}
-                alt={item.variant.image?.altText || "Product Image"}
-                unoptimized
-              />
-            </a>
-          </Link>
-        </div>
-        <div className="flex-1 flex flex-col text-base">
-          <Link href={`/product/${item.path}`}>
-            <a>
-              <span
-                className={s.productName}
-                onClick={() => closeSidebarIfPresent()}
-              >
-                {item.name}
-              </span>
-            </a>
-          </Link>
-          {options && options.length > 0 && (
-            <div className="flex items-center pb-1">
-              {options.map((option: ItemOption, i: number) => (
-                <div
-                  key={`${item.id}-${option.name}`}
-                  className="text-sm font-semibold text-accent-7 inline-flex items-center justify-center"
-                >
-                  {option.name}
-                  {option.name === 'Color' ? (
-                    <span
-                      className="mx-2 rounded-full bg-transparent border w-5 h-5 p-1 text-accent-9 inline-flex items-center justify-center overflow-hidden"
-                      style={{
-                        backgroundColor: `${option.value}`,
-                      }}
-                    ></span>
-                  ) : (
-                    <span className="mx-2 rounded-full bg-transparent border h-5 p-1 text-accent-9 inline-flex items-center justify-center overflow-hidden">
-                      {option.value}
-                    </span>
-                  )}
-                  {i === options.length - 1 ? '' : <span className="mr-3" />}
+      <div className="flex flex-row gap-5">
+        <Link href={`/product/${item.path}`}>
+          <a className="inline-flex">
+            <Image
+              className={s.productImage}
+              width={200}
+              height={200}
+              layout="fixed"
+              sizes="12vw"
+              src={item.variant.image?.url || placeholderImg}
+              alt={item.variant.image?.altText || 'Product Image'}
+            />
+          </a>
+        </Link>
+        <div className="flex flex-1 flex-col justify-between">
+          <div className="flex">
+            <div className="flex-1">
+              <Link href={`/product/${item.path}`} tabIndex={-1}>
+                <a className="inline-flex" tabIndex={-1}>
+                  <span className={s.productName}>{item.name}</span>
+                </a>
+              </Link>
+              {/* {options && options.length > 0 && (
+                <div className="flex items-center pb-1">
+                  {options.map((option: ItemOption, i: number) => (
+                    <div
+                      key={`${item.id}-${option.name}`}
+                      className="text-sm font-semibold text-accent-7 inline-flex items-center justify-center"
+                    >
+                      {option.name}
+                      {option.name === 'Color' ? (
+                        <span
+                          className="mx-2 rounded-full bg-transparent border w-5 h-5 p-1 text-accent-9 inline-flex items-center justify-center overflow-hidden"
+                          style={{
+                            backgroundColor: `${option.value}`,
+                          }}
+                        ></span>
+                      ) : (
+                        <span className="mx-2 rounded-full bg-transparent border h-5 p-1 text-accent-9 inline-flex items-center justify-center overflow-hidden">
+                          {option.value}
+                        </span>
+                      )}
+                      {i === options.length - 1 ? (
+                        ''
+                      ) : (
+                        <span className="mr-3" />
+                      )}
+                    </div>
+                  ))}
                 </div>
-              ))}
+              )}
+              {variant === 'display' && (
+                <div className="text-sm tracking-wider">{quantity}x</div>
+              )} */}
             </div>
-          )}
-          {variant === 'display' && (
-            <div className="text-sm tracking-wider">{quantity}x</div>
-          )}
-        </div>
-        <div className="flex flex-col justify-between space-y-2 text-sm">
-          <span>{price}</span>
+            <div className="text-lg">
+              <span>{price}</span>
+            </div>
+          </div>
+          <div>
+            {variant === 'default' && (
+              <Quantity
+                value={quantity}
+                handleRemove={handleRemove}
+                handleChange={handleChange}
+                increase={() => increaseQuantity(1)}
+                decrease={() => increaseQuantity(-1)}
+              />
+            )}
+          </div>
         </div>
       </div>
-      {variant === 'default' && (
-        <Quantity
-          value={quantity}
-          handleRemove={handleRemove}
-          handleChange={handleChange}
-          increase={() => increaseQuantity(1)}
-          decrease={() => increaseQuantity(-1)}
-        />
-      )}
     </li>
   )
 }

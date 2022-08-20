@@ -3,9 +3,9 @@ import s from './ProductView.module.css'
 import { FC, useState } from 'react'
 import type { Product } from '@commerce/types/product'
 import { WishlistButton } from '@components/wishlist'
-import { ProductHeader, ProductSlider } from '@components/product'
-import { Button, Container } from '@components/ui'
-import { SEO } from '@components/common'
+import { ProductSlider } from '@components/product'
+import { Container } from '@components/ui'
+import { NavbarHeader, SEO } from '@components/common'
 
 import ImagePegi16 from '../../../public/pegi16.png'
 import ImagePegiBadLanguage from '../../../public/bad-language.png'
@@ -23,7 +23,7 @@ const ProductView: FC<ProductViewProps> = ({ product, images }) => {
 
   return (
     <>
-      <Container className="max-w-none w-full " clean>
+      <Container className="max-w-none w-full" clean>
         <div className="bgWrap animated fadeIn">
           <Image
             alt="Background"
@@ -37,8 +37,8 @@ const ProductView: FC<ProductViewProps> = ({ product, images }) => {
           />
           <div className={s.gradient} />
         </div>
-        <ProductHeader
-          gameTitle={product.name}
+        <NavbarHeader
+          title={product.name}
           imageUrl={images[0].src}
           blurDataURL={images[0].blurDataURL}
         />
@@ -50,7 +50,7 @@ const ProductView: FC<ProductViewProps> = ({ product, images }) => {
             className={s.description}
             dangerouslySetInnerHTML={{ __html: product.description }}
           />
-          <div className="flex gap-3 mt-24">
+          <div className="flex gap-3 mt-16">
             <AddToCartButton product={product} />
             <WishlistButton
               productId={product.id}

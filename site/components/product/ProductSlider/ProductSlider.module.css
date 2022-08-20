@@ -21,7 +21,7 @@
 }
 
 .thumb.selected {
-  @apply bg-white;
+  /* @apply bg-white; */
 }
 
 .thumb img {

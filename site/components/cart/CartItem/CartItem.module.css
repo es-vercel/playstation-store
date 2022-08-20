@@ -1,9 +1,5 @@
 .root {
-  @apply flex flex-col py-4;
-}
-
-.root:first-child {
-  padding-top: 0;
+  @apply flex flex-col bg-gray-900 bg-opacity-50 p-5 justify-center text-2xl mb-2;
 }
 
 .quantity {
@@ -16,17 +12,6 @@
   @apply appearance-none m-0;
 }
 
-.productImage {
-  position: absolute;
-  transform: scale(1.9);
-  width: 100%;
-  height: 100%;
-  left: 30% !important;
-  top: 30% !important;
-  z-index: 1;
-}
-
 .productName {
-  @apply font-medium cursor-pointer pb-1;
-  margin-top: -4px;
+  @apply cursor-pointer;
 }

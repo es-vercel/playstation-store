@@ -8,6 +8,7 @@ import useWishlist from '@framework/wishlist/use-wishlist'
 import useRemoveItem from '@framework/wishlist/use-remove-item'
 import s from './WishlistButton.module.css'
 import type { Product, ProductVariant } from '@commerce/types/product'
+import { useAlexa } from '@lib/hooks/useAlexa'
 
 type Props = {
   productId: Product['id']
@@ -15,6 +16,7 @@ type Props = {
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
 const WishlistButton: FC<Props> = ({ productId, variant, ...props }) => {
+  const { speak } = useAlexa()
   const { data } = useWishlist()
   const addItem = useAddItem()
   const removeItem = useRemoveItem()
@@ -46,11 +48,13 @@ const WishlistButton: FC<Props> = ({ productId, variant, ...props }) => {
     try {
       if (itemInWishlist) {
         await removeItem({ id: itemInWishlist.id! })
+        speak(`Rimosso dalla lista dei desideri!}`)
       } else {
         await addItem({
           productId,
           variantId: variant?.id!,
         })
+        speak(`Aggiunto alla lista dei desideri!}`)
       }
 
       setLoading(false)

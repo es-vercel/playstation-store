@@ -8,12 +8,14 @@ import type { Product, ProductVariant } from '@commerce/types/product'
 import usePrice from '@framework/product/use-price'
 import { useCart, useAddItem } from '@framework/cart'
 import { useRouter } from 'next/router'
+import { useAlexa } from '@lib/hooks/useAlexa'
 
 type Props = {
   product: Product
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
 const AddToCartButton: FC<Props> = ({ product }) => {
+  const { speak } = useAlexa()
   const { data } = useCart()
   const addItem = useAddItem()
   const { price } = usePrice({
@@ -51,6 +53,7 @@ const AddToCartButton: FC<Props> = ({ product }) => {
           productId: String(product.id),
           variantId: String(product.variants[0]?.id),
         })
+        speak(`Hai aggiunto ${product.name} al carrello.`)
         setLoading(false)
       }
     } catch (err) {

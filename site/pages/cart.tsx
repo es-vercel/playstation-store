@@ -2,7 +2,7 @@ import type { GetStaticPropsContext } from 'next'
 import useCart from '@framework/cart/use-cart'
 import usePrice from '@framework/product/use-price'
 import commerce from '@lib/api/commerce'
-import { Layout } from '@components/common'
+import { Layout, NavbarHeader } from '@components/common'
 import { Button, Text, Container } from '@components/ui'
 import { Bag, Cross, Check, MapPin, CreditCard } from '@components/icons'
 import { CartItem } from '@components/cart'
@@ -12,6 +12,9 @@ import { useRouter } from 'next/router'
 import { useEffect, useMemo } from 'react'
 import useRemoveItem from '@framework/cart/use-remove-item'
 import { useCustomer } from '@framework/customer'
+import Image from 'next/image'
+import BackgroundImage from '../public/background.webp'
+import CartImage from '../public/cart.webp'
 
 export async function getStaticProps({
   preview,
@@ -28,7 +31,7 @@ export async function getStaticProps({
   }
 }
 
-export default function Cart() {
+export default function Cart({ categories }: any) {
   const error = null
   const success = null
   const { data, isLoading, isEmpty } = useCart()
@@ -51,11 +54,6 @@ export default function Cart() {
       currencyCode: data.currency.code,
     }
   )
-
-  const goToCheckout = () => {
-    openSidebar()
-    setSidebarView('CHECKOUT_VIEW')
-  }
 
   const alexaIntent = useMemo(() => {
     if (router.query.intent) {
@@ -184,142 +182,70 @@ export default function Cart() {
   }, [alexa, alexaIntent, data, removeItem, router, speak])
 
   return (
-    <Container className="grid lg:grid-cols-12 pt-4 gap-20">
-      <div className="lg:col-span-7">
+    <Container className="max-w-none w-full" clean>
+      <div className="bgWrap animated fadeIn">
+        <Image
+          alt="Background"
+          src={BackgroundImage}
+          layout="fill"
+          placeholder="blur"
+          objectFit="cover"
+          quality={100}
+        />
+      </div>
+      <NavbarHeader title="Il mio carrello" imageUrl={CartImage} />
+      <div className="px-36 py-0 relative grid grid-cols-12 gap-2">
         {isLoading || isEmpty ? (
-          <div className="flex-1 px-12 py-24 flex flex-col justify-center items-center ">
-            <span className="border border-dashed border-secondary flex items-center justify-center w-16 h-16 bg-primary p-12 rounded-lg text-primary">
+          <div className="col-span-12 px-12 py-40 flex flex-col justify-center items-center bg-gray-900 bg-opacity-70 p-5">
+            {/* <div className="border-2 border-dashed flex items-center justify-center w-16 h-16 p-12 rounded-lg text-primary">
               <Bag className="absolute" />
-            </span>
-            <h2 className="pt-6 text-2xl font-bold tracking-wide text-center">
-              Your cart is empty
+            </div> */}
+            <h2 className="text-2xl font-bold text-center">
+              Il tuo carrello è vuoto
             </h2>
-            <p className="text-accent-6 px-10 text-center pt-2">
-              Biscuit oat cake wafer icing ice cream tiramisu pudding cupcake.
-            </p>
-          </div>
-        ) : error ? (
-          <div className="flex-1 px-4 flex flex-col justify-center items-center">
-            <span className="border border-white rounded-full flex items-center justify-center w-16 h-16">
-              <Cross width={24} height={24} />
-            </span>
-            <h2 className="pt-6 text-xl font-light text-center">
-              We couldn’t process the purchase. Please check your card
-              information and try again.
-            </h2>
-          </div>
-        ) : success ? (
-          <div className="flex-1 px-4 flex flex-col justify-center items-center">
-            <span className="border border-white rounded-full flex items-center justify-center w-16 h-16">
-              <Check />
-            </span>
-            <h2 className="pt-6 text-xl font-light text-center">
-              Thank you for your order.
-            </h2>
+            {/* <p className="text-accent-6 px-10 text-center pt-2">
+                Biscuit oat cake wafer icing ice cream tiramisu pudding cupcake.
+              </p> */}
           </div>
         ) : (
-          <div className="lg:px-0 sm:px-6 flex-1">
-            <Text variant="pageHeading">My Cart</Text>
-            <Text variant="sectionHeading">Review your Order</Text>
-            <ul className="py-6 space-y-6 sm:py-0 sm:space-y-0 sm:divide-y sm:divide-accent-2 border-b border-accent-2">
-              {data!.lineItems.map((item: any) => (
-                <CartItem
-                  key={item.id}
-                  item={item}
-                  currencyCode={data?.currency.code!}
-                />
-              ))}
-            </ul>
-            <div className="my-6">
-              <Text>
-                Before you leave, take a look at these items. We picked them
-                just for you
-              </Text>
-              <div className="flex py-6 space-x-6">
-                {[1, 2, 3, 4, 5, 6].map((x) => (
-                  <div
-                    key={x}
-                    className="border border-accent-3 w-full h-24 bg-accent-2 bg-opacity-50 transform cursor-pointer hover:scale-110 duration-75"
-                  />
-                ))}
-              </div>
-            </div>
+          <div className="col-span-7">
+            {data!.lineItems.map((item: any) => (
+              <CartItem
+                key={item.id}
+                item={item}
+                currencyCode={data?.currency.code!}
+              />
+            ))}
           </div>
         )}
-      </div>
-      <div className="lg:col-span-5">
-        <div className="flex-shrink-0 px-4 py-24 sm:px-6">
-          {process.env.COMMERCE_CUSTOMCHECKOUT_ENABLED && (
-            <>
-              {/* Shipping Address */}
-              {/* Only available with customCheckout set to true - Meaning that the provider does offer checkout functionality. */}
-              <div className="rounded-md border border-accent-2 px-6 py-6 mb-4 text-center flex items-center justify-center cursor-pointer hover:border-accent-4">
-                <div className="mr-5">
-                  <MapPin />
-                </div>
-                <div className="text-sm text-center font-medium">
-                  <span className="uppercase">+ Add Shipping Address</span>
-                  {/* <span>
-                    1046 Kearny Street.<br/>
-                    San Franssisco, California
-                  </span> */}
-                </div>
-              </div>
-              {/* Payment Method */}
-              {/* Only available with customCheckout set to true - Meaning that the provider does offer checkout functionality. */}
-              <div className="rounded-md border border-accent-2 px-6 py-6 mb-4 text-center flex items-center justify-center cursor-pointer hover:border-accent-4">
-                <div className="mr-5">
-                  <CreditCard />
-                </div>
-                <div className="text-sm text-center font-medium">
-                  <span className="uppercase">+ Add Payment Method</span>
-                  {/* <span>VISA #### #### #### 2345</span> */}
-                </div>
-              </div>
-            </>
-          )}
-          <div className="border-t border-accent-2">
-            <ul className="py-3">
-              <li className="flex justify-between py-1">
-                <span>Subtotal</span>
+        {!isEmpty && (
+          <div className="col-span-5 bg-gray-900 bg-opacity-70 p-10 mb-2">
+            <div className="text-4xl mb-10">Riepilogo</div>
+            <ul className="py-3 text-xl">
+              <li className="flex justify-between py-1 ">
+                <span>Prezzo</span>
                 <span>{subTotal}</span>
               </li>
               <li className="flex justify-between py-1">
-                <span>Taxes</span>
-                <span>Calculated at checkout</span>
+                <span>Tasse</span>
+                <span>22%</span>
               </li>
               <li className="flex justify-between py-1">
-                <span>Estimated Shipping</span>
-                <span className="font-bold tracking-wide">FREE</span>
+                <span>Spedizione</span>
+                <span>Gratis</span>
               </li>
             </ul>
-            <div className="flex justify-between border-t border-accent-2 py-3 font-bold mb-10">
-              <span>Total</span>
-              <span>{total}</span>
+            <div className="flex justify-between border-t border-white border-opacity-20 py-3 font-bold text-2xl">
+              <span>Totale </span>
+              <span className="font-bold">{total}</span>
+            </div>
+            <div className="flex mt-10">
+              <Button href="/checkout" variant="psstore">
+                Vai al pagamento
+              </Button>
             </div>
           </div>
-          <div className="flex flex-row justify-end">
-            <div className="w-full lg:w-72">
-              {isEmpty ? (
-                <Button href="/" Component="a" width="100%">
-                  Continue Shopping
-                </Button>
-              ) : (
-                <>
-                  {process.env.COMMERCE_CUSTOMCHECKOUT_ENABLED ? (
-                    <Button Component="a" width="100%" onClick={goToCheckout}>
-                      Proceed to Checkout ({total})
-                    </Button>
-                  ) : (
-                    <Button href="/checkout" Component="a" width="100%">
-                      Proceed to Checkout
-                    </Button>
-                  )}
-                </>
-              )}
-            </div>
-          </div>
-        </div>
+        )}
       </div>
     </Container>
   )

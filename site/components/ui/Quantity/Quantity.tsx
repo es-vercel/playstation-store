@@ -22,26 +22,27 @@ const Quantity: FC<QuantityProps> = ({
   return (
     <div className="flex flex-row h-9">
       <button className={s.actions} onClick={handleRemove}>
-        <Cross width={20} height={20} />
+        Rimuovi
       </button>
-      <label className="w-full border-accent-2 border ml-2">
+      <label className="w-full ml-2">
         <input
           className={s.input}
-          onChange={(e) =>
-            Number(e.target.value) < max + 1 ? handleChange(e) : () => {}
-          }
+          // onChange={(e) =>
+          //   Number(e.target.value) < max + 1 ? handleChange(e) : () => {}
+          // }
+          onChange={handleChange}
           value={value}
-          type="number"
-          max={max}
-          min="0"
-          readOnly
+          type="string"
+          // max={3000}
+          // min="0"
+          // readOnly
         />
       </label>
       <button
         type="button"
         onClick={decrease}
         className={s.actions}
-        style={{ marginLeft: '-1px' }}
+        style={{ marginLeft: '1px' }}
         disabled={value <= 1}
       >
         <Minus width={18} height={18} />
@@ -50,8 +51,8 @@ const Quantity: FC<QuantityProps> = ({
         type="button"
         onClick={increase}
         className={cn(s.actions)}
-        style={{ marginLeft: '-1px' }}
-        disabled={value < 1 || value >= max}
+        style={{ marginLeft: '1px' }}
+        disabled={value < 1}
       >
         <Plus width={18} height={18} />
       </button>
