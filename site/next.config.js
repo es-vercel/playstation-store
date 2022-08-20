@@ -19,7 +19,7 @@ module.exports = withPlaiceholder(
     },
     images: {
       formats: ['image/webp'],
-      deviceSizes: [640, 768, 828, 1024, 1280, 1536],
+      deviceSizes: [640, 768, 828, 1024, 1280, 1536, 1920],
       imageSizes: [16, 32, 48, 64, 96, 128, 272, 544],
     },
     rewrites() {
