@@ -71,10 +71,9 @@
 }
 
 .description {
-  @apply relative flex mt-7 text-2xl line-clamp-3 overflow-hidden;
+  @apply flex mt-7 text-2xl line-clamp-3 overflow-hidden;
   line-height: 2.3rem;
   opacity: 0.85;
-  width: 43%;
 }
 
 .sliderTitle {

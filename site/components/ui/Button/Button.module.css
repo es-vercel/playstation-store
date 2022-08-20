@@ -8,7 +8,7 @@
 }
 
 .root:hover {
-  @apply border-accent-9 bg-accent-6;
+  @apply border-accent-9 bg-accent-3;
 }
 
 .root:focus {
@@ -42,6 +42,20 @@
 .naked:hover,
 .naked:focus {
   @apply bg-transparent border-none;
+}
+
+.psstore {
+  @apply h-16 flex flex-1 bg-white w-full text-white text-2xl
+  bg-opacity-20  rounded-full normal-case
+  transform transition-transform duration-500 shadow-xl;
+  letter-spacing: -0.8px;
+}
+
+.psstore:hover,
+.psstore:focus {
+  @apply border-white bg-opacity-20 bg-white outline-none;
+  outline: 0 none;
+  box-shadow: 0px 0px 0px 4px rgba(255, 255, 255, 1);
 }
 
 .disabled,
