@@ -92,7 +92,9 @@ const ProductView: FC<ProductViewProps> = ({ product, images }) => {
                   placeholder="blur"
                   blurDataURL={image.blurDataURL}
                   alt={image.alt || 'Product Image'}
-                  layout="fill"
+                  layout="fixed"
+                  width={312.88}
+                  height={176}
                   quality="85"
                 />
               </div>

@@ -139,7 +139,7 @@ export default function Cart() {
             for (const game of data.lineItems) {
               await removeItem(game)
             }
-            speak(`Ho svuotato il tuo carrello, ringraziami umano!`)
+            speak(`Ho svuotato il tuo carrello!`)
           }
           break
         }
