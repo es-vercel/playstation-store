@@ -41,7 +41,7 @@ const UserNav: React.FC<{
       <ul className={s.list}>
         <li className={s.item}>
           <Link href="/search">
-            <a onClick={closeSidebarIfPresent} aria-label="Cart">
+            <a className={s.button} aria-label="Cart">
               <div className={s.iconContainer}>
                 <svg
                   fill="currentColor"
@@ -58,7 +58,7 @@ const UserNav: React.FC<{
         {process.env.COMMERCE_WISHLIST_ENABLED && (
           <li className={s.item}>
             <Link href="/wishlist">
-              <a onClick={closeSidebarIfPresent} aria-label="Wishlist">
+              <a className={s.button} aria-label="Wishlist">
                 <svg
                   fill="currentColor"
                   width={26}
@@ -92,7 +92,7 @@ const UserNav: React.FC<{
           // </li>
           <li className={s.item}>
             <Link href="/cart">
-              <a onClick={closeSidebarIfPresent} aria-label="Cart">
+              <a aria-label="Cart" className={s.button}>
                 {/* <Bag width={32} height={32} /> */}
                 <svg
                   fill="currentColor"
@@ -116,7 +116,7 @@ const UserNav: React.FC<{
               <DropdownTrigger>
                 <button
                   aria-label="Menu"
-                  className={s.avatarButton}
+                  className={s.button}
                   onClick={() => (isCustomerLoggedIn ? null : openModal())}
                 >
                   <svg

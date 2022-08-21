@@ -35,12 +35,12 @@ export default function Cart({ categories }: any) {
   const error = null
   const success = null
   const { data, isLoading, isEmpty } = useCart()
-  const { openSidebar, setSidebarView } = useUI()
+  // const { openSidebar, setSidebarView } = useUI()
   const { alexa, speak } = useAlexa()
   const removeItem = useRemoveItem()
   // const updateItem = useUpdateItem()
   const router = useRouter()
-  const { data: isCustomerLoggedIn } = useCustomer()
+  // const { data: isCustomerLoggedIn } = useCustomer()
 
   const { price: subTotal } = usePrice(
     data && {
@@ -193,7 +193,14 @@ export default function Cart({ categories }: any) {
           quality={100}
         />
       </div>
-      <NavbarHeader title="Il mio carrello" imageUrl={CartImage} />
+      <NavbarHeader
+        title={
+          data?.lineItems.length! > 0
+            ? `Carrello: ${data?.lineItems.length}`
+            : 'Carrello'
+        }
+        imageUrl={CartImage}
+      />
       <div className="px-36 py-0 relative grid grid-cols-12 gap-2">
         {isLoading || isEmpty ? (
           <div className="col-span-12 px-12 py-40 flex flex-col justify-center items-center bg-gray-900 bg-opacity-70 p-5">

@@ -7,21 +7,18 @@
 }
 
 .item {
-  @apply ml-14 cursor-pointer relative transition ease-in-out
-  duration-100 flex items-center outline-none text-primary;
+  @apply ml-10;
 }
 
-.item:hover {
-  @apply transition scale-110 duration-100;
+.button {
+  @apply w-14 h-14 flex items-center justify-center rounded-full
+  cursor-pointer relative transition ease-in-out
+  duration-100;
 }
 
-.item:first-child {
-  @apply ml-0;
-}
-
-.item:focus,
-.item:active {
-  @apply outline-none;
+.button:hover,
+.button:focus {
+  @apply scale-110 bg-black bg-opacity-30;
 }
 
 .bagCount {
