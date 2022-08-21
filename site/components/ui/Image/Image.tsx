@@ -17,9 +17,9 @@ const Image = (props: ImageProps) => {
     // eslint-disable-next-line jsx-a11y/alt-text
     <NextImage
       layout={'responsive'}
-      className={classNameToUse}
       onLoadingComplete={() => setBlur(false)}
       {...(props as ImageProps)}
+      className={classNameToUse}
     />
   )
 }
