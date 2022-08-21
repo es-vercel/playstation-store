@@ -1,10 +1,9 @@
-import Image from 'next/image'
 import s from './ProductView.module.css'
 import { FC, useState } from 'react'
 import type { Product } from '@commerce/types/product'
 import { WishlistButton } from '@components/wishlist'
 import { ProductSlider } from '@components/product'
-import { Container } from '@components/ui'
+import { Container, Image } from '@components/ui'
 import { NavbarHeader, SEO } from '@components/common'
 
 import ImagePegi16 from '../../../public/pegi16.png'
@@ -24,7 +23,7 @@ const ProductView: FC<ProductViewProps> = ({ product, images }) => {
   return (
     <>
       <Container className="max-w-none w-full" clean>
-        <div className="bgWrap animated fadeIn">
+        <div className="bgWrap">
           <Image
             alt="Background"
             src={images[bgSlideIndex].src}

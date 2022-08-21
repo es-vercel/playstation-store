@@ -54,7 +54,7 @@ const ProductCard: FC<Props> = ({
         aria-label={product.name}
         // onFocus={() => sound.play('laser')}
       >
-        {variant === 'slim' && (
+        {/* {variant === 'slim' && (
           <>
             <div className={s.header}>
               <span>{product.name}</span>
@@ -73,7 +73,7 @@ const ProductCard: FC<Props> = ({
               </div>
             )}
           </>
-        )}
+        )} */}
 
         {variant === 'simple' && (
           <>
