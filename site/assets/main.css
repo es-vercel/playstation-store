@@ -29,16 +29,16 @@
 }
 
 .img-blur {
-  filter: blur(20px);
+  filter: blur(10px);
 }
 
 .unblur {
-  animation: unblur 0.2s linear;
+  animation: unblur 5s ease;
 }
 
 @keyframes unblur {
   from {
-    filter: blur(20px);
+    filter: blur(10px);
   }
   to {
     filter: blur(0);

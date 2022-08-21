@@ -182,12 +182,11 @@ export default function Cart({ categories }: any) {
 
   return (
     <Container className="max-w-none w-full" clean>
-      <div className="bgWrap animated fadeIn">
+      <div className="bgWrap">
         <Image
           alt="Background"
           src={BackgroundImage}
           layout="fill"
-          placeholder="blur"
           objectFit="cover"
           quality={100}
         />
