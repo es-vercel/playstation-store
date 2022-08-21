@@ -33,7 +33,7 @@
 }
 
 .unblur {
-  animation: unblur 5s ease;
+  animation: unblur 0.4s ease;
 }
 
 @keyframes unblur {
