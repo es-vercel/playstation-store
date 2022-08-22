@@ -66,7 +66,7 @@ const WishlistButton: FC<Props> = ({ productId, variant, ...props }) => {
   return (
     <Button
       aria-label="Lista dei desideri"
-      variant="psstore"
+      variant="psstore-lg"
       className="whitespace-nowrap"
       onClick={handleWishlistChange}
       loading={loading}

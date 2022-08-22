@@ -245,7 +245,7 @@ export default function Cart({ categories }: any) {
               <span className="font-bold">{total}</span>
             </div>
             <div className="flex mt-10">
-              <Button href="/checkout" Component="a" variant="psstore">
+              <Button href="/checkout" Component="a" variant="psstore-lg">
                 Vai al pagamento
               </Button>
             </div>

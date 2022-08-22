@@ -12,9 +12,10 @@ import { useAlexa } from '@lib/hooks/useAlexa'
 
 type Props = {
   product: Product
+  variant?: 'psstore-md' | 'psstore-lg'
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
-const AddToCartButton: FC<Props> = ({ product }) => {
+const AddToCartButton: FC<Props> = ({ product, variant = 'psstore-lg' }) => {
   const { speak } = useAlexa()
   const { data } = useCart()
   const addItem = useAddItem()
@@ -38,12 +39,6 @@ const AddToCartButton: FC<Props> = ({ product }) => {
 
     if (loading) return
 
-    // // A login is required before adding an item to the cart
-    // if (!customer) {
-    //   setModalView('LOGIN_VIEW')
-    //   return openModal()
-    // }
-
     try {
       if (itemInCart) {
         return router.push('/cart')
@@ -65,7 +60,7 @@ const AddToCartButton: FC<Props> = ({ product }) => {
     <Button
       aria-label="Aggiungi al carrello"
       type="button"
-      variant="psstore"
+      variant={variant}
       onClick={handleCartItemChange}
       loading={loading}
       disabled={product.variants[0]?.availableForSale === false}

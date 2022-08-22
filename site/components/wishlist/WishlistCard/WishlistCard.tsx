@@ -12,6 +12,8 @@ import usePrice from '@framework/product/use-price'
 import useAddItem from '@framework/cart/use-add-item'
 import useRemoveItem from '@framework/wishlist/use-remove-item'
 import type { Wishlist } from '@commerce/types/wishlist'
+import { AddToCartButton } from '@components/cart'
+import { convert } from 'html-to-text'
 
 const placeholderImg = '/product-img-placeholder.svg'
 
@@ -45,60 +47,48 @@ const WishlistCard: React.FC<{
       setRemoving(false)
     }
   }
-  const addToCart = async () => {
-    setLoading(true)
-    try {
-      await addItem({
-        productId: String(product.id),
-        variantId: String(product.variants[0].id),
-      })
-      openSidebar()
-      setLoading(false)
-    } catch (err) {
-      setLoading(false)
-    }
-  }
 
   return (
-    <div className={cn(s.root, { 'opacity-75 pointer-events-none': removing })}>
-      <div className={s.imageWrapper}>
-        <Image
-          width={230}
-          height={230}
-          src={product.images[0]?.url || placeholderImg}
-          alt={product.images[0]?.alt || 'Product Image'}
-        />
-      </div>
-
-      <div className={s.description}>
-        <div className="flex-1 mb-6">
-          <h3 className="text-2xl mb-2 -mt-1">
-            <Link href={`/product${product.path}`}>
-              <a>{product.name}</a>
-            </Link>
-          </h3>
-          <div className="mb-4">
-            <Text html={product.description} />
+    <div className={cn(s.root, { 'opacity-50 pointer-events-none': removing })}>
+      <div className="flex flex-row gap-5">
+        <Link href={`/product/${product.path}`}>
+          <a className="inline-flex">
+            <Image
+              className={s.productImage}
+              width={200}
+              height={200}
+              layout="fixed"
+              sizes="12vw"
+              src={product.images[0]?.url || placeholderImg}
+              alt={product.images[0]?.alt || 'Product Image'}
+            />
+          </a>
+        </Link>
+        <div className="flex flex-1 flex-col justify-between py-2">
+          <div className="flex">
+            <div className="flex-1">
+              <Link href={`/product/${product.path}`} tabIndex={-1}>
+                <a className="inline-flex" tabIndex={-1}>
+                  <span className={s.productName}>{product.name}</span>
+                </a>
+              </Link>
+            </div>
           </div>
-        </div>
-        <div>
-          <Button
-            width={260}
-            aria-label="Add to Cart"
-            type="button"
-            onClick={addToCart}
-            loading={loading}
-          >
-            Add to Cart
-          </Button>
-        </div>
-      </div>
-      <div className={s.actions}>
-        <div className="flex justify-end font-bold">{price}</div>
-        <div className="flex justify-end mt-4 lg:mt-0">
-          <button onClick={handleRemove}>
-            <Trash />
-          </button>
+          <div className="text-lg opacity-75 w-2/3 line-clamp-2">
+            {convert(product.description)}
+          </div>
+          <div className="flex gap-4">
+            <AddToCartButton product={product} variant="psstore-md" />
+            <Button
+              aria-label="Rimuovi"
+              type="button"
+              variant="psstore-md"
+              onClick={handleRemove}
+              loading={loading}
+            >
+              Rimuovi
+            </Button>
+          </div>
         </div>
       </div>
     </div>
@@ -106,3 +96,36 @@ const WishlistCard: React.FC<{
 }
 
 export default WishlistCard
+
+/* <div className={s.description}>
+      <div className="flex-1 mb-6">
+        <h3 className="text-2xl mb-2 -mt-1">
+          <Link href={`/product${product.path}`}>
+            <a>{product.name}</a>
+          </Link>
+        </h3>
+        <div className="mb-4">
+          <Text html={product.description} />
+        </div>
+      </div>
+      <div>
+        <Button
+          width={260}
+          aria-label="Add to Cart"
+          type="button"
+          onClick={addToCart}
+          loading={loading}
+        >
+          Add to Cart
+        </Button>
+      </div>
+    </div>
+    <div className={s.actions}>
+      <div className="flex justify-end font-bold">{price}</div>
+      <div className="flex justify-end mt-4 lg:mt-0">
+        <button onClick={handleRemove}>
+          <Trash />
+        </button>
+      </div>
+    </div>
+  </div> */
