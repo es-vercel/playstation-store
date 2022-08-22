@@ -55,6 +55,7 @@ interface Props {
     pages?: Page[]
     categories: Category[]
   }
+  backgroundImage?: any
 }
 
 export const ModalView: React.FC<{ modalView: string; closeModal(): any }> = ({
@@ -107,6 +108,8 @@ const SidebarUI: React.FC<{ links: LinkProps[] }> = ({ links }) => {
 const Layout: React.FC<Props> = ({
   children,
   pageProps: { categories = [], ...pageProps },
+  // @ts-ignore
+  backgroundImage = BackgroundImage,
 }) => {
   // const { acceptedCookies, onAcceptCookies } = useAcceptCookies()
   const navBarlinks = categories.slice(0, 3).map((c) => ({
@@ -119,7 +122,7 @@ const Layout: React.FC<Props> = ({
       <div className="bgWrap">
         <Image
           alt="Background"
-          src={BackgroundImage}
+          src={backgroundImage}
           layout="fill"
           placeholder="blur"
           objectFit="cover"

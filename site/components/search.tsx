@@ -217,7 +217,7 @@ export default function Search({ categories, brands }: SearchPropsType) {
                 )}
               </div>
             ) : (
-              <div className="flex flex-1 justify-between mb-4">
+              <div className="flex flex-1 justify-between mb-4 text-2xl">
                 <span>Lista giochi</span>
                 <span>Ordina per: Più venduti</span>
               </div>

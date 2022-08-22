@@ -1,12 +1,13 @@
 import commerce from '@lib/api/commerce'
 import { Layout } from '@components/common'
 import { ProductCard } from '@components/product'
-import { Grid, Marquee, Hero } from '@components/ui'
+import { Grid, Marquee, Hero, Container } from '@components/ui'
 // import HomeAllProductsGrid from '@components/common/HomeAllProductsGrid'
 import type { GetStaticPropsContext, InferGetStaticPropsType } from 'next'
 import { useEffect, useState } from 'react'
 import { useAlexa } from '@lib/hooks/useAlexa'
 import { useRouter } from 'next/router'
+import BackgroundImageHome from '../public/background-home.jpeg'
 
 export async function getStaticProps({
   preview,
@@ -15,7 +16,7 @@ export async function getStaticProps({
 }: GetStaticPropsContext) {
   const config = { locale, locales }
   const productsPromise = commerce.getAllProducts({
-    variables: { first: 6 },
+    variables: { first: 20 },
     config,
     preview,
     // Saleor provider only
@@ -40,33 +41,33 @@ export async function getStaticProps({
 
 export default function Home({
   products,
+  categories,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <>
-      <Grid variant="filled">
-        {products.slice(0, 3).map((product: any, i: number) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            imgProps={{
-              width: i === 0 ? 1080 : 540,
-              height: i === 0 ? 1080 : 540,
-              priority: true,
-            }}
-          />
-        ))}
-      </Grid>
-      {/* <Marquee variant="secondary">
-        {products.slice(0, 3).map((product: any, i: number) => (
-          <ProductCard key={product.id} product={product} variant="slim" />
-        ))}
-      </Marquee>
-      <Marquee>
+    <Layout pageProps={{ categories }} backgroundImage={BackgroundImageHome}>
+      <Container className="max-w-none w-full" clean>
+        <div className="px-36 py-0 fixed bottom-10 w-full">
+          <div className="flex flex-1 justify-between mb-4 text-2xl">
+            <span>In evidenza</span>
+          </div>
+          <Grid>
+            {products.slice(6, 15).map((product: any, i: number) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </Grid>
+          {/* <Marquee variant="secondary">
+            {products.slice(4, 8).map((product: any, i: number) => (
+              <ProductCard key={product.id} product={product} variant="slim" />
+            ))}
+          </Marquee> */}
+          {/*<Marquee>
         {products.slice(3).map((product: any, i: number) => (
           <ProductCard key={product.id} product={product} variant="slim" />
         ))}
       </Marquee> */}
-    </>
+        </div>
+      </Container>
+    </Layout>
   )
 }
 
