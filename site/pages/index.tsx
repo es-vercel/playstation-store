@@ -52,7 +52,14 @@ export default function Home({
           </div>
           <Grid>
             {products.slice(6, 15).map((product: any, i: number) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard
+                key={product.id}
+                product={product}
+                imgProps={{
+                  blurDataURL: product.blurDataURL,
+                  priority: i === 0,
+                }}
+              />
             ))}
           </Grid>
           {/* <Marquee variant="secondary">

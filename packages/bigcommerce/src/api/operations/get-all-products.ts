@@ -13,6 +13,7 @@ import setProductLocaleMeta from '../utils/set-product-locale-meta'
 import { productConnectionFragment } from '../fragments/product'
 import { BigcommerceConfig, Provider } from '..'
 import { normalizeProduct } from '../../lib/normalize'
+import { getPlaiceholder } from 'plaiceholder'
 
 export const getAllProductsQuery = /* GraphQL */ `
   query getAllProducts(
@@ -126,8 +127,25 @@ export default function getAllProductsOperation({
       })
     }
 
+    const normalizedProducts = products.map(({ node }) =>
+      normalizeProduct(node as any)
+    )
+
+    const enhancedProducts = await Promise.all(
+      normalizedProducts.map(async (product) => {
+        const { base64, img } = await getPlaiceholder(product.images[0].url, {
+          size: 10,
+        })
+        return {
+          ...product,
+          blurDataURL: base64,
+        }
+      })
+    ).then((values) => values)
+
+    // @ts-ignore
     return {
-      products: products.map(({ node }) => normalizeProduct(node as any)),
+      products: enhancedProducts,
     }
   }
 
