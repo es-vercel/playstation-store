@@ -126,13 +126,9 @@ export default function getAllProductsOperation({
       })
     }
 
-    const normalizedProducts = products.map(({ node }) =>
-      normalizeProduct(node as any)
-    )
-
     // @ts-ignore
     return {
-      products: normalizeProduct,
+      products: products.map(({ node }) => normalizeProduct(node as any)),
     }
   }
 
