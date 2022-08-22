@@ -126,7 +126,8 @@ const Layout: React.FC<Props> = ({
           layout="fill"
           placeholder="blur"
           objectFit="cover"
-          quality={100}
+          quality={85}
+          priority={true}
         />
       </div>
       <div className={cn(s.root)}>

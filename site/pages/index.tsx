@@ -7,6 +7,7 @@ import type { GetStaticPropsContext, InferGetStaticPropsType } from 'next'
 import { useEffect, useState } from 'react'
 import { useAlexa } from '@lib/hooks/useAlexa'
 import { useRouter } from 'next/router'
+import { getPlaiceholder } from 'plaiceholder'
 import BackgroundImageHome from '../public/background-home.jpeg'
 
 export async function getStaticProps({
@@ -28,9 +29,21 @@ export async function getStaticProps({
   const { pages } = await pagesPromise
   const { categories, brands } = await siteInfoPromise
 
+  const enhancedProducts = await Promise.all(
+    products.map(async (product) => {
+      const { base64, img } = await getPlaiceholder(product.images[0].url, {
+        size: 10,
+      })
+      return {
+        ...product,
+        blurDataURL: base64,
+      }
+    })
+  ).then((values) => values)
+
   return {
     props: {
-      products,
+      products: enhancedProducts,
       categories,
       brands,
       pages,

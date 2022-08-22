@@ -54,100 +54,48 @@ const ProductCard: FC<Props> = ({
         aria-label={product.name}
         // onFocus={() => sound.play('laser')}
       >
-        {variant === 'slim' && (
-          <>
-            <div className={s.header}>
-              <span>{product.name}</span>
-            </div>
+        {variant === 'simple' && (
+          <div className={s.imageContainer}>
+            {product?.images && (
+              <div className="relative">
+                <Image
+                  alt={product.name || 'Product Image'}
+                  className={s.productImage}
+                  src={product.images[0]?.url || placeholderImg}
+                  quality="85"
+                  width={764}
+                  height={764}
+                  layout="responsive"
+                  sizes="12vw"
+                  priority={priority}
+                />
+                <div className={s.gradient}>
+                  <div className={s.price}>{price}</div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {variant === 'default' && (
+          <div className={s.imageContainer}>
             {product?.images && (
               <div>
                 <Image
-                  quality="85"
-                  src={product.images[0]?.url || placeholderImg}
                   alt={product.name || 'Product Image'}
-                  height={320}
-                  width={320}
-                  layout="fixed"
+                  className={s.productImage}
+                  src={product.images[0]?.url || placeholderImg}
+                  height={764}
+                  width={764}
+                  quality="85"
+                  layout="responsive"
+                  placeholder="blur"
+                  sizes="12vw"
                   {...imgProps}
                 />
               </div>
             )}
-          </>
-        )}
-
-        {variant === 'simple' && (
-          <>
-            {/* {process.env.COMMERCE_WISHLIST_ENABLED && (
-              <WishlistButton
-                className={s.wishlistButton}
-                productId={product.id}
-                variant={product.variants[0]}
-              />
-            )} */}
-            {/* {!noNameTag && (
-              <div className={s.header}>
-                <h3 className={s.name}>
-                  <span>{product.name}</span>
-                </h3>
-                <div className={s.price}>
-                  {`${price} ${product.price?.currencyCode}`}
-                </div>
-              </div>
-            )} */}
-            <div className={s.imageContainer}>
-              {product?.images && (
-                <div className="relative">
-                  <Image
-                    alt={product.name || 'Product Image'}
-                    className={s.productImage}
-                    src={product.images[0]?.url || placeholderImg}
-                    quality="85"
-                    width={764}
-                    height={764}
-                    layout="responsive"
-                    // sizes="270px"
-                    sizes="12vw"
-                    priority={priority}
-                  />
-                  <div className={s.gradient}>
-                    <div className={s.price}>{price}</div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </>
-        )}
-
-        {variant === 'default' && (
-          <>
-            {/* {process.env.COMMERCE_WISHLIST_ENABLED && (
-              <WishlistButton
-                className={s.wishlistButton}
-                productId={product.id}
-                variant={product.variants[0] as any}
-              />
-            )} */}
-            {/* <ProductTag
-              name={product.name}
-              price={`${price} ${product.price?.currencyCode}`}
-            /> */}
-            <div className={s.imageContainer}>
-              {product?.images && (
-                <div>
-                  <Image
-                    alt={product.name || 'Product Image'}
-                    className={s.productImage}
-                    src={product.images[0]?.url || placeholderImg}
-                    height={540}
-                    width={540}
-                    quality="85"
-                    layout="responsive"
-                    {...imgProps}
-                  />
-                </div>
-              )}
-            </div>
-          </>
+          </div>
         )}
       </a>
     </Link>
