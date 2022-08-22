@@ -7,6 +7,7 @@ import React, {
   useCallback,
 } from 'react'
 import qs from 'qs'
+import Script from 'next/script'
 
 export interface IAlexa {
   alexa: any
@@ -16,6 +17,7 @@ export interface IAlexa {
 const AlexaContext = createContext<IAlexa>({ alexa: null, speak: () => {} })
 
 export const AlexaProvider = ({ children }: any) => {
+  const [onFireTV, setOnFireTV] = useState(false)
   const router = useRouter()
 
   const [mounted, setMounted] = useState(false)
@@ -34,19 +36,7 @@ export const AlexaProvider = ({ children }: any) => {
     [alexa]
   )
 
-  useEffect(() => {
-    // @ts-ignore
-    if (typeof Alexa === 'undefined') {
-      console.log('Alexa lib not found.')
-      return
-    }
-
-    if (alexa || mounted) {
-      return
-    } else {
-      setMounted(true)
-    }
-
+  const handleLoadScript = useCallback(() => {
     // @ts-ignore
     Alexa.create({ version: '1.1' })
       .then((args: any) => {
@@ -119,16 +109,118 @@ export const AlexaProvider = ({ children }: any) => {
       .catch((error: any) => {
         console.log('Alexa is NOT ready', error)
       })
-  }, [alexa, mounted, router, speak])
+  }, [])
+
+  useEffect(() => {
+    if (navigator.userAgent.includes('AFT')) {
+      console.log('Fire TV')
+      setOnFireTV(true)
+    }
+  }, [])
+
+  // useEffect(() => {
+  //   // @ts-ignore
+  //   if (typeof Alexa === 'undefined') {
+  //     console.log('Alexa lib not found.')
+  //     return
+  //   }
+
+  //   if (alexa || mounted) {
+  //     return
+  //   } else {
+  //     setMounted(true)
+  //   }
+
+  //   // @ts-ignore
+  //   Alexa.create({ version: '1.1' })
+  //     .then((args: any) => {
+  //       const { alexa } = args
+  //       alexa.skill.onMessage((message: any) => {
+  //         switch (message.intent) {
+  //           case 'SearchGameByTitle': {
+  //             const query = qs.stringify(
+  //               {
+  //                 q: message.gameTitle,
+  //                 intent: JSON.stringify(message),
+  //               },
+  //               { skipNulls: true }
+  //             )
+  //             router.push(`/search?${query}`)
+  //             break
+  //           }
+  //           case 'SearchGameByCategory': {
+  //             const query = qs.stringify(
+  //               { intent: JSON.stringify(message) },
+  //               { skipNulls: true }
+  //             )
+  //             router.push(
+  //               `/search/${encodeURIComponent(message.gameCategory)}?${query}`
+  //             )
+  //             break
+  //           }
+  //           case 'GetGamePriceByTitleIntent':
+  //           case 'GetGameDescriptionByTitleIntent':
+  //           case 'AddToCartByTitleIntent':
+  //           case 'OpenGameDetailIntent': {
+  //             const query = qs.stringify(
+  //               {
+  //                 q: message.gameTitle,
+  //                 intent: JSON.stringify(message),
+  //                 loading: true,
+  //               },
+  //               { skipNulls: true }
+  //             )
+  //             router.push(`/search?${query}`)
+  //             break
+  //           }
+  //           case 'OpenCartIntent':
+  //           case 'ReadCartItemIntent':
+  //           case 'DeleteCartItemIntent':
+  //           case 'ClearCartIntent':
+  //           case 'CheckoutIntent': {
+  //             const query = qs.stringify(
+  //               { intent: JSON.stringify(message) },
+  //               { skipNulls: true }
+  //             )
+  //             router.push(`/cart?${query}`)
+  //             break
+  //           }
+  //           case 'CloseGameDetailIntent': {
+  //             router.push('/')
+  //             break
+  //           }
+  //           case 'CheckoutIntent': {
+  //             break
+  //           }
+  //           case 'Error': {
+  //             console.log(message.error)
+  //           }
+  //         }
+  //       })
+  //       setAlexa(alexa)
+  //       console.log('Alexa is ready')
+  //     })
+  //     .catch((error: any) => {
+  //       console.log('Alexa is NOT ready', error)
+  //     })
+  // }, [alexa, mounted, router, speak])
 
   return (
-    <AlexaContext.Provider value={{ alexa, speak }}>
-      {/* <audio autoPlay controls src="/quickfall.mp3">
+    <>
+      {onFireTV && (
+        <Script
+          src="https://cdn.html.games.alexa.a2z.com/alexa-html/latest/alexa-html.js"
+          onLoad={handleLoadScript}
+        />
+      )}
+      <AlexaContext.Provider value={{ alexa, speak }}>
+        {/* <audio autoPlay controls src="/quickfall.mp3">
         Your browser does not support the
         <code>audio</code> element.
       </audio> */}
-      {children}
-    </AlexaContext.Provider>
+        {children}
+      </AlexaContext.Provider>
+    </>
   )
 }
 
