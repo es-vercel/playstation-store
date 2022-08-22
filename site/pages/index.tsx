@@ -32,7 +32,7 @@ export async function getStaticProps({
   const enhancedProducts = await Promise.all(
     products.map(async (product) => {
       const { base64, img } = await getPlaiceholder(product.images[0].url, {
-        size: 10,
+        size: 25,
       })
       return {
         ...product,

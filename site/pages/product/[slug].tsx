@@ -34,7 +34,7 @@ export async function getStaticProps({
 
   const images = await Promise.all(
     product.images.map(async (image) => {
-      const { base64, img } = await getPlaiceholder(image.url, { size: 10 })
+      const { base64, img } = await getPlaiceholder(image.url, { size: 25 })
       return {
         ...img,
         blurDataURL: base64,
