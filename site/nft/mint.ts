@@ -21,7 +21,7 @@ const provider = new ethers.providers.AlchemyProvider(
   useMainnet ? 'matic' : 'maticmum'
 )
 
-const Contract = require('../artifacts/contracts/ESN.sol/EnablingSolutionsNFT.json')
+const Contract = require('./EnablingSolutionsNFT.json')
 const signer = new ethers.Wallet(process.env.WALLET_PRIVATE_KEY!, provider)
 const contract = new ethers.Contract(contractAddress!, Contract.abi, signer)
 
