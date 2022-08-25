@@ -9,7 +9,7 @@
 // const tokenUri =
 //   'https://gateway.pinata.cloud/ipfs/QmRM4SmvLYm3GiYSF5B7kPMEr8g8fYxM44PPURECZBrxYp'
 
-import { ethers } from 'hardhat'
+import { ethers } from 'ethers'
 
 const useMainnet = process.env.USE_MAINNET! === 'true'
 
