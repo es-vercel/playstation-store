@@ -1,5 +1,8 @@
-require('@nomicfoundation/hardhat-toolbox')
-const { ethers } = require('hardhat')
+import '@nomicfoundation/hardhat-toolbox' // isolatedModule
+import { ethers } from 'hardhat' // isolatedModule
+
+// require('@nomicfoundation/hardhat-toolbox')
+// const { ethers } = require('hardhat')
 
 async function main() {
   console.log('Polygon Mainnet:', process.env.USE_MAINNET)
