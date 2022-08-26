@@ -55,7 +55,7 @@ export default function Nft() {
   }
 
   const { data: nftImages } = useSWR('nftBucketImages', fetcher, {
-    refreshInterval: 2000,
+    refreshInterval: 30000,
   })
 
   useEffect(() => {
