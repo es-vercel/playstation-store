@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Container } from '@components/ui'
 import { supabase } from '@lib/supabaseClient'
 import axios from 'axios'
+import useSWR from 'swr'
 
 async function uploadFileToPinata(fileUri: any) {
   const res = await axios({
@@ -43,24 +44,29 @@ async function mint(tokenUri: string) {
 export default function Nft() {
   const [imageUrl, setImageUrl] = useState<string>('')
 
+  async function fetcher() {
+    const { data } = await supabase.storage.from('public').list('nft', {
+      limit: 5,
+      offset: 0,
+      sortBy: { column: 'created_at', order: 'desc' },
+    })
+
+    return data
+  }
+
+  const { data: nftImages } = useSWR('nftBucketImages', fetcher, {
+    refreshInterval: 2000,
+  })
+
   useEffect(() => {
-    async function asyncFn() {
-      const { data } = await supabase.storage.from('public').list('nft', {
-        limit: 5,
-        offset: 0,
-        sortBy: { column: 'created_at', order: 'desc' },
-      })
+    if (nftImages?.length) {
+      const { data: imageData } = supabase.storage
+        .from('public')
+        .getPublicUrl(`nft/${nftImages[0].name}`)
 
-      if (data?.length) {
-        const { data: imageData } = supabase.storage
-          .from('public')
-          .getPublicUrl(`nft/${data[0].name}`)
-
-        setImageUrl(imageData.publicUrl)
-      }
+      setImageUrl(imageData.publicUrl)
     }
-    asyncFn()
-  }, [])
+  }, [nftImages])
 
   const handleSubmit = useCallback(async () => {
     try {
