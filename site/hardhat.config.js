@@ -1,5 +1,4 @@
-// require('dotenv').config({ path: './.env.local' })
-
+// require('dotenv').config({ path: './.env.local' }) // enable for deploy
 require('@nomicfoundation/hardhat-toolbox')
 
 const config = {

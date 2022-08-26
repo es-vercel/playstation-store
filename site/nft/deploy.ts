@@ -5,9 +5,9 @@ import { ethers } from 'hardhat' // isolatedModule
 // const { ethers } = require('hardhat')
 
 async function main() {
-  console.log('Polygon Mainnet:', process.env.USE_MAINNET)
+  console.log('Is Polygon Mainnet?', process.env.USE_MAINNET)
 
-  const Contract = await ethers.getContractFactory('EnablingSolutionsNFT')
+  const Contract = await ethers.getContractFactory('HFarmEnablingSolutionsNFT')
   const contract = await Contract.deploy()
 
   const [deployer] = await ethers.getSigners()
