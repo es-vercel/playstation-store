@@ -19,7 +19,7 @@ import { useSearchMeta } from '@lib/search'
 import { useAlexa } from '@lib/hooks/useAlexa'
 
 export default function Search({ categories, brands }: SearchPropsType) {
-  const { alexa, speak } = useAlexa()
+  const { alexa, speak, nakamoto } = useAlexa()
   const addItem = useAddItem()
 
   // const [activeFilter, setActiveFilter] = useState('')

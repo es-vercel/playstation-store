@@ -19,6 +19,7 @@ import type { Category } from '@commerce/types/site'
 import type { Link as LinkProps } from '../UserNav/MenuSidebarView'
 
 import BackgroundImage from '../../../public/background.webp'
+import { useAlexa } from '@lib/hooks/useAlexa'
 
 const Loading = () => (
   <div className="w-80 h-80 flex items-center text-center justify-center p-3">
@@ -111,6 +112,7 @@ const Layout: React.FC<Props> = ({
   // @ts-ignore
   backgroundImage = BackgroundImage,
 }) => {
+  const { nakamoto } = useAlexa()
   // const { acceptedCookies, onAcceptCookies } = useAcceptCookies()
   const navBarlinks = categories.slice(0, 3).map((c) => ({
     label: c.name,
@@ -119,17 +121,19 @@ const Layout: React.FC<Props> = ({
 
   return (
     <>
-      <div className="bgWrap">
-        <Image
-          alt="Background"
-          src={backgroundImage}
-          layout="fill"
-          placeholder="blur"
-          objectFit="cover"
-          quality={85}
-          priority={true}
-        />
-      </div>
+      {!nakamoto && (
+        <div className="bgWrap">
+          <Image
+            alt="Background"
+            src={backgroundImage}
+            layout="fill"
+            placeholder="blur"
+            objectFit="cover"
+            quality={85}
+            priority={true}
+          />
+        </div>
+      )}
       <div className={cn(s.root)}>
         <Navbar links={navBarlinks} />
         <main className="fit">{children}</main>

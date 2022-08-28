@@ -7,7 +7,6 @@ import Image, { ImageProps } from 'next/image'
 import WishlistButton from '@components/wishlist/WishlistButton'
 import usePrice from '@framework/product/use-price'
 import ProductTag from '../ProductTag'
-import { Howl } from 'howler'
 
 interface Props {
   className?: string
@@ -19,13 +18,6 @@ interface Props {
 }
 
 const placeholderImg = '/product-img-placeholder.svg'
-
-// const sound = new Howl({
-//   src: ['/sounds.mp3'],
-//   sprite: {
-//     laser: [34200, 100],
-//   },
-// })
 
 const ProductCard: FC<Props> = ({
   product,

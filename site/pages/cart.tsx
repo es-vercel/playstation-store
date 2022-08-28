@@ -35,7 +35,7 @@ export default function Cart({ categories }: any) {
   const success = null
   const { data, isLoading, isEmpty } = useCart()
   // const { openSidebar, setSidebarView } = useUI()
-  const { alexa, speak } = useAlexa()
+  const { alexa, speak, nakamoto } = useAlexa()
   const removeItem = useRemoveItem()
   // const updateItem = useUpdateItem()
   const router = useRouter()
@@ -182,15 +182,17 @@ export default function Cart({ categories }: any) {
 
   return (
     <Container className="max-w-none w-full" clean>
-      <div className="bgWrap">
-        <Image
-          alt="Background"
-          src={BackgroundImage}
-          layout="fill"
-          objectFit="cover"
-          quality={100}
-        />
-      </div>
+      {!nakamoto && (
+        <div className="bgWrap">
+          <Image
+            alt="Background"
+            src={BackgroundImage}
+            layout="fill"
+            objectFit="cover"
+            quality={100}
+          />
+        </div>
+      )}
       <NavbarHeader
         title={
           data?.lineItems.length! > 0

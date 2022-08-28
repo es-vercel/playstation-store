@@ -11,6 +11,7 @@ import ImagePegiBadLanguage from '../../../public/bad-language.png'
 import ImagePegiViolence from '../../../public/violence.png'
 import { ModalUI } from '@components/common/Layout'
 import { AddToCartButton } from '@components/cart'
+import { useAlexa } from '@lib/hooks/useAlexa'
 
 interface ProductViewProps {
   product: Product
@@ -18,24 +19,27 @@ interface ProductViewProps {
 }
 
 const ProductView: FC<ProductViewProps> = ({ product, images }) => {
+  const { nakamoto } = useAlexa()
   const [bgSlideIndex, setBgSlideIndex] = useState(1)
 
   return (
     <>
       <Container className="max-w-none w-full" clean>
-        <div className="bgWrap">
-          <Image
-            alt="Background"
-            src={images[bgSlideIndex].src}
-            placeholder="blur"
-            blurDataURL={images[bgSlideIndex].blurDataURL}
-            layout="fill"
-            objectFit="cover"
-            quality={85}
-            priority={true}
-          />
-          <div className={s.gradient} />
-        </div>
+        {!nakamoto && (
+          <div className="bgWrap">
+            <Image
+              alt="Background"
+              src={images[bgSlideIndex].src}
+              placeholder="blur"
+              blurDataURL={images[bgSlideIndex].blurDataURL}
+              layout="fill"
+              objectFit="cover"
+              quality={85}
+              priority={true}
+            />
+            <div className={s.gradient} />
+          </div>
+        )}
         <NavbarHeader
           title={product.name}
           imageUrl={images[0].src}
