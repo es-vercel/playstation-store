@@ -40,16 +40,18 @@ const NakamotoSpeaker: React.FC<Props> = ({ id, show }) => {
               className="grain"
               layout="fill"
               objectFit="cover"
-              src={speakers[id].src}
-              alt={speakers[id].name}
+              src={id ? speakers[id].src : '/nakamoto/paolo.jpeg'}
+              alt={id ? speakers[id].name : 'Guest'}
             />
           </div>
-          <div
-            className="z-10 absolute bottom-0 text-xl font-bold text-white m-4 p-2 bg-black bg-opacity-50 shadow-2xl"
-            style={{ color: '#d0f224' }}
-          >
-            {speakers[id].name}
-          </div>
+          {id && (
+            <div
+              className="z-10 absolute bottom-0 text-xl font-bold text-white m-4 p-2 bg-black bg-opacity-50 shadow-2xl"
+              style={{ color: '#d0f224' }}
+            >
+              {id ? speakers[id].name : 'Guest'}
+            </div>
+          )}
         </div>
       </div>
     </div>
