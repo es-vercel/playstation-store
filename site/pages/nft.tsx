@@ -110,7 +110,7 @@ export default function Nft() {
           play()
           setTimeout(() => {
             speak(
-              'Francesco, fai attenzione. Ti ricordo che per completare il programma Nakamoto avrai bisogno della collaborazione di Fabio. Buona fortuna!',
+              'Francesco, fai attenzione. Ti ricordo che per completare il programma Nakamoto, avrai bisogno della collaborazione di Fabio. Buona fortuna!',
               'paolo',
               true
             )

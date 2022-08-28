@@ -17,7 +17,7 @@ const speakers: any = {
 }
 
 interface Props {
-  id: string
+  id: string | null
   show: boolean
 }
 
