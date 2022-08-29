@@ -304,7 +304,7 @@ export const AlexaProvider = ({ children }: any) => {
                 console.log('video2 caricato')
               }}
               muted
-              src="/video.mp4"
+              src="/video3.mp4"
               className="hidden"
             />
             {nakamoto && (
