@@ -192,6 +192,7 @@ export default function Cart({ categories }: any) {
         p2.name.charAt(0).toLowerCase() === 'f' &&
         p3.name.charAt(0).toLowerCase() === 't'
       ) {
+        console.log('mission1 completed')
         speak('Ben fatto Francesco, ti rimangono altre 2 prove.', 'paolo')
         missions.mission1.setCompleted(true)
       }
@@ -202,6 +203,7 @@ export default function Cart({ categories }: any) {
         p2.quantity === 9 &&
         p3.quantity == 2022
       ) {
+        console.log('mission2 completed')
         speak(
           "Seconda prova completata, ottimo. Ti rimane l'ultima, penso che dovrai scattare una foto al pubblico che hai davanti. Veloce!",
           'paolo'
@@ -212,6 +214,7 @@ export default function Cart({ categories }: any) {
   }, [
     data?.lineItems,
     missions.mission1,
+    missions.mission1.completed,
     missions.mission2,
     missions.mission2.completed,
     speak,

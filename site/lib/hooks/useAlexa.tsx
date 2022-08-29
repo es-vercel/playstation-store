@@ -111,6 +111,7 @@ export const AlexaProvider = ({ children }: any) => {
       .then((args: any) => {
         const { alexa } = args
         alexa.speech.onStopped(() => {
+          console.log('onStopped speaker')
           setSpeaker(null)
         })
         alexa.skill.onMessage((message: any) => {
@@ -292,13 +293,17 @@ export const AlexaProvider = ({ children }: any) => {
               className="h-full w-full absolute"
               style={{ objectFit: 'cover' }}
             />
-            {speaker && (
-              <NakamotoSpeaker
-                id={speaker}
-                show={typeof speaker === 'string'}
-              />
+            {nakamoto && (
+              <>
+                {speaker && (
+                  <NakamotoSpeaker
+                    id={speaker}
+                    show={typeof speaker === 'string'}
+                  />
+                )}
+                <NakamotoHud />
+              </>
             )}
-            <NakamotoHud />
           </>
         )}
 

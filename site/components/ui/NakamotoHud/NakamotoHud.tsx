@@ -1,12 +1,12 @@
 import { useAlexa } from '@lib/hooks/useAlexa'
-import { useState } from 'react'
+import cn from 'clsx'
 import s from './NakamotoHud.module.css'
 
 const NakamotoHud: React.FC = () => {
   const { missions } = useAlexa()
 
   return (
-    <div className={s.root}>
+    <div className={cn(s.root, { nakaHud: true })}>
       <NakamotoMission
         id="1"
         title="TROVA I PRODOTTI"
@@ -14,7 +14,7 @@ const NakamotoHud: React.FC = () => {
       />
       <NakamotoMission
         id="2"
-        title="MODIFICA LE QUANTITÀ"
+        title="DATA EVENTO"
         completed={missions.mission2.completed}
       />
       <NakamotoMission

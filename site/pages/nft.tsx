@@ -116,7 +116,7 @@ export default function Nft() {
           setTimeout(() => {
             setNakaTitleVisible(false)
             speak(
-              'Francesco, proverò a darti supporto da remoto. Il programma Nakamoto prevede il superamento di alcune prove. Te le indico sul tuo display. Buona fortuna!',
+              'Francesco, proverò a darti supporto. Il programma Nakamoto prevede il superamento di alcune prove. Te le indico sul tuo display. Buona fortuna!',
               'paolo',
               true
             )

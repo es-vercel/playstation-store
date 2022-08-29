@@ -45,28 +45,48 @@
 }
 
 .nakaTitle {
-  animation: nakaTitleAnimation 30s ease;
+  animation: nakaTitleAnimation 20s ease;
+  animation-delay: 10s;
   visibility: hidden;
 }
 
 @keyframes nakaTitleAnimation {
   0% {
-    transform: translateX(-50px) scale(0.86);
+    transform: scale(0.86);
     visibility: visible;
     opacity: 0;
   }
 
   40% {
     opacity: 1;
-    transform: translateX(0px) scale(1);
+    transform: scale(1);
   }
 
   80% {
     opacity: 1;
-    transform: translateX(0px) scale(1);
+    transform: scale(1);
   }
 
   100% {
     opacity: 0;
+  }
+}
+
+.nakaHud {
+  animation: nakaHudAnimation 1s ease;
+  animation-delay: 45s;
+  visibility: hidden;
+  -webkit-animation-fill-mode: forwards;
+}
+
+@keyframes nakaHudAnimation {
+  0% {
+    visibility: visible;
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    visibility: visible;
   }
 }
