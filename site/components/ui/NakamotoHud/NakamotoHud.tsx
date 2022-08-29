@@ -53,7 +53,8 @@ const NakamotoMission: React.FC<NakamotoMissionProps> = ({
         className="ml-4 text-lg font-bold"
         style={{ color: completed ? 'lime' : 'white' }}
       >
-        {completed ? title : `UNKNOWN MISSION #${id}`}
+        {/* {completed ? title : `UNKNOWN MISSION #${id}`} */}
+        {title}
       </div>
     </div>
   )

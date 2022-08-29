@@ -145,8 +145,11 @@ export default function Nft() {
   }, [alexa, alexaIntent, play, setNakaTitleVisible, speak])
 
   return (
-    <Container className="max-w-none w-screen h-screen" clean>
-      <div className="relative">
+    <Container
+      className="w-screen h-screen flex items-center justify-center"
+      clean
+    >
+      <div className="relative z-50">
         {imageUrl}
         {imageUrl !== '' && <button onClick={handleSubmit}>test</button>}
       </div>
