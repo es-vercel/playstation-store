@@ -299,6 +299,14 @@ export const AlexaProvider = ({ children }: any) => {
               className="h-full w-full absolute"
               style={{ objectFit: 'cover' }}
             />
+            <video
+              onCanPlayThrough={() => {
+                console.log('video2 caricato')
+              }}
+              muted
+              src="/video.mp4"
+              className="hidden"
+            />
             {nakamoto && (
               <>
                 {speaker && (
