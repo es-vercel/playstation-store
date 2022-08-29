@@ -9,7 +9,7 @@ const NakamotoHud: React.FC = () => {
     <div className={s.root}>
       <NakamotoMission
         id="1"
-        title="AGGIUNGI I PRODOTTI"
+        title="TROVA I PRODOTTI"
         completed={missions.mission1.completed}
       />
       <NakamotoMission
@@ -19,7 +19,7 @@ const NakamotoHud: React.FC = () => {
       />
       <NakamotoMission
         id="3"
-        title="SCATTA FOTO RICORDO"
+        title="SCATTA UNA FOTO"
         completed={missions.mission3.completed}
       />
     </div>

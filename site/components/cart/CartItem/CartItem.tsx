@@ -10,6 +10,7 @@ import useUpdateItem from '@framework/cart/use-update-item'
 import useRemoveItem from '@framework/cart/use-remove-item'
 import Quantity from '@components/ui/Quantity'
 import isNumber from 'lodash/isNumber'
+import { useAlexa } from '@lib/hooks/useAlexa'
 
 type ItemOption = {
   name: string
@@ -30,7 +31,9 @@ const CartItem = ({
   item: LineItem
   currencyCode: string
 }) => {
-  const { closeSidebarIfPresent } = useUI()
+  const { missions } = useAlexa()
+
+  // const { closeSidebarIfPresent } = useUI()
   const [removing, setRemoving] = useState(false)
   const [quantity, setQuantity] = useState<number>(item.quantity)
   const removeItem = useRemoveItem()
@@ -108,7 +111,18 @@ const CartItem = ({
             <div className="flex-1">
               <Link href={`/product/${item.path}`} tabIndex={-1}>
                 <a className="inline-flex" tabIndex={-1}>
-                  <span className={s.productName}>{item.name}</span>
+                  <span className={s.productName}>
+                    {missions.mission1.completed ? (
+                      <>
+                        <span className="animateFirstChar">
+                          {item.name.substring(0, 1)}
+                        </span>
+                        <span>{item.name.substring(1)}</span>
+                      </>
+                    ) : (
+                      item.name
+                    )}
+                  </span>
                 </a>
               </Link>
               {/* {options && options.length > 0 && (

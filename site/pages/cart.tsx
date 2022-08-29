@@ -191,10 +191,16 @@ export default function Cart({ categories }: any) {
         p2.name.charAt(0).toLowerCase() === 'f' &&
         p3.name.charAt(0).toLowerCase() === 't'
       ) {
-        missions.mission1.setCompleted(true)
+        setTimeout(() => {
+          missions.mission1.setCompleted(true)
+          speak(
+            'Ottimo lavoro Francesco, ti rimangono altre 2 missioni!',
+            'paolo'
+          )
+        }, 2000)
       }
     }
-  }, [data?.lineItems, missions.mission1])
+  }, [data?.lineItems, missions.mission1, speak])
 
   return (
     <Container className="max-w-none w-full" clean>
