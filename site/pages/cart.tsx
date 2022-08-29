@@ -208,13 +208,13 @@ export default function Cart({ categories }: any) {
         missions.mission2.setCompleted(true)
         console.log('mission2 completed')
         setTimeout(() => {
+          router.push('/nft')
           videoRef.current.src = '/video3.mp4'
           videoRef.current.play()
           speak(
             "Seconda prova completata, ottimo. Rimane l'ultima, prova a scattare una foto al pubblico che hai davanti. Veloce!",
             'paolo'
           )
-          router.push('/nft')
         }, 3000)
       }
     }

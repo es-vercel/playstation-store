@@ -30,7 +30,7 @@ export default function Nft() {
 
   return (
     <Container className="max-w-none w-full" clean>
-      <div className="flex min-h-screen flex-col items-center justify-center py-2">
+      <div className="flex min-h-screen flex-col items-center justify-center py-2 relative">
         <input
           type="file"
           accept="image/*"
