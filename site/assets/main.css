@@ -43,3 +43,30 @@
     filter: blur(0);
   }
 }
+
+.nakaTitle {
+  animation: nakaTitleAnimation 30s ease;
+  visibility: hidden;
+}
+
+@keyframes nakaTitleAnimation {
+  0% {
+    transform: translateX(-50px) scale(0.86);
+    visibility: visible;
+    opacity: 0;
+  }
+
+  40% {
+    opacity: 1;
+    transform: translateX(0px) scale(1);
+  }
+
+  80% {
+    opacity: 1;
+    transform: translateX(0px) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

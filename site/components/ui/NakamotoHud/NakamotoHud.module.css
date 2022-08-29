@@ -1,0 +1,9 @@
+.root {
+  @apply fixed z-50 shadow-sm shadow-black
+  transition-all bg-opacity-80 bg-slate-900 flex flex-col
+  py-3 px-5;
+  border: 4px solid #d0f224;
+  bottom: 40px;
+  right: 60px;
+  width: 400px;
+}

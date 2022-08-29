@@ -10,7 +10,7 @@ import React, {
 import qs from 'qs'
 import Script from 'next/script'
 import { Howl } from 'howler'
-import { NakamotoSpeaker } from '@components/ui'
+import { NakamotoHud, NakamotoSpeaker } from '@components/ui'
 
 const sound = new Howl({
   src: ['/codec.m4a'],
@@ -23,6 +23,7 @@ export interface IAlexa {
   play: any
   nakaTitleVisible: boolean
   setNakaTitleVisible: any
+  missions: any
 }
 
 const AlexaContext = createContext<IAlexa>({
@@ -32,6 +33,7 @@ const AlexaContext = createContext<IAlexa>({
   play: () => {},
   nakaTitleVisible: false,
   setNakaTitleVisible: () => {},
+  missions: {},
 })
 
 function _speak(alexa: any, message: string) {
@@ -49,6 +51,11 @@ export const AlexaProvider = ({ children }: any) => {
   const [nakamoto, setNakamoto] = useState(false)
   const [speaker, setSpeaker] = useState(null)
   const [nakaTitleVisible, setNakaTitleVisible] = useState(false)
+
+  const [mission1Completed, setMission1Completed] = useState(false)
+  const [mission2Completed, setMission2Completed] = useState(false)
+  const [mission3Completed, setMission3Completed] = useState(false)
+  const [mission4Completed, setMission4Completed] = useState(false)
 
   const speak = useCallback(
     (message, person = null, withCall = false) => {
@@ -241,6 +248,24 @@ export const AlexaProvider = ({ children }: any) => {
           play,
           nakaTitleVisible,
           setNakaTitleVisible,
+          missions: {
+            mission1: {
+              completed: mission1Completed,
+              setCompleted: setMission1Completed,
+            },
+            mission2: {
+              completed: mission2Completed,
+              setCompleted: setMission2Completed,
+            },
+            mission3: {
+              completed: mission3Completed,
+              setCompleted: setMission3Completed,
+            },
+            mission4: {
+              completed: mission4Completed,
+              setCompleted: setMission4Completed,
+            },
+          },
         }}
       >
         {(onFireTV || true) && (
@@ -273,6 +298,7 @@ export const AlexaProvider = ({ children }: any) => {
                 show={typeof speaker === 'string'}
               />
             )}
+            <NakamotoHud />
           </>
         )}
 

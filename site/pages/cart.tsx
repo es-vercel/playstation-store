@@ -35,7 +35,7 @@ export default function Cart({ categories }: any) {
   const success = null
   const { data, isLoading, isEmpty } = useCart()
   // const { openSidebar, setSidebarView } = useUI()
-  const { alexa, speak, nakamoto } = useAlexa()
+  const { alexa, speak, nakamoto, missions } = useAlexa()
   const removeItem = useRemoveItem()
   // const updateItem = useUpdateItem()
   const router = useRouter()
@@ -179,6 +179,22 @@ export default function Cart({ categories }: any) {
 
     alexaEvents()
   }, [alexa, alexaIntent, data, removeItem, router, speak])
+
+  useEffect(() => {
+    const items = data?.lineItems
+
+    if (items && items.length === 3 && !missions.mission1.completed) {
+      const [p1, p2, p3] = items
+
+      if (
+        p1.name.charAt(0).toLowerCase() === 'n' &&
+        p2.name.charAt(0).toLowerCase() === 'f' &&
+        p3.name.charAt(0).toLowerCase() === 't'
+      ) {
+        missions.mission1.setCompleted(true)
+      }
+    }
+  }, [data?.lineItems, missions.mission1])
 
   return (
     <Container className="max-w-none w-full" clean>

@@ -112,15 +112,11 @@ export default function Nft() {
       switch (alexaIntent.intent) {
         case 'StartNakamotoIntent': {
           play()
-
-          setTimeout(() => {
-            setNakaTitleVisible(true)
-          }, 10000)
-
+          setNakaTitleVisible(true)
           setTimeout(() => {
             setNakaTitleVisible(false)
             speak(
-              'Francesco, fai attenzione. Ti ricordo che per completare il programma Nakamoto, avrai bisogno della collaborazione di Fabio. Buona fortuna!',
+              'Francesco, proverò a darti supporto da remoto. Il programma Nakamoto prevede il superamento di alcune prove. Te le indico sul tuo display. Buona fortuna!',
               'paolo',
               true
             )
@@ -138,19 +134,15 @@ export default function Nft() {
         {imageUrl}
         {imageUrl !== '' && <button onClick={handleSubmit}>test</button>}
       </div>
-      <div
-        className={cs('fixed bottom-36  font-mono transition-all', {
-          'opacity-0 translate-x-28': !nakaTitleVisible,
-          'opacity-100 translate-x-40': nakaTitleVisible,
-        })}
-        style={{ transitionDuration: '10s' }}
-      >
-        <h1 className="text-4xl mb-3 font-bold font-mono">Nakamoto Plan</h1>
-        <p className="text-2xl mb-10">
-          HESN addr(0x8Cb37f2b7986F68F11683B69D12732DDb479066B)
-        </p>
-        <p className="text-lg">Directed by cesconix.eth</p>
-      </div>
+      {nakaTitleVisible && (
+        <div className="fixed bottom-48 left-40 font-mono transition-all nakaTitle">
+          <h1 className="text-4xl mb-3 font-bold font-mono">Nakamoto Plan</h1>
+          <p className="text-2xl mb-10">
+            HESN addr(0x8Cb37f2b7986F68F11683B69D12732DDb479066B)
+          </p>
+          <p className="text-lg">Directed by cesconix.eth</p>
+        </div>
+      )}
     </Container>
   )
 }
