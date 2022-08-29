@@ -183,24 +183,39 @@ export default function Cart({ categories }: any) {
   useEffect(() => {
     const items = data?.lineItems
 
-    if (items && items.length === 3 && !missions.mission1.completed) {
+    if (items && items.length === 3) {
       const [p1, p2, p3] = items
 
       if (
+        !missions.mission1.completed &&
         p1.name.charAt(0).toLowerCase() === 'n' &&
         p2.name.charAt(0).toLowerCase() === 'f' &&
         p3.name.charAt(0).toLowerCase() === 't'
       ) {
-        setTimeout(() => {
-          missions.mission1.setCompleted(true)
-          speak(
-            'Ottimo lavoro Francesco, ti rimangono altre 2 missioni!',
-            'paolo'
-          )
-        }, 2000)
+        speak('Ben fatto Francesco, ti rimangono altre 2 prove.', 'paolo')
+        missions.mission1.setCompleted(true)
+      }
+
+      if (
+        !missions.mission2.completed &&
+        p1.quantity === 13 &&
+        p2.quantity === 9 &&
+        p3.quantity == 2022
+      ) {
+        speak(
+          "Seconda prova completata, ottimo. Ti rimane l'ultima, penso che dovrai scattare una foto al pubblico che hai davanti. Veloce!",
+          'paolo'
+        )
+        missions.mission2.setCompleted(true)
       }
     }
-  }, [data?.lineItems, missions.mission1, speak])
+  }, [
+    data?.lineItems,
+    missions.mission1,
+    missions.mission2,
+    missions.mission2.completed,
+    speak,
+  ])
 
   return (
     <Container className="max-w-none w-full" clean>
