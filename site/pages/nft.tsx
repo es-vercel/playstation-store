@@ -47,8 +47,15 @@ async function mint(tokenUri: string) {
 export default function Nft() {
   const router = useRouter()
 
-  const { alexa, speak, play, nakaTitleVisible, setNakaTitleVisible } =
-    useAlexa()
+  const {
+    alexa,
+    speak,
+    play,
+    nakamoto,
+    missions,
+    nakaTitleVisible,
+    setNakaTitleVisible,
+  } = useAlexa()
 
   const [imageUrl, setImageUrl] = useState<string>('')
 
@@ -63,7 +70,7 @@ export default function Nft() {
   }
 
   const { data: nftImages } = useSWR('nftBucketImages', fetcher, {
-    refreshInterval: 30000,
+    refreshInterval: 3000,
   })
 
   const handleSubmit = useCallback(async () => {
@@ -99,9 +106,18 @@ export default function Nft() {
         .from('public')
         .getPublicUrl(`nft/${nftImages[0].name}`)
 
-      setImageUrl(imageData.publicUrl)
+      if (imageUrl === '') {
+        setImageUrl(imageData.publicUrl)
+      } else {
+        if (imageUrl !== imageData.publicUrl && missions.mission2.completed) {
+          setImageUrl(imageData.publicUrl)
+          speak(
+            'Immagine ricevuta. Processo Nakamoto in esecuzione sulla blockchain polygon.'
+          )
+        }
+      }
     }
-  }, [nftImages])
+  }, [imageUrl, missions.mission2.completed, nftImages, speak])
 
   useEffect(() => {
     async function alexaEvents() {

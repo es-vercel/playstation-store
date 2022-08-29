@@ -196,7 +196,7 @@ export default function Cart({ categories }: any) {
         console.log('mission1 completed')
         setTimeout(() => {
           speak('Ben fatto Francesco, ti rimangono altre 2 prove.', 'paolo')
-        }, 1000)
+        }, 3000)
       }
 
       if (
@@ -207,13 +207,15 @@ export default function Cart({ categories }: any) {
       ) {
         missions.mission2.setCompleted(true)
         console.log('mission2 completed')
-        videoRef.current.src = '/video3.mp4'
         setTimeout(() => {
+          videoRef.current.src = '/video3.mp4'
+          videoRef.current.play()
           speak(
             "Seconda prova completata, ottimo. Rimane l'ultima, prova a scattare una foto al pubblico che hai davanti. Veloce!",
             'paolo'
           )
-        }, 1000)
+          router.push('/nft')
+        }, 3000)
       }
     }
   }, [
@@ -222,6 +224,7 @@ export default function Cart({ categories }: any) {
     missions.mission1.completed,
     missions.mission2,
     missions.mission2.completed,
+    router,
     speak,
     videoRef,
   ])
