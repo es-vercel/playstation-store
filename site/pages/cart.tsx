@@ -35,7 +35,7 @@ export default function Cart({ categories }: any) {
   const success = null
   const { data, isLoading, isEmpty } = useCart()
   // const { openSidebar, setSidebarView } = useUI()
-  const { alexa, speak, nakamoto, missions } = useAlexa()
+  const { alexa, speak, nakamoto, missions, videoRef } = useAlexa()
   const removeItem = useRemoveItem()
   // const updateItem = useUpdateItem()
   const router = useRouter()
@@ -192,11 +192,11 @@ export default function Cart({ categories }: any) {
         p2.name.charAt(0).toLowerCase() === 'f' &&
         p3.name.charAt(0).toLowerCase() === 't'
       ) {
+        missions.mission1.setCompleted(true)
+        console.log('mission1 completed')
         setTimeout(() => {
-          console.log('mission1 completed')
           speak('Ben fatto Francesco, ti rimangono altre 2 prove.', 'paolo')
-          missions.mission1.setCompleted(true)
-        }, 2000)
+        }, 1000)
       }
 
       if (
@@ -205,14 +205,15 @@ export default function Cart({ categories }: any) {
         p2.quantity === 9 &&
         p3.quantity == 2022
       ) {
+        missions.mission2.setCompleted(true)
+        console.log('mission2 completed')
+        videoRef.current.src = '/video3.mp4'
         setTimeout(() => {
-          console.log('mission2 completed')
           speak(
             "Seconda prova completata, ottimo. Rimane l'ultima, prova a scattare una foto al pubblico che hai davanti. Veloce!",
             'paolo'
           )
-          missions.mission2.setCompleted(true)
-        }, 2000)
+        }, 1000)
       }
     }
   }, [
@@ -222,6 +223,7 @@ export default function Cart({ categories }: any) {
     missions.mission2,
     missions.mission2.completed,
     speak,
+    videoRef,
   ])
 
   return (

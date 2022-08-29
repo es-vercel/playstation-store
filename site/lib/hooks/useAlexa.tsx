@@ -24,6 +24,8 @@ export interface IAlexa {
   nakaTitleVisible: boolean
   setNakaTitleVisible: any
   missions: any
+  audioRef: any
+  videoRef: any
 }
 
 const AlexaContext = createContext<IAlexa>({
@@ -34,6 +36,8 @@ const AlexaContext = createContext<IAlexa>({
   nakaTitleVisible: false,
   setNakaTitleVisible: () => {},
   missions: {},
+  audioRef: {},
+  videoRef: {},
 })
 
 function _speak(alexa: any, message: string) {
@@ -249,6 +253,8 @@ export const AlexaProvider = ({ children }: any) => {
           play,
           nakaTitleVisible,
           setNakaTitleVisible,
+          audioRef,
+          videoRef,
           missions: {
             mission1: {
               completed: mission1Completed,
