@@ -74,7 +74,7 @@
 
 .nakaHud {
   animation: nakaHudAnimation 1s ease;
-  animation-delay: 45s;
+  animation-delay: 50s;
   visibility: hidden;
   -webkit-animation-fill-mode: forwards;
 }
