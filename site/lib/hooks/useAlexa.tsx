@@ -21,6 +21,8 @@ export interface IAlexa {
   speak: (message: string, person?: string | null, withCall?: boolean) => void
   nakamoto: boolean
   play: any
+  nakaTitleVisible: boolean
+  setNakaTitleVisible: any
 }
 
 const AlexaContext = createContext<IAlexa>({
@@ -28,6 +30,8 @@ const AlexaContext = createContext<IAlexa>({
   speak: () => {},
   nakamoto: false,
   play: () => {},
+  nakaTitleVisible: false,
+  setNakaTitleVisible: () => {},
 })
 
 function _speak(alexa: any, message: string) {
@@ -44,6 +48,7 @@ export const AlexaProvider = ({ children }: any) => {
   const [alexa, setAlexa] = useState(null)
   const [nakamoto, setNakamoto] = useState(false)
   const [speaker, setSpeaker] = useState(null)
+  const [nakaTitleVisible, setNakaTitleVisible] = useState(false)
 
   const speak = useCallback(
     (message, person = null, withCall = false) => {
@@ -191,7 +196,7 @@ export const AlexaProvider = ({ children }: any) => {
     audioRef.current.play()
     setTimeout(() => {
       videoRef.current.play()
-    }, 1200)
+    }, 1000)
   }, [])
 
   useEffect(() => {
@@ -206,7 +211,16 @@ export const AlexaProvider = ({ children }: any) => {
     window.audioRef = audioRef
     // @ts-ignore
     window.videoRef = videoRef
-  }, [speak])
+    // @ts-ignore
+    window.startNaka = () => {
+      router.push(`/nft`)
+      setNakamoto(true)
+      setTimeout(() => {
+        setNakaTitleVisible(true)
+      }, 5000)
+      play()
+    }
+  }, [play, router, speak])
 
   const audioRef: any = useRef()
   const videoRef: any = useRef()
@@ -219,8 +233,17 @@ export const AlexaProvider = ({ children }: any) => {
           onLoad={handleLoadScript}
         />
       )}
-      <AlexaContext.Provider value={{ alexa, speak, nakamoto, play }}>
-        {onFireTV && (
+      <AlexaContext.Provider
+        value={{
+          alexa,
+          speak,
+          nakamoto,
+          play,
+          nakaTitleVisible,
+          setNakaTitleVisible,
+        }}
+      >
+        {(onFireTV || true) && (
           <>
             <audio
               ref={audioRef}
@@ -241,7 +264,8 @@ export const AlexaProvider = ({ children }: any) => {
               // autoPlay
               loop
               src="/video.mp4"
-              className="object-cover h-full w-full absolute"
+              className="h-full w-full absolute"
+              style={{ objectFit: 'cover' }}
             />
             {speaker && (
               <NakamotoSpeaker
@@ -251,6 +275,7 @@ export const AlexaProvider = ({ children }: any) => {
             )}
           </>
         )}
+
         {children}
       </AlexaContext.Provider>
     </>
