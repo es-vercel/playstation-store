@@ -131,7 +131,7 @@ export default function Search({ categories, brands }: SearchPropsType) {
             if (data.found) {
               const product = data.products[0]
               try {
-                speak(`Ho aggiunto ${product.name} al carrello.`)
+                !nakamoto && speak(`Ho aggiunto ${product.name} al carrello.`)
                 await addItem({
                   productId: String(product.id),
                   variantId: String(product.variants[0]?.id),
