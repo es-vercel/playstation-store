@@ -82,6 +82,7 @@ export default function Nft() {
     nakaTitleVisible,
     setNakaTitleVisible,
     videoRef,
+    audioRef,
   } = useAlexa()
 
   const [imageUrl, setImageUrl] = useState<string>('')
@@ -164,11 +165,13 @@ export default function Nft() {
               'Validazione dati in corso. <break time="4s"/> Necessaria autorizzazione!'
           )
           setTimeout(() => {
+            audioRef.current.stop()
             accessDeniedSound.play()
             setStartNakamotoFakeProcess(true)
             setTimeout(() => {
               speak(
-                "Probabilmente serve l'autorizzazione di Fabio. Ti invio il QR code da condividergli."
+                "Probabilmente serve l'autorizzazione di Fabio. Ti invio il QR code da condividergli.",
+                'paolo'
               )
               setTimeout(() => {
                 setShowQRCode(true)
@@ -179,6 +182,7 @@ export default function Nft() {
       }
     }
   }, [
+    audioRef,
     imageUrl,
     missions.mission2.completed,
     missions.mission3,
