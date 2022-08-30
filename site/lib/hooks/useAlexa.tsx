@@ -12,8 +12,12 @@ import Script from 'next/script'
 import { Howl } from 'howler'
 import { NakamotoHud, NakamotoSpeaker } from '@components/ui'
 
-const sound = new Howl({
-  src: ['/codec.m4a'],
+const codecSound = new Howl({
+  src: ['/nakamoto/codec.m4a'],
+})
+
+const successSound = new Howl({
+  src: ['/nakamoto/success.mp3'],
 })
 
 export interface IAlexa {
@@ -61,6 +65,22 @@ export const AlexaProvider = ({ children }: any) => {
   const [mission3Completed, setMission3Completed] = useState(false)
   const [mission4Completed, setMission4Completed] = useState(false)
 
+  useEffect(() => {
+    if (
+      mission1Completed ||
+      mission2Completed ||
+      mission3Completed ||
+      mission4Completed
+    ) {
+      successSound.play()
+    }
+  }, [
+    mission1Completed,
+    mission2Completed,
+    mission3Completed,
+    mission4Completed,
+  ])
+
   const speak = useCallback(
     (message, person = null, withCall = false) => {
       if (!alexa) {
@@ -87,7 +107,7 @@ export const AlexaProvider = ({ children }: any) => {
       if (alexa && nakamoto && voices[person]) {
         const v = voices[person]
         if (withCall) {
-          sound.play()
+          codecSound.play()
           setTimeout(() => {
             setSpeaker(person)
             _speak(
@@ -205,12 +225,13 @@ export const AlexaProvider = ({ children }: any) => {
   }, [])
 
   const play = useCallback(() => {
+    audioRef.current.volume = 0.4
     audioRef.current.play()
     setTimeout(() => {
       videoRef.current.play()
     }, 1000)
     setTimeout(() => {
-      videoRef.current.src = '/video3.mp4'
+      videoRef.current.src = '/nakamoto/video3.mp4'
       videoRef.current.play()
     }, 134000)
   }, [])
@@ -299,7 +320,7 @@ export const AlexaProvider = ({ children }: any) => {
               muted
               // autoPlay
               loop
-              src="/video.mp4"
+              src="/nakamoto/video.mp4"
               className="h-full w-full absolute"
               style={{ objectFit: 'cover' }}
             />
@@ -308,7 +329,7 @@ export const AlexaProvider = ({ children }: any) => {
                 console.log('video2 caricato')
               }}
               muted
-              src="/video3.mp4"
+              src="/nakamoto/video3.mp4"
               className="hidden"
             />
             {nakamoto && (

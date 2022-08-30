@@ -14,12 +14,12 @@ const NakamotoHud: React.FC = () => {
       />
       <NakamotoMission
         id="2"
-        title="DATA EVENTO"
+        title="DATA EVENTO CCC"
         completed={missions.mission2.completed}
       />
       <NakamotoMission
         id="3"
-        title="SCATTA UNA FOTO"
+        title="SCATTA UNA FOTO MEMORABILE"
         completed={missions.mission3.completed}
       />
     </div>
