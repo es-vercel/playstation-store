@@ -27,6 +27,10 @@
   }
 }
 
+.objectFitCover {
+  object-fit: cover;
+}
+
 .img-blur {
   filter: blur(10px);
 }

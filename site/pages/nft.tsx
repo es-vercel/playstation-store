@@ -219,9 +219,10 @@ export default function Nft() {
       clean
     >
       <div className="relative z-50">
-        {missions.mission3.completed && startNakamotoFakeProcess ? (
+        {missions.mission3.completed && startNakamotoFakeProcess && (
           <NakamotoAccess granted={startNakamotoRealProcess} />
-        ) : (
+        )}
+        {missions.mission3.completed && !startNakamotoFakeProcess && (
           <div className="px-12 py-10 font-medium text-3xl font-mono border-solid bg-black bg-opacity-60 flex">
             <div className="mr-5">Loading</div>
             <LoadingDots />

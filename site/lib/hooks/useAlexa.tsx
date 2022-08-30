@@ -257,6 +257,10 @@ export const AlexaProvider = ({ children }: any) => {
   const audioRef: any = useRef()
   const videoRef: any = useRef()
 
+  const handleVideo1Loaded = useCallback(() => {
+    console.log('video1 caricato')
+  }, [])
+
   return (
     <>
       {onFireTV && (
@@ -300,21 +304,17 @@ export const AlexaProvider = ({ children }: any) => {
                 console.log('audio caricato')
               }}
               // autoPlay
-              loop
+              // loop
               src="/nakamoto/quickfall.mp3"
               className="hidden"
             />
             <video
               ref={videoRef}
-              onCanPlayThrough={() => {
-                console.log('video1 caricato')
-              }}
+              onCanPlayThrough={handleVideo1Loaded}
               muted
-              // autoPlay
               loop
               src="/nakamoto/video1.mp4"
-              className="h-full w-full absolute"
-              style={{ objectFit: 'cover' }}
+              className="h-full w-full absolute objectFitCover"
             />
             <video
               onCanPlayThrough={() => {
@@ -340,8 +340,7 @@ export const AlexaProvider = ({ children }: any) => {
                     show={typeof speaker === 'string'}
                   />
                 )}
-                {!showQRCode && <NakamotoHud />}
-                {showQRCode && (
+                {showQRCode ? (
                   <div className="fixed bottom-20 right-16 rounded-3xl overflow-hidden">
                     <Image
                       className="flex"
@@ -352,6 +351,8 @@ export const AlexaProvider = ({ children }: any) => {
                       alt={'Nakamoto Auth'}
                     />
                   </div>
+                ) : (
+                  <NakamotoHud />
                 )}
               </>
             )}
