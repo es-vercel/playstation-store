@@ -208,11 +208,11 @@ export const AlexaProvider = ({ children }: any) => {
     audioRef.current.play()
     setTimeout(() => {
       videoRef.current.play()
-    }, 1100)
+    }, 1000)
     setTimeout(() => {
       videoRef.current.src = '/video3.mp4'
       videoRef.current.play()
-    }, 135000)
+    }, 134000)
   }, [])
 
   useEffect(() => {
@@ -279,7 +279,7 @@ export const AlexaProvider = ({ children }: any) => {
           },
         }}
       >
-        {onFireTV && (
+        {(onFireTV || true) && (
           <>
             <audio
               ref={audioRef}

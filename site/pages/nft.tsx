@@ -109,13 +109,20 @@ export default function Nft() {
       } else {
         if (imageUrl !== imageData.publicUrl && missions.mission2.completed) {
           setImageUrl(imageData.publicUrl)
+          missions.mission3.setCompleted(true)
           speak(
             'Immagine ricevuta. Processo Nakamoto in esecuzione sulla blockchain polygon.'
           )
         }
       }
     }
-  }, [imageUrl, missions.mission2.completed, nftImages, speak])
+  }, [
+    imageUrl,
+    missions.mission2.completed,
+    missions.mission3,
+    nftImages,
+    speak,
+  ])
 
   useEffect(() => {
     async function alexaEvents() {
@@ -148,8 +155,12 @@ export default function Nft() {
       clean
     >
       <div className="relative z-50">
-        {imageUrl}
-        {imageUrl !== '' && <button onClick={handleSubmit}>test</button>}
+        {missions.mission2.completed && (
+          <div>
+            {imageUrl}
+            {imageUrl !== '' && <button onClick={handleSubmit}>test</button>}
+          </div>
+        )}
       </div>
       {nakaTitleVisible && (
         <div className="fixed bottom-48 left-40 font-mono transition-all nakaTitle">
