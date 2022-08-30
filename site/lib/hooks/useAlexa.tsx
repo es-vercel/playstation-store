@@ -11,6 +11,8 @@ import qs from 'qs'
 import Script from 'next/script'
 import { Howl } from 'howler'
 import { NakamotoHud, NakamotoSpeaker } from '@components/ui'
+import Image from 'next/image'
+import NakamotoQRCode from '../../public/nakamoto/nakauth.svg'
 
 const codecSound = new Howl({
   src: ['/nakamoto/codec.m4a'],
@@ -30,6 +32,7 @@ export interface IAlexa {
   missions: any
   audioRef: any
   videoRef: any
+  setShowQRCode: any
 }
 
 const AlexaContext = createContext<IAlexa>({
@@ -42,6 +45,7 @@ const AlexaContext = createContext<IAlexa>({
   missions: {},
   audioRef: {},
   videoRef: {},
+  setShowQRCode: () => {},
 })
 
 function _speak(alexa: any, message: string) {
@@ -63,6 +67,8 @@ export const AlexaProvider = ({ children }: any) => {
   const [mission1Completed, setMission1Completed] = useState(false)
   const [mission2Completed, setMission2Completed] = useState(false)
   const [mission3Completed, setMission3Completed] = useState(false)
+
+  const [showQRCode, setShowQRCode] = useState(false)
 
   useEffect(() => {
     if (mission1Completed || mission2Completed || mission3Completed) {
@@ -283,6 +289,7 @@ export const AlexaProvider = ({ children }: any) => {
               setCompleted: setMission3Completed,
             },
           },
+          setShowQRCode,
         }}
       >
         {(onFireTV || true) && (
@@ -333,7 +340,19 @@ export const AlexaProvider = ({ children }: any) => {
                     show={typeof speaker === 'string'}
                   />
                 )}
-                {!mission3Completed && <NakamotoHud />}
+                {!showQRCode && <NakamotoHud />}
+                {showQRCode && (
+                  <div className="fixed bottom-20 right-16 rounded-3xl overflow-hidden">
+                    <Image
+                      className="flex"
+                      width={300}
+                      height={300}
+                      layout="fixed"
+                      src={NakamotoQRCode}
+                      alt={'Nakamoto Auth'}
+                    />
+                  </div>
+                )}
               </>
             )}
           </>
