@@ -35,7 +35,7 @@ export default function Cart({ categories }: any) {
   const success = null
   const { data, isLoading, isEmpty } = useCart()
   // const { openSidebar, setSidebarView } = useUI()
-  const { alexa, speak, nakamoto, missions, videoRef } = useAlexa()
+  const { alexa, speak, nakamoto, missions } = useAlexa()
   const removeItem = useRemoveItem()
   // const updateItem = useUpdateItem()
   const router = useRouter()
@@ -209,8 +209,6 @@ export default function Cart({ categories }: any) {
         console.log('mission2 completed')
         router.push('/nft')
         setTimeout(() => {
-          videoRef.current.src = '/video3.mp4'
-          videoRef.current.play()
           speak(
             "Seconda prova completata, ottimo. Rimane l'ultima prova. Scatta una foto al pubblico che hai davanti. Veloce!",
             'paolo'
@@ -226,7 +224,6 @@ export default function Cart({ categories }: any) {
     missions.mission2.completed,
     router,
     speak,
-    videoRef,
   ])
 
   return (

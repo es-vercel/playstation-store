@@ -9,7 +9,7 @@ const NakamotoHud: React.FC = () => {
     <div className={cn(s.root, { nakaHud: true })}>
       <NakamotoMission
         id="1"
-        title="TROVA I PRODOTTI"
+        title="COMBINAZIONE PRODOTTI"
         completed={missions.mission1.completed}
       />
       <NakamotoMission

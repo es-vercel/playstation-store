@@ -5,7 +5,6 @@ import axios from 'axios'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
 import { useAlexa } from '@lib/hooks/useAlexa'
-import cs from 'clsx'
 
 async function uploadFileToPinata(fileUri: any) {
   const res = await axios({
@@ -44,6 +43,15 @@ async function mint(tokenUri: string) {
   return res.data
 }
 
+async function getStorageImages() {
+  const res = await axios({
+    method: 'get',
+    url: '/api/storage',
+  })
+
+  return res.data
+}
+
 export default function Nft() {
   const router = useRouter()
 
@@ -59,17 +67,7 @@ export default function Nft() {
 
   const [imageUrl, setImageUrl] = useState<string>('')
 
-  async function fetcher() {
-    const { data } = await supabase.storage.from('public').list('nft', {
-      limit: 5,
-      offset: 0,
-      sortBy: { column: 'created_at', order: 'desc' },
-    })
-
-    return data
-  }
-
-  const { data: nftImages } = useSWR('nftBucketImages', fetcher, {
+  const { data: nftImages } = useSWR('nftBucketImages', getStorageImages, {
     refreshInterval: 3000,
   })
 
