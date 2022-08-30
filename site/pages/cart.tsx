@@ -195,7 +195,7 @@ export default function Cart({ categories }: any) {
         missions.mission1.setCompleted(true)
         console.log('mission1 completed')
         setTimeout(() => {
-          speak('Ben fatto Francesco, ti rimangono altre 2 prove.', 'paolo')
+          speak('Ben fatto Francesco, ti rimangono altri 2 obiettivi.', 'paolo')
         }, 3000)
       }
 
@@ -210,7 +210,7 @@ export default function Cart({ categories }: any) {
         setTimeout(() => {
           router.push('/nft')
           speak(
-            "Seconda prova completata, ottimo. Rimane l'ultima prova. Scatta una foto al pubblico che hai davanti. Veloce!",
+            "Seconda prova completata, ottimo. Rimane l'ultimo obiettivo. Scatta una foto al pubblico che hai davanti. VELOCE!",
             'paolo'
           )
         }, 3000)

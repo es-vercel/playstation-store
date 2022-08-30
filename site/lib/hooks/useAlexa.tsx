@@ -63,23 +63,12 @@ export const AlexaProvider = ({ children }: any) => {
   const [mission1Completed, setMission1Completed] = useState(false)
   const [mission2Completed, setMission2Completed] = useState(false)
   const [mission3Completed, setMission3Completed] = useState(false)
-  const [mission4Completed, setMission4Completed] = useState(false)
 
   useEffect(() => {
-    if (
-      mission1Completed ||
-      mission2Completed ||
-      mission3Completed ||
-      mission4Completed
-    ) {
+    if (mission1Completed || mission2Completed || mission3Completed) {
       successSound.play()
     }
-  }, [
-    mission1Completed,
-    mission2Completed,
-    mission3Completed,
-    mission4Completed,
-  ])
+  }, [mission1Completed, mission2Completed, mission3Completed])
 
   const speak = useCallback(
     (message, person = null, withCall = false) => {
@@ -231,7 +220,7 @@ export const AlexaProvider = ({ children }: any) => {
       videoRef.current.play()
     }, 1000)
     setTimeout(() => {
-      videoRef.current.src = '/nakamoto/video3.mp4'
+      videoRef.current.src = '/nakamoto/video2.mp4'
       videoRef.current.play()
     }, 134000)
   }, [])
@@ -293,10 +282,6 @@ export const AlexaProvider = ({ children }: any) => {
               completed: mission3Completed,
               setCompleted: setMission3Completed,
             },
-            mission4: {
-              completed: mission4Completed,
-              setCompleted: setMission4Completed,
-            },
           },
         }}
       >
@@ -315,18 +300,26 @@ export const AlexaProvider = ({ children }: any) => {
             <video
               ref={videoRef}
               onCanPlayThrough={() => {
-                console.log('video caricato')
+                console.log('video1 caricato')
               }}
               muted
               // autoPlay
               loop
-              src="/nakamoto/video.mp4"
+              src="/nakamoto/video1.mp4"
               className="h-full w-full absolute"
               style={{ objectFit: 'cover' }}
             />
             <video
               onCanPlayThrough={() => {
                 console.log('video2 caricato')
+              }}
+              muted
+              src="/nakamoto/video2.mp4"
+              className="hidden"
+            />
+            <video
+              onCanPlayThrough={() => {
+                console.log('video3 caricato')
               }}
               muted
               src="/nakamoto/video3.mp4"
@@ -340,7 +333,7 @@ export const AlexaProvider = ({ children }: any) => {
                     show={typeof speaker === 'string'}
                   />
                 )}
-                <NakamotoHud />
+                {!mission3Completed && <NakamotoHud />}
               </>
             )}
           </>
