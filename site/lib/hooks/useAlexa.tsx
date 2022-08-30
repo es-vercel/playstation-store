@@ -10,9 +10,7 @@ import React, {
 import qs from 'qs'
 import Script from 'next/script'
 import { Howl } from 'howler'
-import { NakamotoHud, NakamotoSpeaker } from '@components/ui'
-import Image from 'next/image'
-import NakamotoQRCode from '../../public/nakamoto/nakauth.svg'
+import { NakamotoHud, NakamotoQRCode, NakamotoSpeaker } from '@components/ui'
 
 const codecSound = new Howl({
   src: ['/nakamoto/codec.m4a'],
@@ -340,20 +338,7 @@ export const AlexaProvider = ({ children }: any) => {
                     show={typeof speaker === 'string'}
                   />
                 )}
-                {showQRCode ? (
-                  <div className="fixed bottom-20 right-16 rounded-3xl overflow-hidden">
-                    <Image
-                      className="flex"
-                      width={300}
-                      height={300}
-                      layout="fixed"
-                      src={NakamotoQRCode}
-                      alt={'Nakamoto Auth'}
-                    />
-                  </div>
-                ) : (
-                  <NakamotoHud />
-                )}
+                {showQRCode ? <NakamotoQRCode /> : <NakamotoHud />}
               </>
             )}
           </>

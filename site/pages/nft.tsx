@@ -124,18 +124,19 @@ export default function Nft() {
   }, [router.query.intent])
 
   const grantAccess = useCallback(() => {
-    speak(
-      'Segnale ricevuto, validazione in corso. <break time="4s" />Accesso consentito.'
-    )
-    setTimeout(() => {
-      setStartNakamotoRealProcess(true)
-      accessGrantedSound.play()
-      setShowQRCode(false)
-      universeSound.play()
-      videoRef.current.src = '/nakamoto/video3.mp4'
-      videoRef.current.play()
-    }, 5000)
-  }, [speak, videoRef])
+    // speak(
+    //   'Segnale ricevuto, validazione in corso. <break time="4s" />Accesso consentito.'
+    // )
+    // setTimeout(() => {
+    universeSound.play()
+    videoRef.current.src = '/nakamoto/video3.mp4'
+    videoRef.current.play()
+    setStartNakamotoRealProcess(true)
+    accessGrantedSound.play()
+    setShowQRCode(false)
+
+    // }, 5000)
+  }, [setShowQRCode, videoRef])
 
   useEffect(() => {
     // @ts-ignore
@@ -158,7 +159,7 @@ export default function Nft() {
             'obiettivi completati. Processo Nakamoto in esecuzione! ' +
               'In comunicazione con lo Smart Contract H-FARM Enebling Solutions <say-as interpret-as="characters">NFT</say-as>, ' +
               'per la generazione di un nuovo token <say-as interpret-as="characters">ERC721</say-as>. La tua foto sarà salvata ' +
-              'per sempre sulla blockchain Layer-2 di Ethereum Polygon.<break time="1s"/> ' +
+              'per sempre sulla blockchain di Ethereum Polygon.<break time="1s"/> ' +
               'Validazione dati in corso. <break time="4s"/> Necessaria autorizzazione!'
           )
           setTimeout(() => {
