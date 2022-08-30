@@ -5,6 +5,11 @@ import axios from 'axios'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
 import { useAlexa } from '@lib/hooks/useAlexa'
+import { Howl } from 'howler'
+
+const accessDeniedSound = new Howl({
+  src: ['/nakamoto/accessDenied.m4a'],
+})
 
 async function uploadFileToPinata(fileUri: any) {
   const res = await axios({
@@ -115,13 +120,14 @@ export default function Nft() {
           setImageUrl(imageData.publicUrl)
           missions.mission3.setCompleted(true)
           speak(
-            'Obbiettivi completati con successo. Processo Nakamoto in esecuzione.<break time=“2s"/>' +
-              'In comunicazione con lo smart contract H-FARM Enabling Solutions NFT ' +
-              'per la generazione di un nuovo token ERC721. <break time=“2s"/>La tua foto sarà salvata ' +
-              'per sempre sulla blockchain layer 2 di Ethereum, Polygon.<break time=“3s"/> ' +
-              'Validazione dati in corso. <break time="4s"/>Accesso negato. Necessaria autorizzazione.'
+            'Obbiettivi completati. Processo Nakamoto in esecuzione! ' +
+              'In comunicazione con lo Smart Contract H-FARM Enebling Solutions <say-as interpret-as="characters">NFT</say-as>, ' +
+              'per la generazione di un nuovo token <say-as interpret-as="characters">ERC721</say-as>. La tua foto sarà salvata ' +
+              'per sempre sulla blockchain Layer-2 di Ethereum Polygon.<break time="1s"/> ' +
+              'Validazione dati in corso. <break time="4s"/> Necessaria autorizzazione!'
           )
           setTimeout(() => {
+            accessDeniedSound.play()
             setNeedAuthorization(true)
           }, 28000)
         }
