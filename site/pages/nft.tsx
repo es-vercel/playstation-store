@@ -162,9 +162,9 @@ export default function Nft() {
               'Validazione dati in corso. <break time="4s"/> Necessaria autorizzazione!'
           )
           setTimeout(() => {
-            audioRef.current.pause()
             accessDeniedSound.play()
             setStartNakamotoFakeProcess(true)
+            audioRef.current.pause()
             setTimeout(() => {
               speak(
                 "Probabilmente serve l'autorizzazione di Fabio. Ti invio il QR code da condividergli.",
