@@ -72,7 +72,7 @@ export default function Nft() {
   )
 
   const { data: nftImages } = useSWR('nftBucketImages', getStorageImages, {
-    refreshInterval: 60000,
+    refreshInterval: 3000,
   })
 
   const handleSubmit = useCallback(async () => {
