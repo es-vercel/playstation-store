@@ -304,7 +304,7 @@ export const AlexaProvider = ({ children }: any) => {
               }}
               muted
               // autoPlay
-              // loop
+              loop
               src="/nakamoto/video1.mp4"
               className="h-full w-full absolute"
               style={{ objectFit: 'cover' }}
