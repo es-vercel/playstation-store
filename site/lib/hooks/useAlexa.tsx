@@ -309,7 +309,7 @@ export const AlexaProvider = ({ children }: any) => {
               }}
               // autoPlay
               loop
-              src="/quickfall.mp3"
+              src="/nakamoto/quickfall.mp3"
               className="hidden"
             />
             <video
