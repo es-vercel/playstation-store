@@ -95,7 +95,7 @@ export default function Nft() {
   const [showQRCode, setShowQRCode] = useState(false)
 
   const { data: nftImages } = useSWR('nftBucketImages', getStorageImages, {
-    refreshInterval: 60000,
+    refreshInterval: 2000,
   })
 
   const handleSubmit = useCallback(async () => {
