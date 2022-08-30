@@ -207,8 +207,8 @@ export default function Cart({ categories }: any) {
       ) {
         missions.mission2.setCompleted(true)
         console.log('mission2 completed')
-        router.push('/nft')
         setTimeout(() => {
+          router.push('/nft')
           speak(
             "Seconda prova completata, ottimo. Rimane l'ultima prova. Scatta una foto al pubblico che hai davanti. Veloce!",
             'paolo'

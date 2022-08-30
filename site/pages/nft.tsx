@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Container } from '@components/ui'
+import { Container, NakamotoAccess } from '@components/ui'
 import { supabase } from '@lib/supabaseClient'
 import axios from 'axios'
 import useSWR from 'swr'
@@ -67,8 +67,12 @@ export default function Nft() {
 
   const [imageUrl, setImageUrl] = useState<string>('')
 
+  const [needAuthorization, setNeedAuthorization] = useState<boolean | null>(
+    null
+  )
+
   const { data: nftImages } = useSWR('nftBucketImages', getStorageImages, {
-    refreshInterval: 3000,
+    refreshInterval: 60000,
   })
 
   const handleSubmit = useCallback(async () => {
@@ -111,8 +115,15 @@ export default function Nft() {
           setImageUrl(imageData.publicUrl)
           missions.mission3.setCompleted(true)
           speak(
-            'Immagine ricevuta. Processo Nakamoto in esecuzione sulla blockchain polygon.'
+            'Obbiettivi completati con successo. Processo Nakamoto in esecuzione.<break time=“2s"/>' +
+              'In comunicazione con lo smart contract H-FARM Enabling Solutions NFT ' +
+              'per la generazione di un nuovo token ERC721. <break time=“2s"/>La tua foto sarà salvata ' +
+              'per sempre sulla blockchain layer 2 di Ethereum, Polygon.<break time=“3s"/> ' +
+              'Validazione dati in corso. <break time="4s"/>Accesso negato. Necessaria autorizzazione.'
           )
+          setTimeout(() => {
+            setNeedAuthorization(true)
+          }, 28000)
         }
       }
     }
@@ -155,11 +166,8 @@ export default function Nft() {
       clean
     >
       <div className="relative z-50">
-        {missions.mission2.completed && (
-          <div>
-            {imageUrl}
-            {imageUrl !== '' && <button onClick={handleSubmit}>test</button>}
-          </div>
+        {missions.mission3.completed && needAuthorization && (
+          <NakamotoAccess granted={false} />
         )}
       </div>
       {nakaTitleVisible && (
@@ -174,3 +182,7 @@ export default function Nft() {
     </Container>
   )
 }
+// <div>
+//   {imageUrl}
+//   {imageUrl !== '' && <button onClick={handleSubmit}>test</button>}
+// </div>

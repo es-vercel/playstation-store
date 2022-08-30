@@ -1,0 +1,13 @@
+.root {
+  @apply z-50 transition-all px-12 py-10 font-medium text-7xl font-mono border-solid;
+  border-width: 6px;
+  color: red;
+  background-color: rgba(50, 0, 0, 0.5);
+  border-color: red;
+}
+
+.granted {
+  color: #73f54c;
+  background-color: rgba(33, 140, 0, 0.3);
+  border-color: #73f54c;
+}
