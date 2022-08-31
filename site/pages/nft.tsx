@@ -75,20 +75,18 @@ export default function Nft() {
   }, [router.query.intent])
 
   const grantAccess = useCallback(() => {
-    // speak(
-    //   'Segnale ricevuto, validazione in corso. <break time="4s" />Accesso consentito.'
-    // )
-    // setTimeout(() => {
-    audioRef.current.pause()
-    universeSound.play()
-    videoRef.current.src = video3objectURL
-    videoRef.current.play()
-    setStartNakamotoRealProcess(true)
-    accessGrantedSound.play()
-    setShowQRCode(false)
-
-    // }, 5000)
-  }, [audioRef, setShowQRCode, video3objectURL, videoRef])
+    speak('Segnale ricevuto. <break time="2s" />Accesso consentito.')
+    setTimeout(() => {
+      audioRef.current.pause()
+      // universeSound.play()
+      videoRef.current.src = video3objectURL
+      videoRef.current.muted = false
+      videoRef.current.play()
+      setStartNakamotoRealProcess(true)
+      // accessGrantedSound.play()
+      setShowQRCode(false)
+    }, 4000)
+  }, [audioRef, setShowQRCode, speak, video3objectURL, videoRef])
 
   useEffect(() => {
     // @ts-ignore
@@ -113,8 +111,8 @@ export default function Nft() {
           missions.mission3.setCompleted(true)
           speak(
             '<break time="1s"/>Obiettivi completati. Processo Nakamoto in esecuzione! ' +
-              'In comunicazione con lo Smart Contract H-FARM Enebling Solutions <say-as interpret-as="characters">NFT</say-as>.' +
-              'La tua foto sta per essere salvata irrevocabilmente sulla blockchain di Ethereum.<break time="1s"/> ' +
+              '<break time="1s"/>In comunicazione con lo Smart Contract H-FARM Enebling Solutions <say-as interpret-as="characters">NFT</say-as>!.' +
+              '<break time="1s"/>La tua foto sta per essere salvata irrevocabilmente sulla blockchain di Ethereum.<break time="1s"/> ' +
               'Validazione dati in corso. <break time="3s"/> Necessaria autorizzazione!'
           )
           setTimeout(() => {

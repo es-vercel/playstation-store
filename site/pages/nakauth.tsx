@@ -42,7 +42,8 @@ export default function NakAuth() {
       clean
     >
       <div className="relative z-50 flex flex-col items-center">
-        {user.email === process.env.NEXT_PUBLIC_NAKAMOTO_EMAIL_AUTH ? (
+        {user.email === process.env.NEXT_PUBLIC_NAKAMOTO_EMAIL1_AUTH ||
+        user.email === process.env.NEXT_PUBLIC_NAKAMOTO_EMAIL2_AUTH ? (
           <>
             <div className="text-xl font-bold font-mono mb-8">
               Nakamoto Program

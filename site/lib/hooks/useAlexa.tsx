@@ -253,7 +253,7 @@ export const AlexaProvider = ({ children }: any) => {
   }, [])
 
   const play = useCallback(() => {
-    audioRef.current.volume = 0.4
+    audioRef.current.volume = 0.6
     audioRef.current.play()
     setTimeout(() => {
       videoRef.current.play()
