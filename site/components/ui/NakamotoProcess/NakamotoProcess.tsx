@@ -3,6 +3,7 @@ import s from './NakamotoProcess.module.css'
 import Typewriter from 'typewriter-effect'
 import { useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
+import { useAlexa } from '@lib/hooks/useAlexa'
 
 async function uploadFileToPinata(fileUri: any) {
   const res = await axios({
@@ -46,6 +47,8 @@ interface Props {
 }
 
 const NakamotoProcess: React.FC<Props> = ({ imageUrl }) => {
+  const { speak } = useAlexa()
+
   const [show, setShow] = useState(false)
   const [exec, setExec] = useState(false)
 
@@ -79,9 +82,11 @@ const NakamotoProcess: React.FC<Props> = ({ imageUrl }) => {
       setUploadJSONDone(pinataJson.IpfsHash)
       const txn = await mint(`ipfs://${pinataJson.IpfsHash}`)
       setMintDone(txn.hash)
-      console.log(txn)
+      setTimeout(() => {
+        speak('Ottimo lavoro ragazzi!', 'fabio', true)
+      }, 2000)
     } catch (e) {}
-  }, [imageUrl])
+  }, [imageUrl, speak])
 
   useEffect(() => {
     if (exec) {

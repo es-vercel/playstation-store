@@ -134,7 +134,7 @@ export default function Nft() {
             setStartNakamotoFakeProcess(true)
             setTimeout(() => {
               speak(
-                "Probabilmente serve l'autorizzazione di Fabio. Ti invio il QR code da condividergli.",
+                "Maledizione! Probabilmente serve l'autorizzazione di Fabio. Ti invio il QR code da condividergli. Dai veloce!",
                 'paolo'
               )
               setTimeout(() => {
