@@ -1,18 +1,53 @@
-import { Container } from '@components/ui'
+import { Container, LoadingDots } from '@components/ui'
 import { Auth } from '@supabase/ui'
 import { useUser } from '@supabase/auth-helpers-react'
+import { supabase } from '@lib/supabaseClient'
+import { useCallback, useEffect, useState } from 'react'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
-import { useEffect, useState } from 'react'
+import axios from 'axios'
+import useSWR from 'swr'
+
+async function getEvents() {
+  const res = await axios({
+    method: 'get',
+    url: '/api/events',
+  })
+
+  return res.data
+}
 
 export default function NakAuth() {
   const { user, error } = useUser()
   const [isSSR, setIsSSR] = useState(true)
+  const [showBtn, setShowBtn] = useState(true)
+  const [loading, setLoading] = useState(false)
+  const [lastEvent, setLastEvent] = useState(null)
+
+  const { data: events } = useSWR('events', getEvents, {
+    refreshInterval: 2000,
+  })
 
   useEffect(() => {
     setIsSSR(false)
   }, [])
 
-  console.log(user)
+  const handleClick = useCallback(async () => {
+    setLoading(true)
+
+    const { data, error } = await supabase
+      .from('events')
+      .insert([{ created_at: new Date() }])
+
+    setLoading(false)
+
+    if (error) {
+      return alert(error)
+    }
+
+    if (data?.length) {
+      setShowBtn(false)
+    }
+  }, [])
 
   if (!user) {
     return (
@@ -48,19 +83,30 @@ export default function NakAuth() {
             <div className="text-xl font-bold font-mono mb-8">
               Nakamoto Program
             </div>
-            <button className="px-10 py-8 bg-lime-400 text-black text-3xl font-mono font-extrabold rounded-lg active:bg-lime-700">
-              Autorizza
-            </button>
+            {showBtn ? (
+              <button
+                disabled={loading}
+                onClick={handleClick}
+                className="px-10 py-8 bg-lime-400 text-black text-3xl flex items-center font-mono font-extrabold rounded-lg active:bg-lime-700"
+              >
+                <div className="mr-3">Autorizza</div>
+                {loading && <LoadingDots />}
+              </button>
+            ) : (
+              <div className="px-10 py-8 bg-purple-600 text-white text-3xl flex items-center font-mono font-extrabold rounded-lg">
+                Granted!
+              </div>
+            )}
             <div className="px-20 text-center mt-20">
               Accesso riservato solo a <br />
-              <b>{process.env.NEXT_PUBLIC_NAKAMOTO_EMAIL_AUTH}</b>
+              <b>{process.env.NEXT_PUBLIC_NAKAMOTO_EMAIL2_AUTH}</b>
             </div>
           </>
         ) : (
           <div className="px-20 text-center">
             <p>Mi spiace.</p> <br />
             Accesso riservato solo a{' '}
-            <b>{process.env.NEXT_PUBLIC_NAKAMOTO_EMAIL_AUTH}</b>
+            <b>{process.env.NEXT_PUBLIC_NAKAMOTO_EMAIL2_AUTH}</b>
           </div>
         )}
       </div>

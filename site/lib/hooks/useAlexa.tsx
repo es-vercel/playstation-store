@@ -243,7 +243,7 @@ export const AlexaProvider = ({ children }: any) => {
       setVideo2objectURL(URL.createObjectURL(v2.data))
 
       const v3 = await axios({
-        url: '/nakamoto/video3.webm',
+        url: '/nakamoto/video3.mp4',
         method: 'GET',
         responseType: 'blob',
       })

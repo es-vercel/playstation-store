@@ -18,20 +18,29 @@ import Typewriter from 'typewriter-effect'
 //   html5: true,
 // })
 
-const accessGrantedSound = new Howl({
-  src: ['/nakamoto/success.mp3'],
-  html5: true,
-})
+// const accessGrantedSound = new Howl({
+//   src: ['/nakamoto/success.mp3'],
+//   html5: true,
+// })
 
-const universeSound = new Howl({
-  src: ['/nakamoto/universe.mp3'],
-  html5: true,
-})
+// const universeSound = new Howl({
+//   src: ['/nakamoto/universe.mp3'],
+//   html5: true,
+// })
 
 async function getStorageImages() {
   const res = await axios({
     method: 'get',
     url: '/api/storage',
+  })
+
+  return res.data
+}
+
+async function getEvents() {
+  const res = await axios({
+    method: 'get',
+    url: '/api/events',
   })
 
   return res.data
@@ -54,6 +63,7 @@ export default function Nft() {
   } = useAlexa()
 
   const [imageUrl, setImageUrl] = useState<string>('')
+  const [eventId, setEventId] = useState<string>('')
 
   const [startNakamotoFakeProcess, setStartNakamotoFakeProcess] =
     useState<boolean>(false)
@@ -62,6 +72,10 @@ export default function Nft() {
     useState<boolean>(false)
 
   const { data: nftImages } = useSWR('nftBucketImages', getStorageImages, {
+    refreshInterval: 2000,
+  })
+
+  const { data: events } = useSWR('nftEvents', getEvents, {
     refreshInterval: 2000,
   })
 
@@ -140,6 +154,24 @@ export default function Nft() {
     setShowQRCode,
     speak,
   ])
+
+  useEffect(() => {
+    if (events?.length) {
+      const eventDataId = events[0].id
+
+      if (!eventDataId) {
+        return
+      }
+      console.log('eventId', eventId)
+      if (eventId === '') {
+        setEventId(eventDataId)
+      } else {
+        if (eventId !== eventDataId && missions.mission3.completed) {
+          grantAccess()
+        }
+      }
+    }
+  }, [eventId, events, grantAccess, missions.mission3.completed])
 
   useEffect(() => {
     async function alexaEvents() {
