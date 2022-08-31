@@ -13,10 +13,10 @@ import { useAlexa } from '@lib/hooks/useAlexa'
 import { Howl } from 'howler'
 import Typewriter from 'typewriter-effect'
 
-const accessDeniedSound = new Howl({
-  src: ['/nakamoto/accessDenied.m4a'],
-  html5: true,
-})
+// const accessDeniedSound = new Howl({
+//   src: ['/nakamoto/accessDenied.m4a'],
+//   html5: true,
+// })
 
 const accessGrantedSound = new Howl({
   src: ['/nakamoto/success.mp3'],
@@ -118,7 +118,7 @@ export default function Nft() {
               'Validazione dati in corso. <break time="4s"/> Necessaria autorizzazione!'
           )
           setTimeout(() => {
-            accessDeniedSound.play()
+            // accessDeniedSound.play()
             setStartNakamotoFakeProcess(true)
             audioRef.current.pause()
             setTimeout(() => {

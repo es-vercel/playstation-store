@@ -276,11 +276,16 @@ export const AlexaProvider = ({ children }: any) => {
 
   return (
     <>
-      {onFireTV && (
-        <Script
-          src="https://cdn.html.games.alexa.a2z.com/alexa-html/latest/alexa-html.js"
-          onLoad={handleLoadScript}
-        />
+      {(onFireTV || true) && (
+        <>
+          <Script
+            src="https://cdn.html.games.alexa.a2z.com/alexa-html/latest/alexa-html.js"
+            onLoad={handleLoadScript}
+          />
+          <link rel="preload" as="video" href="/nakamoto/video1.webm" />
+          <link rel="preload" as="video" href="/nakamoto/video2.webm" />
+          <link rel="preload" as="video" href="/nakamoto/video3.webm" />
+        </>
       )}
       <AlexaContext.Provider
         value={{
@@ -309,38 +314,43 @@ export const AlexaProvider = ({ children }: any) => {
           setShowQRCode,
         }}
       >
-        {onFireTV && (
+        {(onFireTV || true) && (
           <>
             <audio
               ref={audioRef}
               onCanPlayThrough={() => {
                 console.log('audio caricato')
               }}
-              // autoPlay
-              // loop
+              autoPlay
+              loop
               src="/nakamoto/quickfall.mp3"
-              className="hidden"
+              className=""
             />
             <video
               ref={videoRef}
               onCanPlayThrough={handleVideo1Loaded}
               muted
-              loop
-              src="/nakamoto/video1.mov"
+              // loop
+              src="/nakamoto/video1.webm"
               className="h-full w-full absolute objectFitCover"
             />
-            <video
+            {/* <video
               onCanPlayThrough={handleVideo2Loaded}
+              autoPlay
               muted
-              src="/nakamoto/video2.mov"
-              className="hidden"
+              loop
+              src={Video2}
+              className=""
             />
             <video
               onCanPlayThrough={handleVideo3Loaded}
+              autoPlay
               muted
-              src="/nakamoto/video3.mov"
-              className="hidden"
-            />
+              loop
+              // src="/nakamoto/video3.mov"
+              src={Video3}
+              className=""
+            /> */}
             <div className="fixed top-5 right-0 mr-2 font-mono transition-all z-50 text-">
               {video1Downloaded && '.'}
               {video2Downloaded && '.'}
