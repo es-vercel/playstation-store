@@ -10,7 +10,6 @@ import axios from 'axios'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
 import { useAlexa } from '@lib/hooks/useAlexa'
-import { Howl } from 'howler'
 import Typewriter from 'typewriter-effect'
 
 // const accessDeniedSound = new Howl({
@@ -66,10 +65,10 @@ export default function Nft() {
   const [eventId, setEventId] = useState<string>('')
 
   const [startNakamotoFakeProcess, setStartNakamotoFakeProcess] =
-    useState<boolean>(true)
+    useState<boolean>(false)
 
   const [startNakamotoRealProcess, setStartNakamotoRealProcess] =
-    useState<boolean>(true)
+    useState<boolean>(false)
 
   const { data: nftImages } = useSWR('nftBucketImages', getStorageImages, {
     refreshInterval: 2000,
@@ -212,7 +211,7 @@ export default function Nft() {
       )}
       {missions.mission3.completed && !startNakamotoFakeProcess && (
         <div className="px-12 py-10 font-medium text-3xl font-mono border-solid bg-black bg-opacity-60 flex z-50">
-          <div className="mr-5">Waiting</div>
+          <div className="mr-5">Contract Waiting</div>
           <LoadingDots />
         </div>
       )}

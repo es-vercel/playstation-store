@@ -21,11 +21,6 @@ export default function NakAuth() {
   const [isSSR, setIsSSR] = useState(true)
   const [showBtn, setShowBtn] = useState(true)
   const [loading, setLoading] = useState(false)
-  const [lastEvent, setLastEvent] = useState(null)
-
-  const { data: events } = useSWR('events', getEvents, {
-    refreshInterval: 2000,
-  })
 
   useEffect(() => {
     setIsSSR(false)
