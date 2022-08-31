@@ -1,7 +1,6 @@
-import { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { ChangeEvent, useCallback } from 'react'
 import { Container } from '@components/ui'
 import { supabase } from '@lib/supabaseClient'
-import axios from 'axios'
 
 export default function Nft() {
   const handleUpload = useCallback(async (e: ChangeEvent<HTMLInputElement>) => {
@@ -24,6 +23,7 @@ export default function Nft() {
     if (data) {
       alert('Saved!')
     } else if (error) {
+      console.log(error)
       alert('Error')
     }
   }, [])
