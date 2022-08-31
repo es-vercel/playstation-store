@@ -90,16 +90,17 @@ export default function Nft() {
 
   const grantAccess = useCallback(() => {
     speak('Segnale ricevuto. <break time="2s" />Accesso consentito.')
+    audioRef.current.pause()
+    // universeSound.play()
+    setShowQRCode(false)
+    videoRef.current.src = video3objectURL
+    videoRef.current.muted = false
+    videoRef.current.volume = 1
+    videoRef.current.play()
     setTimeout(() => {
-      audioRef.current.pause()
-      // universeSound.play()
-      videoRef.current.src = video3objectURL
-      videoRef.current.muted = false
-      videoRef.current.play()
       setStartNakamotoRealProcess(true)
-      // accessGrantedSound.play()
-      setShowQRCode(false)
     }, 4000)
+    // accessGrantedSound.play()
   }, [audioRef, setShowQRCode, speak, video3objectURL, videoRef])
 
   useEffect(() => {
@@ -134,12 +135,12 @@ export default function Nft() {
             setStartNakamotoFakeProcess(true)
             setTimeout(() => {
               speak(
-                "Maledizione! Probabilmente serve l'autorizzazione di Fabio. Ti invio il QR code da condividergli. Dai veloce!",
+                "Maledizione! Abbiamo bisogno dell'autorizzazione di Fabio. Ti invio il QR code da condividergli. Veloce!",
                 'paolo'
               )
               setTimeout(() => {
                 setShowQRCode(true)
-              }, 5000)
+              }, 7000)
             }, 5000)
           }, 28000)
         }
