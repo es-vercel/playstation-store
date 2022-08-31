@@ -19,7 +19,7 @@ const NakamotoHud: React.FC = () => {
       />
       <NakamotoMission
         id="3"
-        title="SCATTA UNA FOTO MEMORABILE"
+        title="RENDILO MEMORABILE"
         completed={missions.mission3.completed}
       />
     </div>

@@ -210,7 +210,7 @@ export default function Cart({ categories }: any) {
         setTimeout(() => {
           router.push('/nft')
           speak(
-            "Seconda prova completata, ottimo. Rimane l'ultimo obiettivo. Scatta una foto al pubblico che hai davanti. VELOCE!",
+            "Secondo obbiettivo completato. Rimane l'ultimo. Scatta una foto al pubblico che hai davanti. VELOCE!",
             'paolo'
           )
         }, 3000)
