@@ -195,26 +195,28 @@ const NakamotoProcess: React.FC<Props> = ({ imageUrl }) => {
           </div>
           <div className="mt-5">
             {mintDone && (
-              <div>
-                <p className="font-bold" style={{ color: 'lime' }}>
-                  NFT Minted. Congratulations!
-                </p>
-                <p className="text-base mt-5 break-words">
-                  Transaction Hash: https://polygonscan.com/tx/{mintDone}
-                </p>
-              </div>
+              <>
+                <div>
+                  <p className="font-bold" style={{ color: 'lime' }}>
+                    NFT Minted. WELL DONE!!!
+                  </p>
+                  <p className="text-base mt-5 break-words">
+                    Transaction Hash: https://polygonscan.com/tx/{mintDone}
+                  </p>
+                </div>
+                <div className="mt-5">
+                  <div className="relative w-full h-44">
+                    <Image
+                      alt="Background"
+                      src={`https://ipfs.io/ipfs/${uploadFileDone}`}
+                      layout="fill"
+                      objectFit="cover"
+                      quality={85}
+                    />
+                  </div>
+                </div>
+              </>
             )}
-          </div>
-          <div className="mt-5 ">
-            <div className="relative w-full h-44">
-              <Image
-                alt="Background"
-                src={`https://ipfs.io/ipfs/${uploadFileDone}`}
-                layout="fill"
-                objectFit="cover"
-                quality={85}
-              />
-            </div>
           </div>
         </>
       )}

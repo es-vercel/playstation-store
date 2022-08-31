@@ -88,7 +88,7 @@ export default function Nft() {
   }, [router.query.intent])
 
   const grantAccess = useCallback(() => {
-    speak('Segnale ricevuto. <break time="2s" />Accesso consentito.')
+    speak('Accesso consentito.')
     audioRef.current.pause()
     // universeSound.play()
     setShowQRCode(false)
@@ -101,11 +101,6 @@ export default function Nft() {
     }, 3000)
     // accessGrantedSound.play()
   }, [audioRef, setShowQRCode, speak, video3objectURL, videoRef])
-
-  useEffect(() => {
-    // @ts-ignore
-    window.grantAccess = grantAccess
-  }, [grantAccess])
 
   useEffect(() => {
     if (nftImages?.length) {
