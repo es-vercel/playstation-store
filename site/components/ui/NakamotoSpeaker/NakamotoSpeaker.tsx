@@ -35,7 +35,7 @@ const NakamotoSpeaker: React.FC<Props> = ({ id, show }) => {
           <span />
         </div>
         <div className={s.imageContainer}>
-          <div className={s.grain}>
+          <div className={cn(s.grain)}>
             <Image
               className="grain"
               layout="fill"
