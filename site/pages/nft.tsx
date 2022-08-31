@@ -79,6 +79,7 @@ export default function Nft() {
     //   'Segnale ricevuto, validazione in corso. <break time="4s" />Accesso consentito.'
     // )
     // setTimeout(() => {
+    audioRef.current.pause()
     universeSound.play()
     videoRef.current.src = video3objectURL
     videoRef.current.play()
@@ -87,7 +88,7 @@ export default function Nft() {
     setShowQRCode(false)
 
     // }, 5000)
-  }, [setShowQRCode, video3objectURL, videoRef])
+  }, [audioRef, setShowQRCode, video3objectURL, videoRef])
 
   useEffect(() => {
     // @ts-ignore
@@ -111,16 +112,14 @@ export default function Nft() {
           setImageUrl(imageData.publicURL)
           missions.mission3.setCompleted(true)
           speak(
-            'obiettivi completati. Processo Nakamoto in esecuzione! ' +
-              'In comunicazione con lo Smart Contract H-FARM Enebling Solutions <say-as interpret-as="characters">NFT</say-as>, ' +
-              'per la generazione di un nuovo token <say-as interpret-as="characters">ERC721</say-as>. La tua foto sarà salvata ' +
-              'per sempre sulla blockchain di Ethereum Polygon.<break time="1s"/> ' +
-              'Validazione dati in corso. <break time="4s"/> Necessaria autorizzazione!'
+            '<break time="1s"/>Obiettivi completati. Processo Nakamoto in esecuzione! ' +
+              'In comunicazione con lo Smart Contract H-FARM Enebling Solutions <say-as interpret-as="characters">NFT</say-as>.' +
+              'La tua foto sta per essere salvata irrevocabilmente sulla blockchain di Ethereum.<break time="1s"/> ' +
+              'Validazione dati in corso. <break time="3s"/> Necessaria autorizzazione!'
           )
           setTimeout(() => {
             // accessDeniedSound.play()
             setStartNakamotoFakeProcess(true)
-            audioRef.current.pause()
             setTimeout(() => {
               speak(
                 "Probabilmente serve l'autorizzazione di Fabio. Ti invio il QR code da condividergli.",
@@ -128,7 +127,7 @@ export default function Nft() {
               )
               setTimeout(() => {
                 setShowQRCode(true)
-              }, 6000)
+              }, 5000)
             }, 5000)
           }, 28000)
         }
