@@ -11,6 +11,7 @@ import qs from 'qs'
 import Script from 'next/script'
 import { Howl } from 'howler'
 import { NakamotoHud, NakamotoQRCode, NakamotoSpeaker } from '@components/ui'
+import axios from 'axios'
 
 const codecSound = new Howl({
   src: ['/nakamoto/codec.m4a'],
@@ -30,6 +31,9 @@ export interface IAlexa {
   missions: any
   audioRef: any
   videoRef: any
+  video1objectURL: any
+  video2objectURL: any
+  video3objectURL: any
   setShowQRCode: any
 }
 
@@ -43,6 +47,9 @@ const AlexaContext = createContext<IAlexa>({
   missions: {},
   audioRef: {},
   videoRef: {},
+  video1objectURL: undefined,
+  video2objectURL: undefined,
+  video3objectURL: undefined,
   setShowQRCode: () => {},
 })
 
@@ -68,9 +75,9 @@ export const AlexaProvider = ({ children }: any) => {
 
   const [showQRCode, setShowQRCode] = useState(false)
 
-  const [video1Downloaded, setVideo1Downloaded] = useState(false)
-  const [video2Downloaded, setVideo2Downloaded] = useState(false)
-  const [video3Downloaded, setVideo3Downloaded] = useState(false)
+  const [video1objectURL, setVideo1objectURL] = useState<string | undefined>()
+  const [video2objectURL, setVideo2objectURL] = useState<string | undefined>()
+  const [video3objectURL, setVideo3objectURL] = useState<string | undefined>()
 
   useEffect(() => {
     if (mission1Completed || mission2Completed || mission3Completed) {
@@ -219,6 +226,30 @@ export const AlexaProvider = ({ children }: any) => {
       console.log('Fire TV')
       setOnFireTV(true)
     }
+
+    async function fn() {
+      const v1 = await axios({
+        url: '/nakamoto/video1.webm',
+        method: 'GET',
+        responseType: 'blob',
+      })
+      setVideo1objectURL(URL.createObjectURL(v1.data))
+
+      const v2 = await axios({
+        url: '/nakamoto/video2.webm',
+        method: 'GET',
+        responseType: 'blob',
+      })
+      setVideo2objectURL(URL.createObjectURL(v2.data))
+
+      const v3 = await axios({
+        url: '/nakamoto/video3.webm',
+        method: 'GET',
+        responseType: 'blob',
+      })
+      setVideo3objectURL(URL.createObjectURL(v3.data))
+    }
+    fn()
   }, [])
 
   const play = useCallback(() => {
@@ -228,10 +259,10 @@ export const AlexaProvider = ({ children }: any) => {
       videoRef.current.play()
     }, 1000)
     setTimeout(() => {
-      videoRef.current.src = '/nakamoto/video2.webm'
+      videoRef.current.src = video2objectURL
       videoRef.current.play()
     }, 134000)
-  }, [])
+  }, [video2objectURL])
 
   useEffect(() => {
     // @ts-ignore
@@ -259,33 +290,13 @@ export const AlexaProvider = ({ children }: any) => {
   const audioRef: any = useRef()
   const videoRef: any = useRef()
 
-  const handleVideo1Loaded = useCallback(() => {
-    console.log('video1 caricato')
-    setVideo1Downloaded(true)
-  }, [])
-
-  const handleVideo2Loaded = useCallback(() => {
-    console.log('video2 caricato')
-    setVideo2Downloaded(true)
-  }, [])
-
-  const handleVideo3Loaded = useCallback(() => {
-    console.log('video3 caricato')
-    setVideo3Downloaded(true)
-  }, [])
-
   return (
     <>
-      {(onFireTV || true) && (
-        <>
-          <Script
-            src="https://cdn.html.games.alexa.a2z.com/alexa-html/latest/alexa-html.js"
-            onLoad={handleLoadScript}
-          />
-          {/* <link rel="preload" as="video" href="/nakamoto/video1.webm" />
-          <link rel="preload" as="video" href="/nakamoto/video2.webm" />
-          <link rel="preload" as="video" href="/nakamoto/video3.webm" /> */}
-        </>
+      {onFireTV && (
+        <Script
+          src="https://cdn.html.games.alexa.a2z.com/alexa-html/latest/alexa-html.js"
+          onLoad={handleLoadScript}
+        />
       )}
       <AlexaContext.Provider
         value={{
@@ -297,6 +308,9 @@ export const AlexaProvider = ({ children }: any) => {
           setNakaTitleVisible,
           audioRef,
           videoRef,
+          video1objectURL,
+          video2objectURL,
+          video3objectURL,
           missions: {
             mission1: {
               completed: mission1Completed,
@@ -327,18 +341,17 @@ export const AlexaProvider = ({ children }: any) => {
             />
             <video
               ref={videoRef}
-              onCanPlayThrough={handleVideo1Loaded}
               muted
               loop
-              src="/nakamoto/video1.webm"
+              src={video1objectURL}
               className="h-full w-full absolute objectFitCover"
             />
-            <video
+            {/* <video
               onCanPlayThrough={handleVideo2Loaded}
               autoPlay
               muted
               loop
-              src="/nakamoto/video2.webm"
+              // src="/nakamoto/video2.webm"
               className="hidden"
             />
             <video
@@ -346,13 +359,13 @@ export const AlexaProvider = ({ children }: any) => {
               autoPlay
               muted
               loop
-              src="/nakamoto/video3.webm"
+              // src="/nakamoto/video3.webm"
               className="hidden"
-            />
+            /> */}
             <div className="fixed top-5 right-0 mr-2 font-mono transition-all z-50 text-">
-              {video1Downloaded && '.'}
-              {video2Downloaded && '.'}
-              {video3Downloaded && '.'}
+              {video1objectURL && '.'}
+              {video2objectURL && '.'}
+              {video3objectURL && '.'}
             </div>
             {nakamoto && (
               <>

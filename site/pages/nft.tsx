@@ -44,13 +44,13 @@ export default function Nft() {
     alexa,
     speak,
     play,
-    nakamoto,
     missions,
     nakaTitleVisible,
     setNakaTitleVisible,
     videoRef,
     audioRef,
     setShowQRCode,
+    video3objectURL,
   } = useAlexa()
 
   const [imageUrl, setImageUrl] = useState<string>('')
@@ -80,14 +80,14 @@ export default function Nft() {
     // )
     // setTimeout(() => {
     universeSound.play()
-    videoRef.current.src = '/nakamoto/video3.webm'
+    videoRef.current.src = video3objectURL
     videoRef.current.play()
     setStartNakamotoRealProcess(true)
     accessGrantedSound.play()
     setShowQRCode(false)
 
     // }, 5000)
-  }, [setShowQRCode, videoRef])
+  }, [setShowQRCode, video3objectURL, videoRef])
 
   useEffect(() => {
     // @ts-ignore
