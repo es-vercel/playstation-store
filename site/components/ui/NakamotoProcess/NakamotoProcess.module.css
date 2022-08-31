@@ -1,0 +1,7 @@
+.root {
+  @apply z-50 transition-transform px-8 py-6 font-medium text-2xl font-mono
+  bg-black bg-opacity-80;
+  border-color: red;
+  transition-duration: 2.5s;
+  width: 800px;
+}

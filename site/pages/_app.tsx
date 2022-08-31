@@ -8,6 +8,8 @@ import { Head } from '@components/common'
 import { ManagedUIContext } from '@components/ui/context'
 import { AlexaProvider } from '@lib/hooks/useAlexa'
 import { CommerceProvider } from '@framework'
+import { UserProvider } from '@supabase/auth-helpers-react'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 
 const Noop: FC = ({ children }) => <>{children}</>
 
@@ -24,7 +26,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <ManagedUIContext>
         <CommerceProvider locale={'en-US'}>
           <AlexaProvider>
-            <Component {...pageProps} />
+            <UserProvider supabaseClient={supabaseClient}>
+              <Component {...pageProps} />
+            </UserProvider>
           </AlexaProvider>
         </CommerceProvider>
       </ManagedUIContext>

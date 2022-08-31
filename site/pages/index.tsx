@@ -1,12 +1,8 @@
 import commerce from '@lib/api/commerce'
 import { Layout } from '@components/common'
 import { ProductCard } from '@components/product'
-import { Grid, Marquee, Hero, Container } from '@components/ui'
-// import HomeAllProductsGrid from '@components/common/HomeAllProductsGrid'
+import { Grid, Container } from '@components/ui'
 import type { GetStaticPropsContext, InferGetStaticPropsType } from 'next'
-import { useEffect, useState } from 'react'
-import { useAlexa } from '@lib/hooks/useAlexa'
-import { useRouter } from 'next/router'
 import { getPlaiceholder } from 'plaiceholder'
 import BackgroundImageHome from '../public/background-home.jpeg'
 

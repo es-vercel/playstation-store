@@ -56,19 +56,16 @@
 
 @keyframes nakaTitleAnimation {
   0% {
-    transform: scale(0.86);
     visibility: visible;
     opacity: 0;
   }
 
   40% {
     opacity: 1;
-    transform: scale(1);
   }
 
   80% {
     opacity: 1;
-    transform: scale(1);
   }
 
   100% {
@@ -93,4 +90,30 @@
     opacity: 1;
     visibility: visible;
   }
+}
+
+.nakaProc {
+  animation: nakaProcAnimation 0.5s linear;
+  visibility: hidden;
+  -webkit-animation-fill-mode: forwards;
+}
+
+@keyframes nakaProcAnimation {
+  0% {
+    visibility: visible;
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.sbui-auth-label {
+  display: none !important;
+}
+
+.Typewriter__cursor {
+  visibility: hidden !important;
 }

@@ -1,11 +1,17 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Container, LoadingDots, NakamotoAccess } from '@components/ui'
+import {
+  Container,
+  LoadingDots,
+  NakamotoAccess,
+  NakamotoProcess,
+} from '@components/ui'
 import { supabase } from '@lib/supabaseClient'
 import axios from 'axios'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
 import { useAlexa } from '@lib/hooks/useAlexa'
 import { Howl } from 'howler'
+import Typewriter from 'typewriter-effect'
 
 const accessDeniedSound = new Howl({
   src: ['/nakamoto/accessDenied.m4a'],
@@ -21,43 +27,6 @@ const universeSound = new Howl({
   src: ['/nakamoto/universe.mp3'],
   html5: true,
 })
-
-async function uploadFileToPinata(fileUri: any) {
-  const res = await axios({
-    method: 'post',
-    url: '/api/pinFile',
-    data: {
-      fileUri,
-    },
-  })
-
-  return res.data
-}
-
-async function uploadJSONToPinata(name: string, content: any) {
-  const res = await axios({
-    method: 'post',
-    url: '/api/pinJSON',
-    data: {
-      name,
-      content,
-    },
-  })
-
-  return res.data
-}
-
-async function mint(tokenUri: string) {
-  const res = await axios({
-    method: 'post',
-    url: '/api/nfts',
-    data: {
-      tokenUri,
-    },
-  })
-
-  return res.data
-}
 
 async function getStorageImages() {
   const res = await axios({
@@ -96,24 +65,6 @@ export default function Nft() {
     refreshInterval: 2000,
   })
 
-  const handleSubmit = useCallback(async () => {
-    try {
-      const now = new Date()
-      const id =
-        now.toLocaleDateString('en-GB').split('/').join('') +
-        now.getMinutes() +
-        now.getSeconds()
-      const pinataImage = await uploadFileToPinata(imageUrl)
-      const pinataJson = await uploadJSONToPinata(`esn-${id}.json`, {
-        name: `Composable Commerce Conference #${id}`,
-        description: `Composable Commerce Conference #${id} by H-FARM Enabling Solutions`,
-        image: `ipfs://${pinataImage.IpfsHash}`,
-      })
-      const txn = await mint(`ipfs://${pinataJson.IpfsHash}`)
-      console.log(txn)
-    } catch (e) {}
-  }, [imageUrl])
-
   const alexaIntent = useMemo(() => {
     if (router.query.intent) {
       // @ts-ignore
@@ -129,7 +80,7 @@ export default function Nft() {
     // )
     // setTimeout(() => {
     universeSound.play()
-    videoRef.current.src = '/nakamoto/video3.mp4'
+    videoRef.current.src = '/nakamoto/video3.mov'
     videoRef.current.play()
     setStartNakamotoRealProcess(true)
     accessGrantedSound.play()
@@ -149,11 +100,15 @@ export default function Nft() {
         .from('public')
         .getPublicUrl(`nft/${nftImages[0].name}`)
 
+      if (!imageData) {
+        return
+      }
+
       if (imageUrl === '') {
-        setImageUrl(imageData.publicUrl)
+        setImageUrl(imageData.publicURL)
       } else {
-        if (imageUrl !== imageData.publicUrl && missions.mission2.completed) {
-          setImageUrl(imageData.publicUrl)
+        if (imageUrl !== imageData.publicURL && missions.mission2.completed) {
+          setImageUrl(imageData.publicURL)
           missions.mission3.setCompleted(true)
           speak(
             'obiettivi completati. Processo Nakamoto in esecuzione! ' +
@@ -219,17 +174,18 @@ export default function Nft() {
       className="w-screen h-screen flex items-center justify-center"
       clean
     >
-      <div className="relative z-50">
-        {missions.mission3.completed && startNakamotoFakeProcess && (
+      {missions.mission3.completed && startNakamotoFakeProcess && (
+        <>
           <NakamotoAccess granted={startNakamotoRealProcess} />
-        )}
-        {missions.mission3.completed && !startNakamotoFakeProcess && (
-          <div className="px-12 py-10 font-medium text-3xl font-mono border-solid bg-black bg-opacity-60 flex">
-            <div className="mr-5">Loading</div>
-            <LoadingDots />
-          </div>
-        )}
-      </div>
+          {startNakamotoRealProcess && <NakamotoProcess imageUrl={imageUrl} />}
+        </>
+      )}
+      {missions.mission3.completed && !startNakamotoFakeProcess && (
+        <div className="px-12 py-10 font-medium text-3xl font-mono border-solid bg-black bg-opacity-60 flex">
+          <div className="mr-5">Loading</div>
+          <LoadingDots />
+        </div>
+      )}
 
       {nakaTitleVisible && (
         <div className="fixed bottom-48 left-40 font-mono transition-all nakaTitle">
@@ -237,9 +193,29 @@ export default function Nft() {
             Nakamoto Program
           </h1>
           <p className="text-2xl mb-10">
-            HESN addr(0x8Cb37f2b7986F68F11683B69D12732DDb479066B)
+            <Typewriter
+              onInit={(typewriter) => {
+                typewriter
+                  .pauseFor(14000)
+                  .changeDelay(40)
+                  .typeString(
+                    'HESN addr(0x8Cb37f2b7986F68F11683B69D12732DDb479066B)'
+                  )
+                  .start()
+              }}
+            />
           </p>
-          <p className="text-lg">Directed by cesconix.eth</p>
+          <p className="text-lg">
+            <Typewriter
+              onInit={(typewriter) => {
+                typewriter
+                  .pauseFor(18000)
+                  .changeDelay(40)
+                  .typeString('Directed by cesconix.eth')
+                  .start()
+              }}
+            />
+          </p>
         </div>
       )}
     </Container>

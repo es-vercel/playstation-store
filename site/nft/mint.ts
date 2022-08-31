@@ -15,7 +15,7 @@ const signer = new ethers.Wallet(process.env.WALLET_PRIVATE_KEY!, provider)
 const contract = new ethers.Contract(contractAddress!, Contract.abi, signer)
 
 const mintNFT = async (tokenUri: string) => {
-  const gasPrice = ethers.utils.parseUnits('50', 'gwei')
+  const gasPrice = ethers.utils.parseUnits('60', 'gwei')
 
   const txn = await contract.mintNFT(signer.address, tokenUri, { gasPrice })
   await txn.wait()

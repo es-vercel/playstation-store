@@ -68,6 +68,10 @@ export const AlexaProvider = ({ children }: any) => {
 
   const [showQRCode, setShowQRCode] = useState(false)
 
+  const [video1Downloaded, setVideo1Downloaded] = useState(false)
+  const [video2Downloaded, setVideo2Downloaded] = useState(false)
+  const [video3Downloaded, setVideo3Downloaded] = useState(false)
+
   useEffect(() => {
     if (mission1Completed || mission2Completed || mission3Completed) {
       successSound.play()
@@ -257,6 +261,17 @@ export const AlexaProvider = ({ children }: any) => {
 
   const handleVideo1Loaded = useCallback(() => {
     console.log('video1 caricato')
+    setVideo1Downloaded(true)
+  }, [])
+
+  const handleVideo2Loaded = useCallback(() => {
+    console.log('video2 caricato')
+    setVideo2Downloaded(true)
+  }, [])
+
+  const handleVideo3Loaded = useCallback(() => {
+    console.log('video3 caricato')
+    setVideo3Downloaded(true)
   }, [])
 
   return (
@@ -294,7 +309,7 @@ export const AlexaProvider = ({ children }: any) => {
           setShowQRCode,
         }}
       >
-        {(onFireTV || true) && (
+        {onFireTV && (
           <>
             <audio
               ref={audioRef}
@@ -311,25 +326,26 @@ export const AlexaProvider = ({ children }: any) => {
               onCanPlayThrough={handleVideo1Loaded}
               muted
               loop
-              src="/nakamoto/video1.mp4"
+              src="/nakamoto/video1.mov"
               className="h-full w-full absolute objectFitCover"
             />
             <video
-              onCanPlayThrough={() => {
-                console.log('video2 caricato')
-              }}
+              onCanPlayThrough={handleVideo2Loaded}
               muted
-              src="/nakamoto/video2.mp4"
+              src="/nakamoto/video2.mov"
               className="hidden"
             />
             <video
-              onCanPlayThrough={() => {
-                console.log('video3 caricato')
-              }}
+              onCanPlayThrough={handleVideo3Loaded}
               muted
-              src="/nakamoto/video3.mp4"
+              src="/nakamoto/video3.mov"
               className="hidden"
             />
+            <div className="fixed top-5 right-0 mr-2 font-mono transition-all z-50 text-">
+              {video1Downloaded && '.'}
+              {video2Downloaded && '.'}
+              {video3Downloaded && '.'}
+            </div>
             {nakamoto && (
               <>
                 {speaker && (
@@ -343,7 +359,6 @@ export const AlexaProvider = ({ children }: any) => {
             )}
           </>
         )}
-
         {children}
       </AlexaContext.Provider>
     </>
