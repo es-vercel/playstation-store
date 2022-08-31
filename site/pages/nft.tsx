@@ -99,7 +99,7 @@ export default function Nft() {
     videoRef.current.play()
     setTimeout(() => {
       setStartNakamotoRealProcess(true)
-    }, 4000)
+    }, 3000)
     // accessGrantedSound.play()
   }, [audioRef, setShowQRCode, speak, video3objectURL, videoRef])
 
@@ -212,7 +212,7 @@ export default function Nft() {
       )}
       {missions.mission3.completed && !startNakamotoFakeProcess && (
         <div className="px-12 py-10 font-medium text-3xl font-mono border-solid bg-black bg-opacity-60 flex z-50">
-          <div className="mr-5">Loading</div>
+          <div className="mr-5">Waiting</div>
           <LoadingDots />
         </div>
       )}

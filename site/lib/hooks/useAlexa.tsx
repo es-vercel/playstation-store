@@ -375,7 +375,8 @@ export const AlexaProvider = ({ children }: any) => {
                     show={typeof speaker === 'string'}
                   />
                 )}
-                {showQRCode ? <NakamotoQRCode /> : <NakamotoHud />}
+                {showQRCode && <NakamotoQRCode />}
+                {!showQRCode && !mission3Completed && <NakamotoHud />}
               </>
             )}
           </>
