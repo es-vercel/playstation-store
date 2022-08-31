@@ -66,10 +66,10 @@ export default function Nft() {
   const [eventId, setEventId] = useState<string>('')
 
   const [startNakamotoFakeProcess, setStartNakamotoFakeProcess] =
-    useState<boolean>(false)
+    useState<boolean>(true)
 
   const [startNakamotoRealProcess, setStartNakamotoRealProcess] =
-    useState<boolean>(false)
+    useState<boolean>(true)
 
   const { data: nftImages } = useSWR('nftBucketImages', getStorageImages, {
     refreshInterval: 2000,
@@ -140,7 +140,7 @@ export default function Nft() {
               )
               setTimeout(() => {
                 setShowQRCode(true)
-              }, 7000)
+              }, 5500)
             }, 5000)
           }, 28000)
         }

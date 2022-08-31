@@ -4,6 +4,7 @@ import Typewriter from 'typewriter-effect'
 import { useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
 import { useAlexa } from '@lib/hooks/useAlexa'
+import Image from 'next/image'
 
 async function uploadFileToPinata(fileUri: any) {
   const res = await axios({
@@ -80,11 +81,19 @@ const NakamotoProcess: React.FC<Props> = ({ imageUrl }) => {
         image: `ipfs://${pinataImage.IpfsHash}`,
       })
       setUploadJSONDone(pinataJson.IpfsHash)
-      const txn = await mint(`ipfs://${pinataJson.IpfsHash}`)
-      setMintDone(txn.hash)
-      setTimeout(() => {
-        speak('Ottimo lavoro ragazzi!', 'fabio', true)
-      }, 2000)
+      try {
+        const txn = await mint(`ipfs://${pinataJson.IpfsHash}`)
+        setMintDone(txn.hash)
+        setTimeout(() => {
+          speak('Ottimo lavoro ragazzi!', 'fabio', true)
+        }, 2000)
+      } catch (e) {
+        const txn = await mint(`ipfs://${pinataJson.IpfsHash}`)
+        setMintDone(txn.hash)
+        setTimeout(() => {
+          speak('Ottimo lavoro ragazzi!', 'fabio', true)
+        }, 2000)
+      }
     } catch (e) {}
   }, [imageUrl, speak])
 
@@ -188,13 +197,24 @@ const NakamotoProcess: React.FC<Props> = ({ imageUrl }) => {
             {mintDone && (
               <div>
                 <p className="font-bold" style={{ color: 'lime' }}>
-                  NFT Minted ✅
+                  NFT Minted. Congratulations!
                 </p>
                 <p className="text-base mt-5 break-words">
                   Transaction Hash: https://polygonscan.com/tx/{mintDone}
                 </p>
               </div>
             )}
+          </div>
+          <div className="mt-5 ">
+            <div className="relative w-full h-44">
+              <Image
+                alt="Background"
+                src={`https://ipfs.io/ipfs/${uploadFileDone}`}
+                layout="fill"
+                objectFit="cover"
+                quality={85}
+              />
+            </div>
           </div>
         </>
       )}

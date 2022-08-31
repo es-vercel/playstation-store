@@ -225,31 +225,30 @@ export const AlexaProvider = ({ children }: any) => {
     if (navigator.userAgent.includes('AFT')) {
       console.log('Fire TV')
       setOnFireTV(true)
+      async function fn() {
+        const v1 = await axios({
+          url: '/nakamoto/video1.webm',
+          method: 'GET',
+          responseType: 'blob',
+        })
+        setVideo1objectURL(URL.createObjectURL(v1.data))
+
+        const v2 = await axios({
+          url: '/nakamoto/video2.webm',
+          method: 'GET',
+          responseType: 'blob',
+        })
+        setVideo2objectURL(URL.createObjectURL(v2.data))
+
+        const v3 = await axios({
+          url: '/nakamoto/video3.mp4',
+          method: 'GET',
+          responseType: 'blob',
+        })
+        setVideo3objectURL(URL.createObjectURL(v3.data))
+      }
+      fn()
     }
-
-    async function fn() {
-      const v1 = await axios({
-        url: '/nakamoto/video1.webm',
-        method: 'GET',
-        responseType: 'blob',
-      })
-      setVideo1objectURL(URL.createObjectURL(v1.data))
-
-      const v2 = await axios({
-        url: '/nakamoto/video2.webm',
-        method: 'GET',
-        responseType: 'blob',
-      })
-      setVideo2objectURL(URL.createObjectURL(v2.data))
-
-      const v3 = await axios({
-        url: '/nakamoto/video3.mp4',
-        method: 'GET',
-        responseType: 'blob',
-      })
-      setVideo3objectURL(URL.createObjectURL(v3.data))
-    }
-    fn()
   }, [])
 
   const play = useCallback(() => {
@@ -263,29 +262,6 @@ export const AlexaProvider = ({ children }: any) => {
       videoRef.current.play()
     }, 134000)
   }, [video2objectURL])
-
-  useEffect(() => {
-    // @ts-ignore
-    window.speak = speak
-    // @ts-ignore
-    window.reset = () => {
-      setNakamoto(false)
-      setSpeaker(null)
-    }
-    // @ts-ignore
-    window.audioRef = audioRef
-    // @ts-ignore
-    window.videoRef = videoRef
-    // @ts-ignore
-    window.startNaka = () => {
-      router.push(`/nft`)
-      setNakamoto(true)
-      setTimeout(() => {
-        setNakaTitleVisible(true)
-      }, 5000)
-      play()
-    }
-  }, [play, router, speak])
 
   const audioRef: any = useRef()
   const videoRef: any = useRef()
@@ -328,7 +304,7 @@ export const AlexaProvider = ({ children }: any) => {
           setShowQRCode,
         }}
       >
-        {(onFireTV || true) && (
+        {onFireTV && (
           <>
             <audio
               ref={audioRef}
@@ -346,22 +322,7 @@ export const AlexaProvider = ({ children }: any) => {
               src={video1objectURL}
               className="h-full w-full absolute objectFitCover"
             />
-            {/* <video
-              onCanPlayThrough={handleVideo2Loaded}
-              autoPlay
-              muted
-              loop
-              // src="/nakamoto/video2.webm"
-              className="hidden"
-            />
-            <video
-              onCanPlayThrough={handleVideo3Loaded}
-              autoPlay
-              muted
-              loop
-              // src="/nakamoto/video3.webm"
-              className="hidden"
-            /> */}
+
             <div className="fixed top-5 right-0 mr-2 font-mono transition-all z-50 text-">
               {video1objectURL && '.'}
               {video2objectURL && '.'}
