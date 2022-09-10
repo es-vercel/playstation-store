@@ -206,7 +206,7 @@ export default function Nft() {
       )}
       {missions.mission3.completed && !startNakamotoFakeProcess && (
         <div className="px-12 py-10 font-medium text-3xl font-mono border-solid bg-black bg-opacity-60 flex z-50">
-          <div className="mr-5">Contract Waiting</div>
+          <div className="mr-5">Waiting for Blockchain Confirmation...</div>
           <LoadingDots />
         </div>
       )}
