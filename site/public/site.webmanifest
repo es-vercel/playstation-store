@@ -1,7 +1,7 @@
 {
   "name": "PlayStation Store",
   "short_name": "PlayStation Store",
-  "description": "PlayStation Store for Composable Commerce Conference",
+  "description": "PlayStation Store for Jakala Kick Off Jan 2023",
   "display": "standalone",
   "start_url": "/",
   "theme_color": "#fff",
