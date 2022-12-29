@@ -14,7 +14,7 @@ const NakamotoHud: React.FC = () => {
       />
       <NakamotoMission
         id="2"
-        title="DATA EVENTO CCC"
+        title="DATA KICK OFF JAKALA"
         completed={missions.mission2.completed}
       />
       <NakamotoMission

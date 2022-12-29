@@ -201,9 +201,9 @@ export default function Cart({ categories }: any) {
 
       if (
         !missions.mission2.completed &&
-        p1.quantity === 13 &&
-        p2.quantity === 9 &&
-        p3.quantity == 2022
+        p1.quantity === 11 &&
+        p2.quantity === 1 &&
+        p3.quantity == 2023
       ) {
         missions.mission2.setCompleted(true)
         console.log('mission2 completed')
