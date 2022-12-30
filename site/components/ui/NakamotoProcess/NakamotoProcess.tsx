@@ -76,8 +76,8 @@ const NakamotoProcess: React.FC<Props> = ({ imageUrl }) => {
       const pinataImage = await uploadFileToPinata(imageUrl)
       setUploadFileDone(pinataImage.IpfsHash)
       const pinataJson = await uploadJSONToPinata(`esn-${id}.json`, {
-        name: `Composable Commerce Conference #${id}`,
-        description: `Composable Commerce Conference #${id} by H-FARM Enabling Solutions`,
+        name: `Nakamoto Program #${id}`,
+        description: `Nakamoto Program #${id} by Francesco Pasqua (cesconix)`,
         image: `ipfs://${pinataImage.IpfsHash}`,
       })
       setUploadJSONDone(pinataJson.IpfsHash)
