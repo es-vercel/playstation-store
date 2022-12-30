@@ -23,7 +23,7 @@ module.exports = withVideos(
         remotePatterns: [
           {
             protocol: 'https',
-            hostname: '**.ipfs.io',
+            hostname: 'ipfs.io',
           },
         ],
         domains: ['ipfs.io'],
