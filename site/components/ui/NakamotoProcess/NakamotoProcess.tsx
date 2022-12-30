@@ -133,7 +133,7 @@ const NakamotoProcess: React.FC<Props> = ({ imageUrl }) => {
               .changeDelay(40)
               .typeString(
                 '<span class="text-lime-400 font-bold">Blockchain:</span> Polygon (MATIC)<br />' +
-                  '<span class="text-lime-400 font-bold">Contract:</span> H-FARM Enabling Solutions NFT (HESN)<br />' +
+                  '<span class="text-lime-400 font-bold">Contract:</span> Jakala Enabling Solutions NFT (HESN)<br />' +
                   '<span class="text-lime-400 font-bold">Address:</span> 0x8Cb37f2b7986F68F11683B69D12732DDb479066B'
               )
               .start()
@@ -207,7 +207,7 @@ const NakamotoProcess: React.FC<Props> = ({ imageUrl }) => {
                 <div className="mt-5">
                   <div className="relative w-full h-44">
                     <Image
-                      alt="Background"
+                      alt={`https://ipfs.io/ipfs/${uploadFileDone}`}
                       src={`https://ipfs.io/ipfs/${uploadFileDone}`}
                       layout="fill"
                       objectFit="cover"
