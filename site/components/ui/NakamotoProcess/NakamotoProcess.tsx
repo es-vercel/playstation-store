@@ -83,20 +83,16 @@ const NakamotoProcess: React.FC<Props> = ({ imageUrl }) => {
       setUploadJSONDone(pinataJson.IpfsHash)
       try {
         const txn = await mint(`ipfs://${pinataJson.IpfsHash}`)
+        setMintDone(txn.hash)
         setTimeout(() => {
-          setMintDone(txn.hash)
-          setTimeout(() => {
-            speak('Ottimo lavoro ragazzi!', 'fabio', true)
-          }, 2000)
-        }, 3000)
+          speak('Ottimo lavoro ragazzi!', 'fabio', true)
+        }, 2000)
       } catch (e) {
         const txn = await mint(`ipfs://${pinataJson.IpfsHash}`)
+        setMintDone(txn.hash)
         setTimeout(() => {
-          setMintDone(txn.hash)
-          setTimeout(() => {
-            speak('Ottimo lavoro ragazzi!', 'fabio', true)
-          }, 2000)
-        }, 3000)
+          speak('Ottimo lavoro ragazzi!', 'fabio', true)
+        }, 2000)
       }
     } catch (e) {}
   }, [imageUrl, speak])
@@ -211,8 +207,8 @@ const NakamotoProcess: React.FC<Props> = ({ imageUrl }) => {
                 <div className="mt-5">
                   <div className="relative w-full h-44">
                     <Image
-                      alt={`https://ipfs.io/ipfs/${uploadFileDone}`}
-                      src={`https://ipfs.io/ipfs/${uploadFileDone}`}
+                      alt={imageUrl}
+                      src={imageUrl}
                       layout="fill"
                       objectFit="cover"
                       quality={85}
