@@ -227,25 +227,24 @@ export const AlexaProvider = ({ children }: any) => {
       setOnFireTV(true)
       async function fn() {
         const v1 = await axios({
-          url: '/nakamoto/video1.webm',
+          url: '/nakamoto/video1.mp4',
           method: 'GET',
           responseType: 'blob',
         })
+        setVideo1objectURL(URL.createObjectURL(v1.data))
 
         const v2 = await axios({
           url: '/nakamoto/video2.webm',
           method: 'GET',
           responseType: 'blob',
         })
+        setVideo2objectURL(URL.createObjectURL(v2.data))
 
         const v3 = await axios({
           url: '/nakamoto/video3.mp4',
           method: 'GET',
           responseType: 'blob',
         })
-
-        setVideo1objectURL(URL.createObjectURL(v1.data))
-        setVideo2objectURL(URL.createObjectURL(v2.data))
         setVideo3objectURL(URL.createObjectURL(v3.data))
       }
       fn()
