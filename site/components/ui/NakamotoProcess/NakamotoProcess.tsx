@@ -83,16 +83,20 @@ const NakamotoProcess: React.FC<Props> = ({ imageUrl }) => {
       setUploadJSONDone(pinataJson.IpfsHash)
       try {
         const txn = await mint(`ipfs://${pinataJson.IpfsHash}`)
-        setMintDone(txn.hash)
         setTimeout(() => {
-          speak('Ottimo lavoro ragazzi!', 'fabio', true)
-        }, 2000)
+          setMintDone(txn.hash)
+          setTimeout(() => {
+            speak('Ottimo lavoro ragazzi!', 'fabio', true)
+          }, 2000)
+        }, 3000)
       } catch (e) {
         const txn = await mint(`ipfs://${pinataJson.IpfsHash}`)
-        setMintDone(txn.hash)
         setTimeout(() => {
-          speak('Ottimo lavoro ragazzi!', 'fabio', true)
-        }, 2000)
+          setMintDone(txn.hash)
+          setTimeout(() => {
+            speak('Ottimo lavoro ragazzi!', 'fabio', true)
+          }, 2000)
+        }, 3000)
       }
     } catch (e) {}
   }, [imageUrl, speak])
@@ -133,7 +137,7 @@ const NakamotoProcess: React.FC<Props> = ({ imageUrl }) => {
               .changeDelay(40)
               .typeString(
                 '<span class="text-lime-400 font-bold">Blockchain:</span> Polygon (MATIC)<br />' +
-                  '<span class="text-lime-400 font-bold">Contract:</span> Jakala Enabling Solutions NFT (HESN)<br />' +
+                  '<span class="text-lime-400 font-bold">Contract:</span> H-FARM Enabling Solutions NFT (HESN)<br />' +
                   '<span class="text-lime-400 font-bold">Address:</span> 0x8Cb37f2b7986F68F11683B69D12732DDb479066B'
               )
               .start()
