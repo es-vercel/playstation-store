@@ -6,8 +6,13 @@ const contractAddress = useMainnet
   ? process.env.ALCHEMY_POLYGON_MAINNET_CONTRACT_ADDRESS
   : process.env.ALCHEMY_POLYGON_TESTNET_CONTRACT_ADDRESS
 
+const alchemyApiKey = useMainnet
+  ? process.env.ALCHEMY_POLYGON_MAINNET_API_KEY
+  : process.env.ALCHEMY_POLYGON_TESTNET_API_KEY
+
 const provider = new ethers.providers.AlchemyProvider(
-  useMainnet ? 'matic' : 'maticmum'
+  useMainnet ? 'matic' : 'maticmum',
+  alchemyApiKey
 )
 
 const Contract = require('./HFarmEnablingSolutionsNFT.json')
