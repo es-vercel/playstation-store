@@ -216,6 +216,7 @@ const NakamotoProcess: React.FC<Props> = ({ imageUrl }) => {
                       layout="fill"
                       objectFit="cover"
                       quality={85}
+                      unoptimized
                     />
                   </div>
                 </div>
