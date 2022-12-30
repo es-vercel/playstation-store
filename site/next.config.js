@@ -20,6 +20,12 @@ module.exports = withVideos(
         defaultLocale: 'en-US',
       },
       images: {
+        remotePatterns: [
+          {
+            protocol: 'https',
+            hostname: '**.ipfs.io',
+          },
+        ],
         domains: ['ipfs.io'],
         formats: ['image/webp'],
         deviceSizes: [640, 768, 828, 1024, 1280, 1536, 1920],
