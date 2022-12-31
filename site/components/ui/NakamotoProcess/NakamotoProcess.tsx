@@ -198,7 +198,7 @@ const NakamotoProcess: React.FC<Props> = ({ imageUrl }) => {
               <>
                 <div>
                   <p className="font-bold" style={{ color: 'lime' }}>
-                    NFT Minted. WELL DONE!!!
+                    NFT Minted. WELL DONE!
                   </p>
                   <p className="text-base mt-5 break-words">
                     Transaction Hash: https://polygonscan.com/tx/{mintDone}
