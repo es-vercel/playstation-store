@@ -93,7 +93,8 @@ const NakamotoProcess: React.FC<Props> = ({ imageUrl }) => {
         image: `ipfs://${pinataImage.IpfsHash}`,
       })
       setUploadJSONDone(pinataJson.IpfsHash)
-      const fabioMessage = 'Ottimo lavoro ragazzi!'
+      const fabioMessage =
+        'Ottimo lavoro ragazzi! Avete ricevuto un messaggio WhatsApp, controllate subito!'
       const ipfsJsonLink = `ipfs://${pinataJson.IpfsHash}`
       const waMessage = (openseaLink: string) => {
         return `Siamo su un NFT insieme! 🚀\n\nDai un'occhiata su OpenSea per vederci in azione durante lo spettacolo di Enabling Solutions.\n\n${openseaLink}\n\nIl tuo collega,\nFrancesco Pasqua`
