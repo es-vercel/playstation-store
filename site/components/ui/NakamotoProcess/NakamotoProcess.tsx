@@ -96,15 +96,15 @@ const NakamotoProcess: React.FC<Props> = ({ imageUrl }) => {
       const fabioMessage =
         'Ottimo lavoro ragazzi! Avete ricevuto un messaggio WhatsApp, controllate subito!'
       const ipfsJsonLink = `ipfs://${pinataJson.IpfsHash}`
-      const waMessage = (openseaLink: string) => {
-        return `Siamo su un NFT insieme! 🚀\n\nDai un'occhiata su OpenSea per vederci in azione durante lo spettacolo di Enabling Solutions.\n\n${openseaLink}\n\nIl tuo collega,\nFrancesco Pasqua`
+      const waMessage = (openseaLink: string, transactionLink: string) => {
+        return `Siamo su un NFT insieme! 🚀\n\nDai un'occhiata su OpenSea per vederci in azione durante lo spettacolo di Enabling Solutions.\n\nNFT: ${openseaLink}\n\nPolygon TX: ${transactionLink}\n\nIl tuo collega,\nFrancesco Pasqua`
       }
       try {
         const txn = await mint(ipfsJsonLink)
         setMintDone(txn.hash)
         setTimeout(() => {
           speak(fabioMessage, 'fabio', true)
-          const msg = waMessage(txn.openseaLink)
+          const msg = waMessage(txn.openseaLink, txn.transactionLink)
           console.log(msg)
           sendWhatsAppMessage(msg)
         }, 2000)
@@ -113,7 +113,7 @@ const NakamotoProcess: React.FC<Props> = ({ imageUrl }) => {
         setMintDone(txn.hash)
         setTimeout(() => {
           speak(fabioMessage, 'fabio', true)
-          const msg = waMessage(txn.openseaLink)
+          const msg = waMessage(txn.openseaLink, txn.transactionLink)
           console.log(msg)
           sendWhatsAppMessage(msg)
         }, 2000)
@@ -224,12 +224,12 @@ const NakamotoProcess: React.FC<Props> = ({ imageUrl }) => {
                   <p className="font-bold" style={{ color: 'lime' }}>
                     NFT Minted. WELL DONE!
                   </p>
-                  <p className="text-base mt-5 break-words">
+                  {/* <p className="text-base mt-5 break-words">
                     Transaction Hash: https://polygonscan.com/tx/{mintDone}
-                  </p>
+                  </p> */}
                 </div>
                 <div className="mt-5">
-                  <div className="relative w-full h-44">
+                  <div className="relative w-full h-52">
                     <Image
                       alt={imageUrl}
                       src={imageUrl}

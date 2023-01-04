@@ -32,19 +32,17 @@ const mintNFT = async (tokenUri: string) => {
     ? `https://opensea.io/assets/matic/${contractAddress}/${tokenId}`
     : `https://testnets.opensea.io/assets/mumbai/${contractAddress}/${tokenId}`
 
-  console.log(
-    `NFT Minted: ${
-      useMainnet
-        ? 'https://polygonscan.com/tx/'
-        : 'https://mumbai.polygonscan.com/tx/'
-    }${txResponse.hash}`
-  )
+  const transactionLink = useMainnet
+    ? `https://polygonscan.com/tx/${txResponse.hash}`
+    : `https://mumbai.polygonscan.com/tx/${txResponse.hash}`
 
+  console.log(`NFT Minted: ${transactionLink}`)
   console.log('Contract Address:', contractAddress)
 
   return {
     hash: txResponse.hash,
     openseaLink,
+    transactionLink,
   }
 }
 
