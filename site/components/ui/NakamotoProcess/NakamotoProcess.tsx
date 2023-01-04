@@ -103,16 +103,18 @@ const NakamotoProcess: React.FC<Props> = ({ imageUrl }) => {
         setMintDone(txn.hash)
         setTimeout(() => {
           speak(fabioMessage, 'fabio', true)
-          console.log(waMessage(txn.openseaLink))
-          // sendWhatsAppMessage(waMessage)
+          const msg = waMessage(txn.openseaLink)
+          console.log(msg)
+          sendWhatsAppMessage(msg)
         }, 2000)
       } catch (e) {
         const txn = await mint(ipfsJsonLink)
         setMintDone(txn.hash)
         setTimeout(() => {
           speak(fabioMessage, 'fabio', true)
-          console.log(waMessage(txn.openseaLink))
-          // sendWhatsAppMessage(waMessage)
+          const msg = waMessage(txn.openseaLink)
+          console.log(msg)
+          sendWhatsAppMessage(msg)
         }, 2000)
       }
     } catch (e) {}
