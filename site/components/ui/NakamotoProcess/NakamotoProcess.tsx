@@ -43,6 +43,18 @@ async function mint(tokenUri: string) {
   return res.data
 }
 
+async function sendWhatsAppMessage(message: string) {
+  const res = await axios({
+    method: 'post',
+    url: '/api/twilio',
+    data: {
+      message,
+    },
+  })
+
+  return res.data
+}
+
 interface Props {
   imageUrl: string
 }
@@ -81,17 +93,26 @@ const NakamotoProcess: React.FC<Props> = ({ imageUrl }) => {
         image: `ipfs://${pinataImage.IpfsHash}`,
       })
       setUploadJSONDone(pinataJson.IpfsHash)
+      const fabioMessage = 'Ottimo lavoro ragazzi!'
+      const ipfsJsonLink = `ipfs://${pinataJson.IpfsHash}`
+      const waMessage = (openseaLink: string) => {
+        return `Siamo su un NFT insieme! 🚀\n\nDai un'occhiata su OpenSea per vederci in azione durante lo spettacolo di Enabling Solutions.\n\n${openseaLink}\n\nIl tuo collega,\nFrancesco Pasqua`
+      }
       try {
-        const txn = await mint(`ipfs://${pinataJson.IpfsHash}`)
+        const txn = await mint(ipfsJsonLink)
         setMintDone(txn.hash)
         setTimeout(() => {
-          speak('Ottimo lavoro ragazzi!', 'fabio', true)
+          speak(fabioMessage, 'fabio', true)
+          console.log(waMessage(txn.openseaLink))
+          // sendWhatsAppMessage(waMessage)
         }, 2000)
       } catch (e) {
-        const txn = await mint(`ipfs://${pinataJson.IpfsHash}`)
+        const txn = await mint(ipfsJsonLink)
         setMintDone(txn.hash)
         setTimeout(() => {
-          speak('Ottimo lavoro ragazzi!', 'fabio', true)
+          speak(fabioMessage, 'fabio', true)
+          console.log(waMessage(txn.openseaLink))
+          // sendWhatsAppMessage(waMessage)
         }, 2000)
       }
     } catch (e) {}

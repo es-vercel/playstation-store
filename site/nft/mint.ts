@@ -22,18 +22,30 @@ const contract = new ethers.Contract(contractAddress!, Contract.abi, signer)
 const mintNFT = async (tokenUri: string) => {
   const gasPrice = ethers.utils.parseUnits('60', 'gwei')
 
-  const txn = await contract.mintNFT(signer.address, tokenUri, { gasPrice })
-  await txn.wait()
+  const txResponse = await contract.mintNFT(signer.address, tokenUri, {
+    gasPrice,
+  })
+  const txReceipt = await txResponse.wait()
+  const tokenId = txReceipt.events[0].args.tokenId.toString()
+
+  const openseaLink = useMainnet
+    ? `https://opensea.io/assets/matic/${contractAddress}/${tokenId}`
+    : `https://testnets.opensea.io/assets/mumbai/${contractAddress}/${tokenId}`
 
   console.log(
     `NFT Minted: ${
       useMainnet
         ? 'https://polygonscan.com/tx/'
         : 'https://mumbai.polygonscan.com/tx/'
-    }${txn.hash}`
+    }${txResponse.hash}`
   )
+
   console.log('Contract Address:', contractAddress)
-  return txn
+
+  return {
+    hash: txResponse.hash,
+    openseaLink,
+  }
 }
 
 export { mintNFT }
