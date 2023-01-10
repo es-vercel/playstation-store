@@ -20,10 +20,10 @@ async function twilioApi(req: NextApiRequest, res: NextApiResponse) {
 
     for (const recipient of recipients?.split(',')!) {
       const promise = twilioClient.messages.create({
-        from: `whatsapp:${sender}`,
+        from: `${sender}`,
         // body: "Siamo su un NFT insieme! 🚀\n\nDai un'occhiata su OpenSea per vederci in azione durante lo spettacolo di Enabling Solutions.\n\nhttps://opensea.io/collection/hesn\n\nIl tuo collega,\nFrancesco Pasqua",
         body: message,
-        to: `whatsapp:${recipient}`,
+        to: `${recipient}`,
       })
 
       allPromises.push(promise)
